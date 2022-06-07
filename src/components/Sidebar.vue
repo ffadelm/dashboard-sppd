@@ -33,10 +33,17 @@
       </router-link>
       <router-link
         class="button"
-        to="/buat-sppd"
+        to="/surat-perintah"
       >
         <span class="material-icons">description</span>
         <span class="text">SPPD</span>
+      </router-link>
+      <router-link
+        class="button"
+        to="/laporan"
+      >
+        <span class="material-icons">menu</span>
+        <span class="text">Laporan SPPD</span>
       </router-link>
     </div>
   </aside>

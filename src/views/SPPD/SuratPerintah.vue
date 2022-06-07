@@ -1,35 +1,42 @@
 <template>
-  <main class="Pegawai-page">
+  <main class="surat-page">
+    <div class="
+        d-flex
+        justify-content-between
+        flex-wrap flex-md-nowrap
+        align-items-center
+        pt-3
+        pb-2
+        mb-3
+        border-bottom
+      ">
+      <h1 class="h2">Surat Perintah Perjalanan Dinas</h1>
+    </div>
     <div class="table-responsive">
-      <div class="
-          d-flex
-          justify-content-between
-          flex-wrap flex-md-nowrap
-          align-items-center
-          pt-3
-          pb-2
-          mb-3
-          border-bottom
-        ">
-        <h1 class="h2">Daftar Seluruh Pegawai</h1>
-      </div>
+      <router-link
+        class="btn btn-primary mb-3"
+        to="/create/sppd"
+      >Buat SPPD baru</router-link>
+
       <table class="table table-striped table-hover table-sm">
         <thead>
           <tr>
             <th scope="col">No.</th>
-            <th scope="col">Nama</th>
-            <th scope="col">Email</th>
+            <th scope="col">Judul Kegiatan</th>
+            <th scope="col">Pemberi Perintah</th>
+            <th scope="col">Penerima Perintah</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="(employee, index) in employees.data"
+            v-for="(letter, index) in letters.data"
             :key="index"
           >
             <th scope="row">{{ index+1 }}</th>
-            <td>{{ employee.name }}</td>
-            <td>{{ employee.email }}</td>
+            <td>{{ letter.judul }}</td>
+            <td>{{ letter.pemberi_perintah }}</td>
+            <td>{{ letter.penerima_perintah }}</td>
             <td>
               <div class="btn-group">
                 <router-link
@@ -44,6 +51,10 @@
                   type="button"
                   class="btn btn-sm btn-outline-danger"
                 >Hapus</button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-success"
+                >Cetak</button>
               </div>
             </td>
           </tr>
@@ -59,15 +70,13 @@ import { onMounted, ref } from "vue";
 
 export default {
   setup() {
-    // reactive data/state
-    let employees = ref([]);
+    let letters = ref([]);
 
     onMounted(() => {
-      // get data employees dari API
       axios
-        .get("http://sppd-api.herokuapp.com/api/user")
+        .get("http://sppd-api.herokuapp.com/api/perintah-jalan")
         .then(({ data }) => {
-          employees.value = data;
+          letters.value = data;
         })
         .catch((err) => {
           console.log(err);
@@ -75,8 +84,11 @@ export default {
     });
 
     return {
-      employees,
+      letters,
     };
   },
 };
 </script>
+
+<style>
+</style>
