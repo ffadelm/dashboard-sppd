@@ -1,4 +1,7 @@
 <template>
+  <!-- 
+  dibuat berdasarkan pegawai 
+ -->
   <main class="laporan-page">
     <div class="
         d-flex
@@ -15,29 +18,27 @@
     <table class="table table-striped table-hover table-sm">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th scope="col">No</th>
+          <th scope="col">No. Surat</th>
+          <th scope="col">Nama Pegawai</th>
+          <th scope="col">Tanggal Mulai</th>
+          <th scope="col">Tanggal Selesai</th>
+          <th scope="col">Tujuan</th>
+          <th scope="col">Nama Kegiatan</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
+        <tr
+          v-for="(report, index) in reports.data"
+          :key="index"
+        >
+          <th scope="row">{{ index+1 }}</th>
+          <td>{{ report.perintah_jalan_id.nomor_surat }}</td>
+          <td>{{ report.user_id.name }}</td>
+          <td>{{ report.perintah_jalan_id.tgl_awal }}</td>
+          <td>{{ report.perintah_jalan_id.tgl_akhir }}</td>
+          <td>{{ report.perintah_jalan_id.tujuan }}</td>
+          <td>{{ report.nama_kegiatan }}</td>
         </tr>
       </tbody>
     </table>
@@ -45,7 +46,29 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+import { onMounted, ref } from "vue";
+
+export default {
+  setup() {
+    let reports = ref([]);
+
+    onMounted(() => {
+      axios
+        .get("http://sppd-api.herokuapp.com/api/laporan-jalan")
+        .then(({ data }) => {
+          reports.value = data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+
+    return {
+      reports,
+    };
+  },
+};
 </script>
 
 <style>

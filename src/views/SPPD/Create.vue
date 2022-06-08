@@ -1,5 +1,12 @@
 <template>
-  <!-- Belum bisa post -->
+  <!-- 
+    Belum bisa post 
+    
+    *mungkin bisa buat dropdown buat nama pegawai sesuai user id
+    *menambahkan judul surat perintah
+    *anggota yang mengikuti
+    *membuat status aktif tanpa input
+  -->
   <main class="BuatSPPD-page">
     <div class="
         d-flex

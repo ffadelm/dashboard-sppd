@@ -1,4 +1,7 @@
 <template>
+  <!-- 
+  Membuat card untuk menampilkan data selesai, terbaru, dan semua
+ -->
   <main class="home-page">
     <div class="
         d-flex

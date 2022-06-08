@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import Pegawai from '../views/Pegawai.vue'
-import SuratPerintah from '../views/SPPD/SuratPerintah.vue'
+import Pegawai from '../views/Pegawai/index.vue'
+import showPegawai from '../views/Pegawai/show.vue'
+import SuratPerintah from '../views/SPPD/index.vue'
 import Laporan from '../views/LaporanSPPD.vue'
 import CreateSPPD from '../views/SPPD/Create.vue'
 
@@ -16,6 +17,10 @@ const router = createRouter({
         {
             path: '/pegawai',
             component: Pegawai
+        },
+        {
+            path: '/pegawai/show/',
+            component: showPegawai
         },
         {
             path: '/surat-perintah',

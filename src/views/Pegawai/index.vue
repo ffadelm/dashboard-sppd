@@ -13,12 +13,12 @@
         ">
         <h1 class="h2">Daftar Seluruh Pegawai</h1>
       </div>
-      <table class="table table-striped table-hover table-sm">
+      <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th scope="col">No.</th>
             <th scope="col">Nama</th>
-            <th scope="col">Email</th>
+            <th scope="col">Jabatan</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -29,21 +29,17 @@
           >
             <th scope="row">{{ index+1 }}</th>
             <td>{{ employee.name }}</td>
-            <td>{{ employee.email }}</td>
+            <td>{{ employee.jabatan }}</td>
             <td>
               <div class="btn-group">
                 <router-link
-                  to="/"
+                  to="/pegawai/show/"
                   class="btn btn-sm btn-outline-info"
                 >Detail</router-link>
                 <router-link
                   to="/"
                   class="btn btn-sm btn-outline-warning"
                 >Ubah</router-link>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-danger"
-                >Hapus</button>
               </div>
             </td>
           </tr>
