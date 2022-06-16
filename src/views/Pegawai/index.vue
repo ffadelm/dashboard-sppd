@@ -70,8 +70,20 @@ export default {
         });
     });
 
+    function destroy(id, index) {
+      axios
+        .delete(`http://sppd-api.herokuapp.com/api/user/${id}`)
+        .then(() => {
+          letters.value.data.splice(index, 1);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    }
+
     return {
       employees,
+      destroy,
     };
   },
 };

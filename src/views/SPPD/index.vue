@@ -37,7 +37,7 @@
             <th scope="row">{{ index+1 }}</th>
             <td>{{ letter.nomor_surat }}</td>
             <td>{{ letter.judul }}</td>
-            <td>{{ letter.penerima_perintah }}</td>
+            <td>{{ letter.user_id.name }}</td>
             <td>
               <div class="btn-group">
                 <router-link
@@ -49,10 +49,11 @@
                   class="btn btn-sm btn-outline-warning"
                 >Ubah</router-link>
                 <button
-                  type="button"
-                  class="btn btn-sm btn-outline-danger"
-                  @click.prevent="destroy(letter.id, index)"
-                >Hapus</button>
+                  class="btn btn-outline-danger"
+                  @click.prevent="destroy(letter.id)"
+                >
+                  Hapus
+                </button>
               </div>
             </td>
           </tr>
@@ -83,7 +84,7 @@ export default {
 
     function destroy(id, index) {
       axios
-        .delete(`http://sppd-api.herokuapp.com/api/perintah-jalan/${id}`)
+        .delete(`https://sppd-api.herokuapp.com/api/perintah-jalan/${id}`)
         .then(() => {
           letters.value.data.splice(index, 1);
         })

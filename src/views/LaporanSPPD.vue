@@ -15,7 +15,10 @@
       ">
       <h1 class="h2">Laporan SPPD</h1>
     </div>
-    <table class="table table-striped table-hover table-sm">
+    <table
+      id="table"
+      class="table table-striped table-hover table-sm"
+    >
       <thead>
         <tr>
           <th scope="col">No</th>
@@ -35,8 +38,8 @@
           <th scope="row">{{ index+1 }}</th>
           <td>{{ report.perintah_jalan_id.nomor_surat }}</td>
           <td>{{ report.user_id.name }}</td>
-          <td>{{ report.perintah_jalan_id.tgl_awal }}</td>
-          <td>{{ report.perintah_jalan_id.tgl_akhir }}</td>
+          <td>{{ date(report.perintah_jalan_id.tgl_awal) }}</td>
+          <td>{{ date(report.perintah_jalan_id.tgl_akhir) }}</td>
           <td>{{ report.perintah_jalan_id.tujuan }}</td>
           <td>{{ report.nama_kegiatan }}</td>
         </tr>
@@ -48,8 +51,14 @@
 <script>
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import moment from "moment";
 
 export default {
+  methods: {
+    date(value) {
+      return moment(value).format("DD-MM-YYYY");
+    },
+  },
   setup() {
     let reports = ref([]);
 

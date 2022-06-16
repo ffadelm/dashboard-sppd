@@ -25,6 +25,7 @@
         @submit.prevent="store()"
         class="row g-3"
       >
+        @csrf
         <div class="form-group">
           <label
             for="nama"
