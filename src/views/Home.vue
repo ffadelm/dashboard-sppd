@@ -86,7 +86,6 @@
             <th scope="col">Judul</th>
             <th scope="col">Penerima Surat</th>
             <th scope="col">Tanggal Surat</th>
-            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -99,7 +98,6 @@
             <td>{{ letter.judul }}</td>
             <td>{{ letter.user_id.name }}</td>
             <td>{{ date(letter.tgl_awal) }}</td>
-            <td>{{ letter.status }}</td>
           </tr>
         </tbody>
       </table>

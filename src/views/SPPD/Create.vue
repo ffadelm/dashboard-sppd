@@ -25,17 +25,36 @@
         @submit.prevent="store()"
         class="row g-3"
       >
-        @csrf
         <div class="form-group">
           <label
             for="nama"
             class="form-label"
           >Nama Pegawai</label>
+          <select
+            id=""
+            v-model="surat.user_id"
+            name="user_id"
+            class="form-select"
+          >
+            <option
+              v-for="(user, index) in users.data"
+              :key="index"
+              :value="user.id"
+            >
+              {{user.name}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label
+            for="judul"
+            class="form-label"
+          >Judul Surat</label>
           <input
-            v-model="surat.penerima_perintah"
-            type="nama"
+            v-model="surat.judul"
+            type="text"
             class="form-control"
-            id="nama"
+            id="judul"
             autocomplete="off"
           />
         </div>
@@ -59,9 +78,22 @@
           >Pejabat yang memberi perintah</label>
           <input
             v-model="surat.pemberi_perintah"
-            type="pejabat"
+            type="text"
             class="form-control"
             id="pejabat"
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <label
+            for="anggota_mengikuti"
+            class="form-label"
+          >Anggota yang mengikuti</label>
+          <input
+            v-model="surat.anggota_mengikuti"
+            type="text"
+            class="form-control"
+            id="anggota_mengikuti"
             autocomplete="off"
           />
         </div>
@@ -70,9 +102,9 @@
             for="alamat"
             class="form-label"
           >Alamat Tujuan</label>
-          <input
+          <textarea
             v-model="surat.lokasi_tujuan"
-            type="text"
+            type="address"
             class="form-control"
             id="alamat"
             autocomplete="off"
@@ -83,7 +115,7 @@
             for="keterangan"
             class="form-label"
           >Keterangan</label>
-          <input
+          <textarea
             v-model="surat.keterangan"
             type="text"
             class="form-control"
@@ -131,7 +163,7 @@
 </template>
 
 <script>
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 
@@ -139,13 +171,28 @@ export default {
   setup() {
     //data binding
     const surat = reactive({
-      penerima_perintah: "",
+      user_id: "",
+      judul: "",
       nomor_surat: "",
       pemberi_perintah: "",
+      anggota_mengikuti: [],
       lokasi_tujuan: "",
       keterangan: "",
       tgl_awal: "",
       tgl_akhir: "",
+    });
+
+    let users = ref([]);
+
+    onMounted(() => {
+      axios
+        .get("http://sppd-api.herokuapp.com/api/user")
+        .then(({ data }) => {
+          users.value = data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
 
     const validation = ref([]);
@@ -158,13 +205,14 @@ export default {
         .then(() => {
           router.push("/surat-perintah");
         })
-        .catch((err) => {
-          validation.value = err.response.data;
+        .catch((error) => {
+          validation.value = error.response.data;
         });
     }
 
     return {
       surat,
+      users,
       validation,
       router,
       store,

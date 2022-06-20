@@ -16,7 +16,7 @@
       <h1 class="h2">Laporan SPPD</h1>
     </div>
     <table
-      id="table"
+      id="datatable"
       class="table table-striped table-hover table-sm"
     >
       <thead>
@@ -64,7 +64,7 @@ export default {
 
     onMounted(() => {
       axios
-        .get("http://sppd-api.herokuapp.com/api/laporan-jalan")
+        .get("http://103.100.27.29/sppd/public/api/laporan-jalan")
         .then(({ data }) => {
           reports.value = data;
         })

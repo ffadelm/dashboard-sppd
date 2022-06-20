@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Pegawai from '../views/Pegawai/index.vue'
-import showPegawai from '../views/Pegawai/show.vue'
 import SuratPerintah from '../views/SPPD/index.vue'
 import Laporan from '../views/LaporanSPPD.vue'
 import CreateSPPD from '../views/SPPD/Create.vue'
+import UpdateSPPD from '../views/SPPD/Update.vue'
+import Login from '../views/Login.vue'
+
 
 
 const router = createRouter({
@@ -15,12 +17,12 @@ const router = createRouter({
             component: Home
         },
         {
-            path: '/pegawai',
-            component: Pegawai
+            path:'/login',
+            component: Login
         },
         {
-            path: '/pegawai/show/',
-            component: showPegawai
+            path: '/pegawai',
+            component: Pegawai
         },
         {
             path: '/surat-perintah',
@@ -29,6 +31,10 @@ const router = createRouter({
         {
             path: '/create/sppd',
             component: CreateSPPD
+        },
+        {
+            path: '/update/sppd/:id',
+            component: UpdateSPPD
         },
         {
             path: '/laporan',

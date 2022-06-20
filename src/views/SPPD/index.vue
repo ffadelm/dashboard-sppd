@@ -49,8 +49,8 @@
                   class="btn btn-sm btn-outline-warning"
                 >Ubah</router-link>
                 <button
-                  class="btn btn-outline-danger"
-                  @click.prevent="destroy(letter.id)"
+                  class="btn btn-sm btn-outline-danger"
+                  @click.prevent="destroy(letter.id, index)"
                 >
                   Hapus
                 </button>

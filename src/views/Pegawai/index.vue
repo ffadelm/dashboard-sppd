@@ -18,6 +18,8 @@
           <tr>
             <th scope="col">No.</th>
             <th scope="col">Nama</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
             <th scope="col">Jabatan</th>
             <th scope="col">Action</th>
           </tr>
@@ -29,13 +31,11 @@
           >
             <th scope="row">{{ index+1 }}</th>
             <td>{{ employee.name }}</td>
+            <td>{{ employee.username }}</td>
+            <td>{{ employee.email }}</td>
             <td>{{ employee.jabatan }}</td>
             <td>
               <div class="btn-group">
-                <router-link
-                  to="/pegawai/show/"
-                  class="btn btn-sm btn-outline-info"
-                >Detail</router-link>
                 <router-link
                   to="/"
                   class="btn btn-sm btn-outline-warning"
