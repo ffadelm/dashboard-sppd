@@ -41,11 +41,11 @@
             <td>
               <div class="btn-group">
                 <router-link
-                  to="/"
+                  :to="`/show/sppd/${letter.id}`"
                   class="btn btn-sm btn-outline-info"
                 >Detail</router-link>
                 <router-link
-                  to="/"
+                  :to="`/update/sppd/${letter.id}`"
                   class="btn btn-sm btn-outline-warning"
                 >Ubah</router-link>
                 <button

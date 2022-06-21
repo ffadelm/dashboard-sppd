@@ -5,6 +5,7 @@ import SuratPerintah from '../views/SPPD/index.vue'
 import Laporan from '../views/LaporanSPPD.vue'
 import CreateSPPD from '../views/SPPD/Create.vue'
 import UpdateSPPD from '../views/SPPD/Update.vue'
+import ShowSPPD from '../views/SPPD/Show.vue'
 import Login from '../views/Login.vue'
 
 
@@ -35,6 +36,10 @@ const router = createRouter({
         {
             path: '/update/sppd/:id',
             component: UpdateSPPD
+        },
+        {
+            path: '/show/sppd/:id',
+            component: ShowSPPD
         },
         {
             path: '/laporan',

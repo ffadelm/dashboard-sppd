@@ -1,20 +1,12 @@
 <template>
+  <!-- nama belum masuk form -->
   <main class="BuatSPPD-page">
-    <div class="
-        d-flex
-        justify-content-between
-        flex-wrap flex-md-nowrap
-        align-items-center
-        pt-3
-        pb-2
-        mb-3
-        border-bottom
-      ">
-      <h1 class="h2">Buat Surat Perintah Perjalanan Dinas</h1>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Edit SPPD</h1>
     </div>
     <div class="mt-3">
       <form
-        @submit.prevent="store()"
+        @submit.prevent="update()"
         class="row g-3"
       >
         <div class="form-group">
@@ -29,11 +21,12 @@
             class="form-select"
           >
             <option
+              selected
               v-for="(user, index) in users.data"
               :key="index"
               :value="user.id"
             >
-              {{user.name}}
+              {{ user.name }}
             </option>
           </select>
         </div>
@@ -156,13 +149,13 @@
 
 <script>
 import { onMounted, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
 
 export default {
   setup() {
     //data binding
-    const surat = reactive({
+    let surat = reactive({
       user_id: "",
       judul: "",
       nomor_surat: "",
@@ -190,10 +183,36 @@ export default {
     const validation = ref([]);
 
     const router = useRouter();
+    const route = useRoute();
 
-    function store() {
+    onMounted(() => {
       axios
-        .post("https://sppd-api.herokuapp.com/api/perintah-jalan", surat)
+        .get(
+          `https://sppd-api.herokuapp.com/api/perintah-jalan/${route.params.id}`
+        )
+        .then(({ data }) => {
+          //   console.log(data);
+          surat.user_id = data.data.user_id;
+          surat.judul = data.data.judul;
+          surat.nomor_surat = data.data.nomor_surat;
+          surat.pemberi_perintah = data.data.pemberi_perintah;
+          surat.anggota_mengikuti = data.data.anggota_mengikuti;
+          surat.lokasi_tujuan = data.data.lokasi_tujuan;
+          surat.keterangan = data.data.keterangan;
+          surat.tgl_awal = data.data.tgl_awal;
+          surat.tgl_akhir = data.data.tgl_akhir;
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    });
+
+    function update() {
+      axios
+        .put(
+          `https://sppd-api.herokuapp.com/api/perintah-jalan/${route.params.id}`,
+          surat
+        )
         .then(() => {
           router.push("/surat-perintah");
         })
@@ -207,7 +226,7 @@ export default {
       users,
       validation,
       router,
-      store,
+      update,
     };
   },
 };
