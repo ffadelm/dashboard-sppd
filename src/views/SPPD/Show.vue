@@ -1,6 +1,6 @@
 <template>
   <main>
-    <!-- <div class="card">
+    <div class="card">
       <div class="card-header text-center">
         <h4 class="card-title">
           {{ surat.judul }}
@@ -8,51 +8,50 @@
         <p>{{ surat.nomor_surat }}</p>
       </div>
       <div class="card-body">
-        <table class="table table-bordered">
-          <tr>
-            <th>1</th>
-            <th>Pejabat yang berwenang memberi perintah</th>
-            <td>{{ surat.pemberi_perintah }}</td>
-          </tr>
 
+        <table class="mb-3">
           <tr>
-            <th>2</th>
-            <th>Nama Pegawai yang diperintahkan</th>
-            <td>{{surat.user_id.name}}</td>
+            <td>1</td>
+            <td>Pejabat yang memberi perintah</td>
+            <td colspan="5">{{surat.pemberi_perintah}}</td>
           </tr>
-
           <tr>
-            <th>3</th>
-            <th>Anggota yang Mengikuti</th>
-            <td>
-              {{ surat.anggota_mengikuti }}
-            </td>
+            <td>2</td>
+            <td>Nama pegawai yang diperintah</td>
+            <td colspan="5"> {{surat.user_id.name}}</td>
           </tr>
-
           <tr>
-            <th>4</th>
-            <th>Lokasi Tujuan</th>
-            <td>{{surat.lokasi_tujuan}}</td>
+            <td>3</td>
+            <td>Anggota yang mengikuti</td>
+            <template
+              v-for="(anggota, index) in surat.anggota_mengikuti"
+              :key="index"
+            >
+              <td>{{index+1}}. {{anggota}} </td>
+            </template>
           </tr>
-
           <tr>
-            <th>5</th>
-            <th>Keterangan</th>
-            <td class="col-lg-6">
-              {{ surat.keterangan }}
-            </td>
+            <td>4</td>
+            <td>Lokasi tujuan </td>
+            <td colspan="5">{{surat.lokasi_tujuan}}</td>
           </tr>
-
           <tr>
-            <th>6</th>
-            <th>Tanggal Mulai</th>
-            <td>{{surat.tgl_awal}}</td>
+            <td>5</td>
+            <td>Keterangan</td>
+            <td
+              colspan="5"
+              class="col-lg-8"
+            >{{surat.keterangan}}</td>
           </tr>
-
           <tr>
-            <th>7</th>
-            <th>Tanggal Akhir</th>
-            <td>{{surat.tgl_akhir}}</td>
+            <td>6</td>
+            <td>Tanggal mulai</td>
+            <td colspan="5">{{surat.tgl_awal}}</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Tanggal selesai</td>
+            <td colspan="5">{{surat.tgl_akhir}}</td>
           </tr>
         </table>
 
@@ -69,49 +68,6 @@
           >Cetak</router-link>
         </div>
       </div>
-    </div> -->
-    <div class="rangkasurat">
-      <table class="isi">
-        <tr>
-          <td>1</td>
-          <td>Pejabat yang berwenang memberi perintah</td>
-          <td>{{surat.pemberi_perintah}}</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Nama Pegawai yang diperintahkan</td>
-          <td>{{surat.user_id.name}}</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Anggota yang Mengikuti</td>
-          <td
-            style="outline: none"
-            v-for="(anggota, index) in surat.anggota_mengikuti"
-            :key="index"
-          >{{anggota}}</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Lokasi Tujuan</td>
-          <td>{{surat.lokasi_tujuan}}</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>Keterangan</td>
-          <td class="col-lg-6">{{surat.keterangan}}</td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>Tanggal Mulai</td>
-          <td>{{surat.tgl_awal}}</td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>Tanggal Akhir</td>
-          <td>{{surat.tgl_akhir}}</td>
-        </tr>
-      </table>
     </div>
   </main>
 </template>
@@ -171,13 +127,11 @@ export default {
 <style scoped>
 table {
   width: 100%;
-  border: 1px solid;
-}
-tr {
-  outline: thin solid;
+  border: 1px solid #000;
 }
 td {
+  outline: #000 solid 1px;
   padding: 5px;
-  outline: thin solid;
 }
-</style>>
+</style>
+
