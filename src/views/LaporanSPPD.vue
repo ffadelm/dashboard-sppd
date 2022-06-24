@@ -16,7 +16,7 @@
       <h1 class="h2">Laporan SPPD</h1>
     </div>
     <table
-      id="datatable"
+      id="table"
       class="table table-striped table-hover table-sm"
     >
       <thead>

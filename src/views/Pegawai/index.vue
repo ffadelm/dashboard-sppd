@@ -13,7 +13,10 @@
         ">
         <h1 class="h2">Daftar Seluruh Pegawai</h1>
       </div>
-      <table class="table table-striped table-hover">
+      <table
+        id="table"
+        class="table table-striped table-hover table-responsive"
+      >
         <thead>
           <tr>
             <th scope="col">No.</th>

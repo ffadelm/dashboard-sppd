@@ -13,45 +13,44 @@
           <tr>
             <td>1</td>
             <td>Pejabat yang memberi perintah</td>
-            <td colspan="5">{{surat.pemberi_perintah}}</td>
+            <td>{{surat.pemberi_perintah}}</td>
           </tr>
           <tr>
             <td>2</td>
-            <td>Nama pegawai yang diperintah</td>
-            <td colspan="5"> {{surat.user_id.name}}</td>
+            <td>Nama yang diperintah</td>
+            <td> {{surat.user_id.name}}</td>
           </tr>
+
           <tr>
             <td>3</td>
             <td>Anggota yang mengikuti</td>
-            <template
+            <div
               v-for="(anggota, index) in surat.anggota_mengikuti"
               :key="index"
             >
-              <td>{{index+1}}. {{anggota}} </td>
-            </template>
+              <td style="border: 0px !important">{{index+1}}. {{anggota}} </td>
+            </div>
           </tr>
+
           <tr>
             <td>4</td>
             <td>Lokasi tujuan </td>
-            <td colspan="5">{{surat.lokasi_tujuan}}</td>
+            <td>{{surat.lokasi_tujuan}}</td>
           </tr>
           <tr>
             <td>5</td>
             <td>Keterangan</td>
-            <td
-              colspan="5"
-              class="col-lg-8"
-            >{{surat.keterangan}}</td>
+            <td class="col-lg-8">{{surat.keterangan}}</td>
           </tr>
           <tr>
             <td>6</td>
             <td>Tanggal mulai</td>
-            <td colspan="5">{{surat.tgl_awal}}</td>
+            <td>{{surat.tgl_awal}}</td>
           </tr>
           <tr>
             <td>7</td>
             <td>Tanggal selesai</td>
-            <td colspan="5">{{surat.tgl_akhir}}</td>
+            <td>{{surat.tgl_akhir}}</td>
           </tr>
         </table>
 
@@ -125,13 +124,11 @@ export default {
 </script>
 
 <style scoped>
-table {
-  width: 100%;
-  border: 1px solid #000;
-}
+table,
+th,
 td {
-  outline: #000 solid 1px;
   padding: 5px;
+  border: 1px solid;
 }
 </style>
 

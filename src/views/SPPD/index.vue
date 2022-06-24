@@ -19,7 +19,10 @@
         to="/create/sppd"
       >Buat SPPD baru</router-link>
 
-      <table class="table table-striped table-hover table-sm">
+      <table
+        id="table"
+        class="table table-striped table-hover table-sm"
+      >
         <thead>
           <tr>
             <th scope="col">No</th>
