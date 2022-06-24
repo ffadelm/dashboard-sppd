@@ -196,6 +196,12 @@ export default {
         .post("https://sppd-api.herokuapp.com/api/perintah-jalan", surat)
         .then(() => {
           router.push("/surat-perintah");
+          swal({
+            title: "Sukses!",
+            text: "Data Berhasil Ditambahkan!",
+            icon: "success",
+            button: "OK",
+          });
         })
         .catch((error) => {
           validation.value = error.response.data;
