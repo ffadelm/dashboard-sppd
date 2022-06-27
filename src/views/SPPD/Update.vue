@@ -215,6 +215,12 @@ export default {
         )
         .then(() => {
           router.push("/surat-perintah");
+          swal({
+            title: "Sukses!",
+            text: "Data Berhasil Diubah!",
+            icon: "success",
+            button: "OK",
+          });
         })
         .catch((error) => {
           validation.value = error.response.data;

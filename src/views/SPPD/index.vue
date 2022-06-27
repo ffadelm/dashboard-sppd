@@ -86,14 +86,28 @@ export default {
     });
 
     function destroy(id, index) {
-      axios
-        .delete(`https://sppd-api.herokuapp.com/api/perintah-jalan/${id}`)
-        .then(() => {
-          letters.value.data.splice(index, 1);
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-        });
+      swal({
+        title: "Apakah anda yakin?",
+        text: "Setelah dihapus, data tidak dapat dikembalikan!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios
+            .delete(`http://sppd-api.herokuapp.com/api/perintah-jalan/${id}`)
+            .then(() => {
+              letters.value.splice(index, 1);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          swal("Data berhasil dihapus!", {
+            icon: "success",
+          });
+        }
+      });
     }
 
     return {
