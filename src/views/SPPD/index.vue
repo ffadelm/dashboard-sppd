@@ -1,5 +1,4 @@
 <template>
-  <!-- belum bisa delete -->
   <main class="surat-page">
     <div class="
         d-flex
@@ -39,7 +38,10 @@
           >
             <th scope="row">{{ index+1 }}</th>
             <td>{{ letter.nomor_surat }}</td>
-            <td>{{ letter.judul }}</td>
+            <td
+              class="text-truncate"
+              style="max-width: 200px;"
+            >{{ letter.judul }}</td>
             <td>{{ letter.user_id.name }}</td>
             <td>
               <div class="btn-group">
@@ -68,7 +70,7 @@
 
 <script>
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, reactive } from "vue";
 
 export default {
   setup() {
@@ -76,9 +78,9 @@ export default {
 
     onMounted(() => {
       axios
-        .get("http://sppd-api.herokuapp.com/api/perintah-jalan")
-        .then(({ data }) => {
-          letters.value = data;
+        .get("http://127.0.0.1:8000/api/surat")
+        .then((response) => {
+          letters.value = response.data;
         })
         .catch((err) => {
           console.log(err);
@@ -95,9 +97,10 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           axios
-            .delete(`http://sppd-api.herokuapp.com/api/perintah-jalan/${id}`)
-            .then(() => {
-              letters.value.splice(index, 1);
+            .delete(`http://127.0.0.1:8000/api/surat/${id}`)
+            .then((response) => {
+              console.log(response.data);
+              letters.value.data.splice(index, 1);
             })
             .catch((err) => {
               console.log(err);

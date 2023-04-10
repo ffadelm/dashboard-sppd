@@ -21,7 +21,7 @@
           <label
             for="nama"
             class="form-label"
-          >Nama Pegawai</label>
+          >Nama Pemohon</label>
           <select
             id=""
             v-model="surat.user_id"
@@ -61,13 +61,14 @@
             class="form-control"
             id="nomorSurat"
             autocomplete="off"
+            placeholder="Contoh: 123/SPD/UMY/TI/2023"
           />
         </div>
         <div class="col-md-6">
           <label
             for="pejabat"
             class="form-label"
-          >Pejabat yang memberi perintah</label>
+          >Pemberi Perintah</label>
           <input
             v-model="surat.pemberi_perintah"
             type="text"
@@ -82,11 +83,12 @@
             class="form-label"
           >Anggota yang mengikuti</label>
           <input
-            v-model="surat.anggota_mengikuti"
+            v-model="anggotaMengikutiInput"
             type="text"
             class="form-control"
             id="anggota_mengikuti"
             autocomplete="off"
+            placeholder="Contoh: Nama Anggota 1, Nama Anggota 2, Nama Anggota 3, dst."
           />
         </div>
         <div class="col-12">
@@ -100,19 +102,21 @@
             class="form-control"
             id="alamat"
             autocomplete="off"
+            placeholder="Contoh: Jl. Raya Kampus, Kampus UMY, Yogyakarta"
           />
         </div>
         <div class="form-group">
           <label
             for="keterangan"
             class="form-label"
-          >Keterangan</label>
+          >Deskripsi Perjalanan</label>
           <textarea
             v-model="surat.keterangan"
             type="text"
             class="form-control"
             id="keterangan"
             autocomplete="off"
+            placeholder="Contoh: Perjalanan dinas ke kampus UMY untuk mengikuti kegiatan seminar"
           />
         </div>
         <div class="col-md-6">
@@ -143,9 +147,10 @@
           <button
             type="submit"
             class="btn btn-primary"
+            @click="addAnggotaMengikuti()"
           >Simpan</button>
           <router-link
-            class="btn btn-secondary"
+            class="btn btn-secondary ms-2"
             to="/surat-perintah"
           >Kembali</router-link>
         </div>
@@ -174,11 +179,17 @@ export default {
       tgl_akhir: "",
     });
 
+    const anggotaMengikutiInput = ref("");
+
+    function addAnggotaMengikuti() {
+      surat.anggota_mengikuti = anggotaMengikutiInput.value.split(",");
+    }
+
     let users = ref([]);
 
     onMounted(() => {
       axios
-        .get("http://sppd-api.herokuapp.com/api/user")
+        .get("http://127.0.0.1:8000/api/user")
         .then(({ data }) => {
           users.value = data;
         })
@@ -193,7 +204,7 @@ export default {
 
     function store() {
       axios
-        .post("https://sppd-api.herokuapp.com/api/perintah-jalan", surat)
+        .post("http://127.0.0.1:8000/api/surat", surat)
         .then(() => {
           router.push("/surat-perintah");
           swal({
@@ -214,6 +225,8 @@ export default {
       validation,
       router,
       store,
+      anggotaMengikutiInput,
+      addAnggotaMengikuti,
     };
   },
 };

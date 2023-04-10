@@ -36,11 +36,11 @@
           :key="index"
         >
           <th scope="row">{{ index+1 }}</th>
-          <td>{{ report.perintah_jalan_id.nomor_surat }}</td>
+          <td>{{ report.surat_id.nomor_surat }}</td>
           <td>{{ report.user_id.name }}</td>
-          <td>{{ date(report.perintah_jalan_id.tgl_awal) }}</td>
-          <td>{{ date(report.perintah_jalan_id.tgl_akhir) }}</td>
-          <td>{{ report.perintah_jalan_id.tujuan }}</td>
+          <td>{{ date(report.surat_id.tgl_awal) }}</td>
+          <td>{{ date(report.surat_id.tgl_akhir) }}</td>
+          <td>{{ report.surat_id.tujuan }}</td>
           <td>{{ report.nama_kegiatan }}</td>
         </tr>
       </tbody>
@@ -64,7 +64,7 @@ export default {
 
     onMounted(() => {
       axios
-        .get("http://103.100.27.29/sppd/public/api/laporan-jalan")
+        .get("http://127.0.0.1:8000/api/laporan")
         .then(({ data }) => {
           reports.value = data;
         })

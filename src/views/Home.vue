@@ -95,7 +95,10 @@
           >
             <th scope="row">{{ index+1 }}</th>
             <td>{{ letter.nomor_surat }}</td>
-            <td>{{ letter.judul }}</td>
+            <td
+              class="text-truncate"
+              style="max-width: 300px;"
+            >{{ letter.judul }}</td>
             <td>{{ letter.user_id.name }}</td>
             <td>{{ date(letter.tgl_awal) }}</td>
           </tr>
@@ -121,7 +124,7 @@ export default {
 
     onMounted(() => {
       axios
-        .get("http://sppd-api.herokuapp.com/api/perintah-jalan")
+        .get("http://127.0.0.1:8000/api/surat")
         .then(({ data }) => {
           letters.value = data;
         })

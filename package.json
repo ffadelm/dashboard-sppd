@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "datatables.net-bs5": "^1.13.4",
+    "jquery": "^3.6.4",
     "moment": "^2.29.3",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.15"
+    "vue-router": "^4.0.15",
+    "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

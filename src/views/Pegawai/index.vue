@@ -11,7 +11,7 @@
           mb-3
           border-bottom
         ">
-        <h1 class="h2">Daftar Seluruh Pegawai</h1>
+        <h1 class="h2">Daftar Seluruh Dosen dan Staff</h1>
       </div>
       <table
         id="table"
@@ -29,14 +29,14 @@
         </thead>
         <tbody>
           <tr
-            v-for="(employee, index) in employees.data"
+            v-for="(lecturer, index) in lecturers.data"
             :key="index"
           >
             <th scope="row">{{ index+1 }}</th>
-            <td>{{ employee.name }}</td>
-            <td>{{ employee.username }}</td>
-            <td>{{ employee.email }}</td>
-            <td>{{ employee.jabatan }}</td>
+            <td>{{ lecturer.name }}</td>
+            <td>{{ lecturer.username }}</td>
+            <td>{{ lecturer.email }}</td>
+            <td>{{ lecturer.jabatan }}</td>
             <td>
               <div class="btn-group">
                 <router-link
@@ -59,34 +59,34 @@ import { onMounted, ref } from "vue";
 export default {
   setup() {
     // reactive data/state
-    let employees = ref([]);
+    let lecturers = ref([]);
 
     onMounted(() => {
-      // get data employees dari API
+      // get data lecturers dari API
       axios
-        .get("http://sppd-api.herokuapp.com/api/user")
+        .get("http://127.0.0.1:8000/api/user")
         .then(({ data }) => {
-          employees.value = data;
+          lecturers.value = data;
         })
         .catch((err) => {
           console.log(err);
         });
     });
 
-    function destroy(id, index) {
-      axios
-        .delete(`http://sppd-api.herokuapp.com/api/user/${id}`)
-        .then(() => {
-          letters.value.data.splice(index, 1);
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-        });
-    }
+    // function destroy(id, index) {
+    //   axios
+    //     .delete(`http://103.100.27.29/sppd/public/api/user/${id}`)
+    //     .then(() => {
+    //       letters.value.data.splice(index, 1);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err.response.data);
+    //     });
+    // }
 
     return {
-      employees,
-      destroy,
+      lecturers,
+      // destroy,
     };
   },
 };

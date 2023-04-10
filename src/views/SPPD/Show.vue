@@ -95,9 +95,7 @@ export default {
 
     onMounted(() => {
       axios
-        .get(
-          `https://sppd-api.herokuapp.com/api/perintah-jalan/${route.params.id}`
-        )
+        .get(`http://127.0.0.1:8000/api/surat/${route.params.id}`)
         .then(({ data }) => {
           console.log(data);
           surat.user_id = data.data.user_id;
@@ -129,6 +127,10 @@ th,
 td {
   padding: 5px;
   border: 1px solid;
+  word-break: break-word;
+}
+h4 {
+  word-break: break-word;
 }
 </style>
 

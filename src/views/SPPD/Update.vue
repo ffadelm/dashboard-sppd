@@ -209,10 +209,7 @@ export default {
 
     function update() {
       axios
-        .put(
-          `https://sppd-api.herokuapp.com/api/perintah-jalan/${route.params.id}`,
-          surat
-        )
+        .put(`http://127.0.0.1:8000/api/surat/${route.params.id}`, surat)
         .then(() => {
           router.push("/surat-perintah");
           swal({
