@@ -10,15 +10,19 @@
   "dependencies": {
     "axios": "^0.27.2",
     "datatables.net-bs5": "^1.13.4",
+    "esbuild": "^0.17.18",
     "jquery": "^3.6.4",
-    "moment": "^2.29.3",
+    "js-cookie": "^3.0.5",
+    "moment": "^2.29.4",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.15",
+    "vue-cookie": "^1.1.4",
+    "vue-cookies": "^1.8.3",
+    "vue-router": "^4.1.6",
     "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
     "sass": "^1.52.2",
-    "vite": "^2.9.9"
+    "vite": "^2.9.15"
   }
 }

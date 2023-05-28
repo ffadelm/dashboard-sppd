@@ -1,90 +1,168 @@
 <template>
   <main class="surat-page">
-    <div class="
-        d-flex
-        justify-content-between
-        flex-wrap flex-md-nowrap
-        align-items-center
-        pt-3
-        pb-2
-        mb-3
-        border-bottom
-      ">
-      <h1 class="h2">Surat Perintah Perjalanan Dinas</h1>
-    </div>
-    <div class="table-responsive">
-      <router-link
-        class="btn btn-primary mb-3"
-        to="/create/sppd"
-      >Buat SPPD baru</router-link>
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Surat Perintah Perjalanan Dinas</h1>
+          <router-link
+            class="btn btn-success btn-sm mb-3"
+            to="/create/sppd"
+          >Buat SPPD baru</router-link>
+        </div>
+        <div class="table-responsive">
 
-      <table
-        id="table"
-        class="table table-striped table-hover table-sm"
-      >
-        <thead>
-          <tr>
-            <th scope="col">No</th>
-            <th scope="col">No. Surat</th>
-            <th scope="col">Judul Surat</th>
-            <th scope="col">Penerima Perintah</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(letter, index) in letters.data"
-            :key="index"
+          <table
+            id="table"
+            class="table table-striped table-hover table-sm"
           >
-            <th scope="row">{{ index+1 }}</th>
-            <td>{{ letter.nomor_surat }}</td>
-            <td
-              class="text-truncate"
-              style="max-width: 200px;"
-            >{{ letter.judul }}</td>
-            <td>{{ letter.user_id.name }}</td>
-            <td>
-              <div class="btn-group">
-                <router-link
-                  :to="`/show/sppd/${letter.id}`"
-                  class="btn btn-sm btn-outline-info"
-                >Detail</router-link>
-                <router-link
-                  :to="`/update/sppd/${letter.id}`"
-                  class="btn btn-sm btn-outline-warning"
-                >Ubah</router-link>
-                <button
-                  class="btn btn-sm btn-outline-danger"
-                  @click.prevent="destroy(letter.id, index)"
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">No. Surat</th>
+                <th scope="col">Judul Surat</th>
+                <th scope="col">Penerima Perintah</th>
+                <th scope="col">Status Validasi</th>
+                <th scope="col">Status Surat</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(letter, index) in letters"
+                :key="index"
+              >
+                <th scope="row">{{ index + 1 }}</th>
+                <td>{{ letter.nomor_surat }}</td>
+                <td
+                  class="text-truncate"
+                  style="max-width: 200px;"
+                >{{ letter.judul }}</td>
+                <td>{{ letter.user_id.name }}</td>
+                <td>
+                  <div
+                    v-if="letter.validasi === 1"
+                    class="dot green"
+                  ></div>
+                  <div
+                    v-else-if="letter.validasi === 0"
+                    class="dot red"
+                  ></div>
+                </td>
+                <td>
+                  <div
+                    v-if="letter.diserahkan === 1"
+                    class="text-success"
+                  >Selesai</div>
+                  <div
+                    v-else-if="letter.diserahkan === 0"
+                    class="text-danger"
+                  >Belum Selesai</div>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <router-link
+                      :to="`/show/sppd/${letter.id}`"
+                      class="btn btn-sm btn-outline-info"
+                    >Detail</router-link>
+                    <router-link
+                      :to="`/update/sppd/${letter.id}`"
+                      class="btn btn-sm btn-outline-warning"
+                      :class="{ 'disabled': letter.diserahkan === 1 }"
+                    >Ubah</router-link>
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      @click.prevent="destroy(letter.id, index)"
+                    >Hapus</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="d-flex justify-content-center">
+            <nav aria-label="Pagination">
+              <ul class="pagination">
+                <li
+                  class="page-item"
+                  :class="{ disabled: currentPage === 1 }"
                 >
-                  Hapus
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  <button
+                    class="page-link"
+                    @click="goToPage(currentPage - 1)"
+                    aria-label="Previous"
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </button>
+                </li>
+                <li
+                  class="page-item"
+                  v-for="page in totalPages"
+                  :key="page"
+                  :class="{ active: currentPage === page }"
+                >
+                  <button
+                    class="page-link"
+                    @click="goToPage(page)"
+                  >{{ page }}</button>
+                </li>
+                <li
+                  class="page-item"
+                  :class="{ disabled: currentPage === totalPages }"
+                >
+                  <button
+                    class="page-link"
+                    @click="goToPage(currentPage + 1)"
+                    aria-label="Next"
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+        </div>
+      </div>
     </div>
   </main>
+
 </template>
 
 <script>
 import axios from "axios";
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, ref, computed } from "vue";
 
 export default {
   setup() {
-    let letters = ref([]);
+    const letters = ref([]);
+    const currentPage = ref(1);
+    const perPage = 10;
+    const userId = localStorage.getItem("userId");
 
     onMounted(() => {
-      axios
-        .get("http://127.0.0.1:8000/api/surat")
-        .then((response) => {
-          letters.value = response.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const userRole = localStorage.getItem("userRole");
+
+      if (userRole === "0") {
+        axios
+          .get(`http://127.0.0.1:8000/api/surat?user_id=${userId}`)
+          .then((response) => {
+            console.log(response.data);
+            letters.value = response.data.data; // Mengakses properti data dari respons API
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        axios
+          .get(`http://127.0.0.1:8000/api/surat`)
+          .then((response) => {
+            console.log(response.data);
+            letters.value = response.data.data; // Mengakses properti data dari respons API
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     });
 
     function destroy(id, index) {
@@ -100,7 +178,7 @@ export default {
             .delete(`http://127.0.0.1:8000/api/surat/${id}`)
             .then((response) => {
               console.log(response.data);
-              letters.value.data.splice(index, 1);
+              letters.value.splice(index, 1);
             })
             .catch((err) => {
               console.log(err);
@@ -113,13 +191,48 @@ export default {
       });
     }
 
+    // Hitung jumlah total halaman berdasarkan jumlah data dan data per halaman
+    const totalPages = computed(() =>
+      Math.ceil(letters.value.length / perPage)
+    );
+
+    // Ambil data untuk halaman saat ini berdasarkan currentPage dan perPage
+    const currentData = computed(() => {
+      const start = (currentPage.value - 1) * perPage;
+      const end = start + perPage;
+      return letters.value.slice(start, end);
+    });
+
+    function goToPage(page) {
+      currentPage.value = page;
+    }
+
     return {
       letters,
       destroy,
+      currentPage,
+      totalPages,
+      currentData,
+      goToPage,
     };
   },
 };
 </script>
 
 <style>
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
 </style>

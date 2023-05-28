@@ -1,19 +1,28 @@
 <template>
   <div class="app">
-    <Sidebar />
-    <router-view />
+    <Sidebar v-if="!isLoginPage" />
+    <div class="container">
+      <router-view />
+    </div>
   </div>
 </template>
 
-<script setup>
+<script>
 import Sidebar from "./components/Sidebar.vue";
-import axios from "axios";
-axios.defaults.headers.common = {
-  "X-Requested-With": "XMLHttpRequest",
-  "X-CSRF-TOKEN": window.csrf_token,
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+export default {
+  components: {
+    Sidebar,
+  },
+  setup() {
+    const route = useRoute();
+    const isLoginPage = computed(() => route.path === "/login");
+    return { isLoginPage };
+  },
 };
 </script>
-
 
 <style lang="scss">
 :root {
@@ -41,13 +50,14 @@ button {
 
 .app {
   display: flex;
-  main {
-    flex: 1;
-    padding: 2rem;
-
-    @media (max-width: 768px) {
-      padding-left: 6rem;
-    }
-  }
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+.container {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Gaya CSS lainnya */
 </style>

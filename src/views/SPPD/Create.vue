@@ -17,26 +17,22 @@
         @submit.prevent="store()"
         class="row g-3"
       >
-        <div class="form-group">
+
+        <div class="form-group visually-hidden">
           <label
             for="nama"
             class="form-label"
           >Nama Pemohon</label>
-          <select
-            id=""
+          <input
             v-model="surat.user_id"
-            name="user_id"
-            class="form-select"
-          >
-            <option
-              v-for="(user, index) in users.data"
-              :key="index"
-              :value="user.id"
-            >
-              {{user.name}}
-            </option>
-          </select>
+            type="text"
+            class="form-control"
+            id="nama"
+            autocomplete="off"
+            disabled
+          />
         </div>
+
         <div class="form-group">
           <label
             for="judul"
@@ -50,6 +46,7 @@
             autocomplete="off"
           />
         </div>
+
         <div class="col-md-6">
           <label
             for="nomorSurat"
@@ -64,6 +61,7 @@
             placeholder="Contoh: 123/SPD/UMY/TI/2023"
           />
         </div>
+
         <div class="col-md-6">
           <label
             for="pejabat"
@@ -77,6 +75,7 @@
             autocomplete="off"
           />
         </div>
+
         <div class="form-group">
           <label
             for="anggota_mengikuti"
@@ -91,6 +90,7 @@
             placeholder="Contoh: Nama Anggota 1, Nama Anggota 2, Nama Anggota 3, dst."
           />
         </div>
+
         <div class="col-12">
           <label
             for="alamat"
@@ -105,6 +105,7 @@
             placeholder="Contoh: Jl. Raya Kampus, Kampus UMY, Yogyakarta"
           />
         </div>
+
         <div class="form-group">
           <label
             for="keterangan"
@@ -119,6 +120,7 @@
             placeholder="Contoh: Perjalanan dinas ke kampus UMY untuk mengikuti kegiatan seminar"
           />
         </div>
+
         <div class="col-md-6">
           <label
             for="tglMulai"
@@ -131,6 +133,7 @@
             id="tglMulai"
           />
         </div>
+
         <div class="col-md-6">
           <label
             for="tglSelesai"
@@ -143,14 +146,16 @@
             id="tglSelesai"
           />
         </div>
+
         <div class="form-group">
           <button
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-success"
             @click="addAnggotaMengikuti()"
           >Simpan</button>
+
           <router-link
-            class="btn btn-secondary ms-2"
+            class="btn btn-outline-danger ms-2"
             to="/surat-perintah"
           >Kembali</router-link>
         </div>
@@ -165,10 +170,17 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 
 export default {
+  computed: {
+    filteredUsers() {
+      return this.users.data
+        ? this.users.data.filter((user) => user.role !== 1)
+        : [];
+    },
+  },
   setup() {
-    //data binding
+    // Data binding
     const surat = reactive({
-      user_id: "",
+      user_id: null,
       judul: "",
       nomor_surat: "",
       pemberi_perintah: "",
@@ -179,13 +191,16 @@ export default {
       tgl_akhir: "",
     });
 
+    const userId = localStorage.getItem("userId");
+    const userIdInt = parseInt(userId);
+
     const anggotaMengikutiInput = ref("");
 
     function addAnggotaMengikuti() {
       surat.anggota_mengikuti = anggotaMengikutiInput.value.split(",");
     }
 
-    let users = ref([]);
+    const users = ref([]);
 
     onMounted(() => {
       axios
@@ -203,6 +218,8 @@ export default {
     const router = useRouter();
 
     function store() {
+      surat.user_id = userIdInt;
+
       axios
         .post("http://127.0.0.1:8000/api/surat", surat)
         .then(() => {
@@ -231,3 +248,10 @@ export default {
   },
 };
 </script>
+
+<style>
+option {
+  max-height: 150px;
+  overflow-y: auto;
+}
+</style>

@@ -15,22 +15,26 @@
         <span class="material-icons">keyboard_double_arrow_right</span>
       </button>
     </div>
+
     <h3>Menu</h3>
     <div class="menu">
       <router-link
         class="button"
-        to="/"
+        to="/dashboard"
       >
         <span class="material-icons">space_dashboard</span>
         <span class="text">Dashboard</span>
       </router-link>
+
       <router-link
+        v-if="userRole === '1'"
         class="button"
-        to="/pegawai"
+        to="/user"
       >
         <span class="material-icons">groups</span>
-        <span class="text">Pegawai</span>
+        <span class="text">Pengguna</span>
       </router-link>
+
       <router-link
         class="button"
         to="/surat-perintah"
@@ -38,6 +42,7 @@
         <span class="material-icons">description</span>
         <span class="text">SPPD</span>
       </router-link>
+
       <router-link
         class="button"
         to="/laporan"
@@ -45,35 +50,69 @@
         <span class="material-icons">menu</span>
         <span class="text">Laporan SPPD</span>
       </router-link>
+
+      <button
+        class="button"
+        @click="logout"
+      >
+        <span class="material-icons">logout</span>
+        <span class="text">Logout</span>
+      </button>
     </div>
   </aside>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+
+const userRole = localStorage.getItem("userRole");
+const userRoleStr = JSON.stringify(userRole);
+
+const logout = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    await axios.get("http://127.0.0.1:8000/api/logout", config);
+    localStorage.removeItem("token");
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("is_expanded");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userRole");
+    router.push("/login");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true");
+const router = useRouter();
 
 const ToggleMenu = () => {
   is_expanded.value = !is_expanded.value;
-
   localStorage.setItem("is_expanded", is_expanded.value);
 };
 </script>
 
 <style lang="scss" scoped>
 aside {
-  display: flex;
+  position: fixed;
+  display: inline-block;
   flex-direction: column;
   width: calc(2rem + 32px);
   min-height: 100vh;
   overflow: hidden;
   padding: 1rem;
-
   background-color: var(--bs-dark);
   color: var(--bs-light);
-
   transition: 0.2s ease-out;
+  z-index: 1;
 
   .logo {
     margin-bottom: 1rem;
@@ -87,7 +126,6 @@ aside {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 1rem;
-
     position: relative;
     top: 0;
     transition: 0.2s ease-out;
@@ -130,7 +168,6 @@ aside {
       display: flex;
       align-items: center;
       text-decoration: none;
-
       padding: 0.5rem 1rem;
       transition: 0.2s ease-out;
 
@@ -166,6 +203,7 @@ aside {
 
     .menu-toggle-wrap {
       top: -3rem;
+
       .menu-toggle {
         transform: rotate(-180deg);
       }

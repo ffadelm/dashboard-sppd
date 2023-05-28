@@ -1,29 +1,50 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+    createRouter,
+    createWebHistory
+} from 'vue-router'
 import Home from '../views/Home.vue'
-import Pegawai from '../views/Pegawai/index.vue'
 import SuratPerintah from '../views/SPPD/index.vue'
-import Laporan from '../views/LaporanSPPD.vue'
+import Laporan from '../views/Laporan/LaporanSPPD.vue'
+import DetailLaporan from '../views/Laporan/detailLaporan.vue'
+import CreateLaporan from '../views/Laporan/CreateLaporan.vue'
 import CreateSPPD from '../views/SPPD/Create.vue'
 import UpdateSPPD from '../views/SPPD/Update.vue'
 import ShowSPPD from '../views/SPPD/Show.vue'
 import Login from '../views/Login.vue'
 
+import User from '../views/User/index.vue'
+import CreateUser from '../views/User/CreateUsers.vue'
+import UpdateUser from '../views/User/UpdateUser.vue'
+
 
 
 const router = createRouter({
     history: createWebHistory(),
-    routes: [
-        {
+    routes: [{
             path: '/',
+            redirect: '/login'
+        },
+        {
+            path: '/dashboard',
+            name: 'Home',
             component: Home
         },
         {
-            path:'/login',
+            path: '/login',
+            name: 'Login',
             component: Login
         },
         {
-            path: '/pegawai',
-            component: Pegawai
+            path: '/user',
+            component: User
+        },
+        {
+            path: '/user/create',
+            component: CreateUser
+        },
+        {
+            path: '/user/update/:id',
+            component: UpdateUser
         },
         {
             path: '/surat-perintah',
@@ -44,6 +65,14 @@ const router = createRouter({
         {
             path: '/laporan',
             component: Laporan
+        },
+        {
+            path: '/detail-laporan/:id',
+            component: DetailLaporan
+        },
+        {
+            path: '/create/laporan',
+            component: CreateLaporan
         }
     ]
 })

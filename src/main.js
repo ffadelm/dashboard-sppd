@@ -1,6 +1,13 @@
-import { createApp, VueElement } from 'vue'
-import App from './App.vue'
+import {
+    createApp
+} from 'vue';
+import App from './App.vue';
+import router from './router';
+import VueCookies from 'vue-cookies';
 
-import router from './router'
+const app = createApp(App);
 
-createApp(App).use(router).mount('#app')
+app.use(router);
+app.use(VueCookies);
+
+app.mount('#app');

@@ -2,34 +2,28 @@
   <!-- nama belum masuk form -->
   <main class="BuatSPPD-page">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Edit SPPD</h1>
+      <h1 class="h2">Edit Surat Perintah Perjalanan Dinas</h1>
     </div>
     <div class="mt-3">
       <form
         @submit.prevent="update()"
         class="row g-3"
       >
-        <div class="form-group">
+        <div class="form-group visually-hidden">
           <label
             for="nama"
             class="form-label"
-          >Nama Pegawai</label>
-          <select
-            id=""
+          >Nama Pemohon</label>
+          <input
             v-model="surat.user_id"
-            name="user_id"
-            class="form-select"
-          >
-            <option
-              selected
-              v-for="(user, index) in users.data"
-              :key="index"
-              :value="user.id"
-            >
-              {{ user.name }}
-            </option>
-          </select>
+            type="text"
+            class="form-control"
+            id="nama"
+            autocomplete="off"
+            disabled
+          />
         </div>
+
         <div class="form-group">
           <label
             for="judul"
@@ -60,7 +54,7 @@
           <label
             for="pejabat"
             class="form-label"
-          >Pejabat yang memberi perintah</label>
+          >Pemberi Perintah</label>
           <input
             v-model="surat.pemberi_perintah"
             type="text"
@@ -99,7 +93,7 @@
           <label
             for="keterangan"
             class="form-label"
-          >Keterangan</label>
+          >Deskripsi Perjalanan</label>
           <textarea
             v-model="surat.keterangan"
             type="text"
@@ -135,10 +129,10 @@
         <div class="form-group">
           <button
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-success"
           >Simpan</button>
           <router-link
-            class="btn btn-secondary"
+            class="btn btn-outline-danger ms-2"
             to="/surat-perintah"
           >Kembali</router-link>
         </div>
@@ -153,10 +147,17 @@ import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
 
 export default {
+  computed: {
+    filteredUsers() {
+      return this.users.data
+        ? this.users.data.filter((user) => user.role !== 1)
+        : [];
+    },
+  },
   setup() {
     //data binding
     let surat = reactive({
-      user_id: "",
+      user_id: null,
       judul: "",
       nomor_surat: "",
       pemberi_perintah: "",
@@ -165,13 +166,14 @@ export default {
       keterangan: "",
       tgl_awal: "",
       tgl_akhir: "",
+      validasi: "",
     });
 
     let users = ref([]);
 
     onMounted(() => {
       axios
-        .get("http://sppd-api.herokuapp.com/api/user")
+        .get("http://127.0.0.1:8000/api/user")
         .then(({ data }) => {
           users.value = data;
         })
@@ -180,19 +182,16 @@ export default {
         });
     });
 
-    const validation = ref([]);
+    const validation = ref("");
 
     const router = useRouter();
     const route = useRoute();
 
     onMounted(() => {
       axios
-        .get(
-          `https://sppd-api.herokuapp.com/api/perintah-jalan/${route.params.id}`
-        )
+        .get(`http://127.0.0.1:8000/api/surat/${route.params.id}`)
         .then(({ data }) => {
-          //   console.log(data);
-          surat.user_id = data.data.user_id;
+          surat.user_id = data.data.user_id.name;
           surat.judul = data.data.judul;
           surat.nomor_surat = data.data.nomor_surat;
           surat.pemberi_perintah = data.data.pemberi_perintah;
@@ -201,16 +200,23 @@ export default {
           surat.keterangan = data.data.keterangan;
           surat.tgl_awal = data.data.tgl_awal;
           surat.tgl_akhir = data.data.tgl_akhir;
+          surat.validasi = data.data.validasi;
         })
         .catch((err) => {
           console.log(err.response.data);
         });
     });
 
+    const userId = localStorage.getItem("userId");
+    const userIdInt = parseInt(userId);
+
     function update() {
+      surat.user_id = userIdInt;
+
       axios
         .put(`http://127.0.0.1:8000/api/surat/${route.params.id}`, surat)
-        .then(() => {
+        .then((response) => {
+          console.log(response);
           router.push("/surat-perintah");
           swal({
             title: "Sukses!",
@@ -230,6 +236,7 @@ export default {
       validation,
       router,
       update,
+      userRole,
     };
   },
 };
