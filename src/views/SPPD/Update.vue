@@ -236,7 +236,6 @@ export default {
       validation,
       router,
       update,
-      userRole,
     };
   },
 };

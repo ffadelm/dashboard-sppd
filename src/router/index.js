@@ -16,7 +16,7 @@ import User from '../views/User/index.vue'
 import CreateUser from '../views/User/CreateUsers.vue'
 import UpdateUser from '../views/User/UpdateUser.vue'
 
-
+import panelTask from '../views/panelTask.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -73,6 +73,10 @@ const router = createRouter({
         {
             path: '/create/laporan',
             component: CreateLaporan
+        },
+        {
+            path: '/panel-task',
+            component: panelTask
         }
     ]
 })
