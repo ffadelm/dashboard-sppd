@@ -59,6 +59,7 @@
             id="nomorSurat"
             autocomplete="off"
             placeholder="Contoh: 123/SPD/UMY/TI/2023"
+            @click="generateNomorSurat"
           />
         </div>
 
@@ -81,7 +82,7 @@
             for="anggota_mengikuti"
             class="form-label"
           >Anggota yang mengikuti</label>
-          <input
+          <textarea
             v-model="anggotaMengikutiInput"
             type="text"
             class="form-control"
@@ -200,19 +201,6 @@ export default {
       surat.anggota_mengikuti = anggotaMengikutiInput.value.split(",");
     }
 
-    const users = ref([]);
-
-    onMounted(() => {
-      axios
-        .get("http://127.0.0.1:8000/api/user")
-        .then(({ data }) => {
-          users.value = data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-
     const validation = ref([]);
 
     const router = useRouter();
@@ -236,14 +224,19 @@ export default {
         });
     }
 
+    function generateNomorSurat() {
+      const tahunSekarang = new Date().getFullYear();
+      surat.nomor_surat = `/SPD/UMY/TI/${tahunSekarang}`;
+    }
+
     return {
       surat,
-      users,
       validation,
       router,
       store,
       anggotaMengikutiInput,
       addAnggotaMengikuti,
+      generateNomorSurat,
     };
   },
 };

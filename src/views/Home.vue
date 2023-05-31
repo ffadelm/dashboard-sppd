@@ -73,6 +73,51 @@
         </tbody>
       </table>
     </div>
+
+    <nav aria-label="Pagination">
+      <ul class="pagination justify-content-center mt-3">
+        <li
+          class="page-item"
+          :class="{ disabled: currentPage === 1 }"
+        >
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Previous"
+            @click="goToPage(currentPage - 1)"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        <li
+          class="page-item"
+          :class="{ active: page === currentPage }"
+          v-for="page in totalPages"
+          :key="page"
+        >
+          <a
+            class="page-link"
+            href="#"
+            @click="goToPage(page)"
+          >{{ page }}</a>
+        </li>
+
+        <li
+          class="page-item"
+          :class="{ disabled: currentPage === totalPages }"
+        >
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Next"
+            @click="goToPage(currentPage + 1)"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </main>
 </template>
 
@@ -92,6 +137,27 @@ export default {
 
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
+
+    let currentPage = ref(1);
+    const pageSize = 11;
+
+    const goToPage = (page) => {
+      if (page >= 1 && page <= totalPages.value) {
+        currentPage.value = page;
+      }
+    };
+
+    const startIndex = computed(() => (currentPage.value - 1) * pageSize);
+    const endIndex = computed(() => startIndex.value + pageSize);
+    const paginatedLetters = computed(() =>
+      letters.value.data.slice(startIndex.value, endIndex.value)
+    );
+    const totalPages = computed(() => {
+      if (Array.isArray(letters.value.data)) {
+        return Math.ceil(letters.value.data.length / pageSize);
+      }
+      return 0;
+    });
 
     onMounted(() => {
       if (userRole === "0") {
@@ -158,6 +224,10 @@ export default {
       selesai,
       terbaru,
       valid,
+      currentPage,
+      goToPage,
+      paginatedLetters,
+      totalPages,
     };
   },
 };

@@ -36,6 +36,15 @@
       </router-link>
 
       <router-link
+        v-if="userRole === '1'"
+        class="button"
+        to="/panel-task"
+      >
+        <span class="material-icons">task</span>
+        <span class="text">Panel Task</span>
+      </router-link>
+
+      <router-link
         class="button"
         to="/surat-perintah"
       >

@@ -136,7 +136,7 @@ export default {
   setup() {
     const letters = ref([]);
     const currentPage = ref(1);
-    const perPage = 10;
+    const perPage = 11;
     const userId = localStorage.getItem("userId");
 
     onMounted(() => {

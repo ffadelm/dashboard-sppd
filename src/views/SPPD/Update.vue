@@ -1,5 +1,5 @@
 <template>
-  <!-- nama belum masuk form -->
+
   <main class="BuatSPPD-page">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Edit Surat Perintah Perjalanan Dinas</h1>
@@ -48,6 +48,7 @@
             class="form-control"
             id="nomorSurat"
             autocomplete="off"
+            disabled
           />
         </div>
         <div class="col-md-6">
@@ -63,19 +64,21 @@
             autocomplete="off"
           />
         </div>
+
         <div class="form-group">
           <label
             for="anggota_mengikuti"
             class="form-label"
           >Anggota yang mengikuti</label>
-          <input
-            v-model="surat.anggota_mengikuti"
+          <textarea
+            v-model="anggotaMengikutiInput"
             type="text"
             class="form-control"
             id="anggota_mengikuti"
             autocomplete="off"
           />
         </div>
+
         <div class="col-12">
           <label
             for="alamat"
@@ -147,13 +150,6 @@ import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
 
 export default {
-  computed: {
-    filteredUsers() {
-      return this.users.data
-        ? this.users.data.filter((user) => user.role !== 1)
-        : [];
-    },
-  },
   setup() {
     //data binding
     let surat = reactive({
@@ -169,18 +165,7 @@ export default {
       validasi: "",
     });
 
-    let users = ref([]);
-
-    onMounted(() => {
-      axios
-        .get("http://127.0.0.1:8000/api/user")
-        .then(({ data }) => {
-          users.value = data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
+    const anggotaMengikutiInput = ref("");
 
     const validation = ref("");
 
@@ -201,6 +186,8 @@ export default {
           surat.tgl_awal = data.data.tgl_awal;
           surat.tgl_akhir = data.data.tgl_akhir;
           surat.validasi = data.data.validasi;
+
+          anggotaMengikutiInput.value = data.data.anggota_mengikuti.join(", ");
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -212,6 +199,8 @@ export default {
 
     function update() {
       surat.user_id = userIdInt;
+
+      surat.anggota_mengikuti = anggotaMengikutiInput.value.split(",");
 
       axios
         .put(`http://127.0.0.1:8000/api/surat/${route.params.id}`, surat)
@@ -232,10 +221,10 @@ export default {
 
     return {
       surat,
-      users,
       validation,
       router,
       update,
+      anggotaMengikutiInput,
     };
   },
 };

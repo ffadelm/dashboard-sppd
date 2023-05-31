@@ -97,7 +97,7 @@ export default {
     // reactive data/state
     let lecturers = ref([]);
     let currentPage = ref(1);
-    const itemsPerPage = 10;
+    const itemsPerPage = 11;
 
     onMounted(() => {
       // get data lecturers dari API
@@ -161,10 +161,10 @@ export default {
 
     return {
       lecturers,
+      destroy,
       paginatedLecturers,
       currentPage,
       totalPages,
-      destroy,
       setCurrentPage,
     };
   },

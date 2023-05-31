@@ -59,7 +59,7 @@
 
         <div class="mt-4">
           <p class="h6 fw-bold">Deskripsi</p>
-          <p class="text-muted fw-normal">{{surat.keterangan}}</p>
+          <p class="text-muted fw-normal text-justify">{{surat.keterangan}}</p>
         </div>
 
         <div class="mt-4">
@@ -97,6 +97,7 @@
             v-if="surat.diserahkan === 0"
             class="btn btn-sm btn-info text-white px-4"
             to="/create/laporan"
+            @click="tambahLaporan"
           >Tambah Laporan</router-link>
 
           <button
@@ -136,6 +137,18 @@ export default {
     date(value) {
       return moment(value).format("DD MMMM YYYY");
     },
+
+    tambahLaporan() {
+      // Mengambil ID surat dari reactive object 'surat'
+      const suratId = this.surat.id;
+
+      // Menyimpan ID surat di local storage
+      localStorage.setItem("suratId", suratId);
+
+      // Mengarahkan pengguna ke halaman tambah laporan
+      this.$router.push("/create/laporan");
+    },
+
     serahkanSurat() {
       axios
         .post(`http://localhost:8000/api/surat/${this.surat.id}/serahkan`)
@@ -230,4 +243,11 @@ export default {
   },
 };
 </script>
+
+<style>
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+}
+</style>
 

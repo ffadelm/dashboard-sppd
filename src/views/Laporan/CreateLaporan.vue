@@ -16,44 +16,35 @@
       @submit.prevent="store()"
       class="row g-3"
     >
-      <div class="form-group">
+
+      <div class="form-group visually-hidden">
         <label
-          for="surat_id"
+          for="judul_surat"
           class="form-label"
         >Judul Surat</label>
-        <select
+        <input
           v-model="laporan.surat_id"
-          name="surat_id"
-          class="form-select myDropDown"
-        >
-          <option
-            v-for="(surat, index) in surat.data"
-            :key="index"
-            :value="surat.id"
-          >
-            {{ surat.judul }}
-          </option>
-        </select>
+          type="text"
+          class="form-control"
+          id="judul_surat"
+          autocomplete="off"
+          disabled
+        />
       </div>
 
-      <div class="form-group">
+      <div class="form-group visually-hidden">
         <label
           for="nama"
           class="form-label"
         >Nama Pemohon</label>
-        <select
+        <input
           v-model="laporan.user_id"
-          name="user_id"
-          class="form-select myDropDown"
-        >
-          <option
-            v-for="(user, index) in filteredUsers"
-            :key="index"
-            :value="user.id"
-          >
-            {{ user.name }}
-          </option>
-        </select>
+          type="text"
+          class="form-control"
+          id="nama"
+          autocomplete="off"
+          disabled
+        />
       </div>
 
       <div class="form-group">
@@ -151,12 +142,21 @@ export default {
       deskripsi: "",
     });
 
+    const userId = localStorage.getItem("userId");
+    const userIdInt = parseInt(userId);
+
+    const suratId = localStorage.getItem("suratId");
+    const suratIdInt = parseInt(suratId);
+
     const users = ref([]);
     const surat = ref([]);
     const validation = ref([]);
     const router = useRouter();
 
     function store() {
+      laporan.user_id = userIdInt;
+      laporan.surat_id = suratIdInt;
+
       const formData = new FormData();
       formData.append("user_id", laporan.user_id);
       formData.append("surat_id", laporan.surat_id);
@@ -181,6 +181,8 @@ export default {
         .catch((error) => {
           validation.value = error.response.data;
         });
+
+      localStorage.removeItem("suratId");
     }
 
     onMounted(() => {

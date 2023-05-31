@@ -84,7 +84,7 @@ export default {
   setup() {
     let reports = ref([]);
     const currentPage = ref(1);
-    const perPage = 10;
+    const perPage = 11;
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
 

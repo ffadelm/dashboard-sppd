@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header fs-3">
-      Panel Surat Belum Divalidasi
+      Surat yangBelum Divalidasi
     </div>
     <div class="card-body">
       <ul class="list-group list-group-flush">
@@ -22,7 +22,7 @@
             class="validasi-button btn btn-success"
             @click="validasiSurat(surat)"
           >
-            Validasi
+            <i class="material-icons">done</i>
           </button>
         </li>
         <li
@@ -147,12 +147,19 @@ export default {
   }
   .card {
     padding-left: 6rem;
+    margin-top: 0px;
   }
 
   .validasi-button {
     white-space: normal;
-    width: 100%;
-    margin-top: 1rem;
+  }
+
+  .surat-title {
+    display: -webkit-box;
+    max-width: 250px;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 </style>
