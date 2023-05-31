@@ -9,6 +9,19 @@
             to="/user/create"
           >Tambah User</router-link>
         </div>
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Cari berdasarkan nama atau NIDN"
+            v-model="searchQuery"
+          >
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="search"
+          >Cari</button>
+        </div>
         <div class="table-responsive">
           <table
             id="table"
@@ -46,6 +59,13 @@
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div
+          v-if="paginatedLecturers.length === 0"
+          class="text-center mt-3"
+        >
+          <p>Tidak ada data yang ditemukan.</p>
         </div>
 
         <nav>
@@ -98,6 +118,7 @@ export default {
     let lecturers = ref([]);
     let currentPage = ref(1);
     const itemsPerPage = 11;
+    let searchQuery = ref("");
 
     onMounted(() => {
       // get data lecturers dari API
@@ -110,6 +131,17 @@ export default {
           console.log(err);
         });
     });
+
+    function search() {
+      axios
+        .get(`http://127.0.0.1:8000/api/users?search=${searchQuery.value}`)
+        .then(({ data }) => {
+          lecturers.value = data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
 
     function destroy(id, index) {
       swal({
@@ -166,6 +198,8 @@ export default {
       currentPage,
       totalPages,
       setCurrentPage,
+      searchQuery,
+      search,
     };
   },
 };

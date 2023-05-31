@@ -9,6 +9,21 @@
             to="/create/sppd"
           >Buat SPPD baru</router-link>
         </div>
+
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="searchInput"
+            v-model="searchKeyword"
+          >
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="searchSurat"
+          >Cari</button>
+        </div>
+
         <div class="table-responsive">
 
           <table
@@ -138,32 +153,55 @@ export default {
     const currentPage = ref(1);
     const perPage = 11;
     const userId = localStorage.getItem("userId");
+    const userRole = localStorage.getItem("userRole");
+
+    const searchKeyword = ref("");
 
     onMounted(() => {
-      const userRole = localStorage.getItem("userRole");
-
       if (userRole === "0") {
         axios
           .get(`http://127.0.0.1:8000/api/surat?user_id=${userId}`)
-          .then((response) => {
-            console.log(response.data);
-            letters.value = response.data.data; // Mengakses properti data dari respons API
+          .then(({ data }) => {
+            letters.value = data.data;
           })
           .catch((err) => {
             console.log(err);
           });
       } else {
         axios
-          .get(`http://127.0.0.1:8000/api/surat`)
-          .then((response) => {
-            console.log(response.data);
-            letters.value = response.data.data; // Mengakses properti data dari respons API
+          .get("http://127.0.0.1:8000/api/surat")
+          .then(({ data }) => {
+            letters.value = data.data;
           })
           .catch((err) => {
             console.log(err);
           });
       }
     });
+
+    function searchSurat() {
+      if (userRole === "0") {
+        axios
+          .get(
+            `http://127.0.0.1:8000/api/surats?user_id=${userId}&search=${searchKeyword.value}`
+          )
+          .then(({ data }) => {
+            letters.value = data.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        axios
+          .get(`http://127.0.0.1:8000/api/surat?search=${searchKeyword.value}`)
+          .then(({ data }) => {
+            letters.value = data.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
 
     function destroy(id, index) {
       swal({
@@ -214,6 +252,8 @@ export default {
       totalPages,
       currentData,
       goToPage,
+      searchKeyword,
+      searchSurat,
     };
   },
 };
