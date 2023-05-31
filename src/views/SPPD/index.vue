@@ -43,7 +43,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="(letter, index) in letters"
+                v-for="(letter, index) in currentData"
                 :key="index"
               >
                 <th scope="row">{{ index + 1 }}</th>
@@ -135,7 +135,6 @@
               </ul>
             </nav>
           </div>
-
         </div>
       </div>
     </div>
@@ -151,7 +150,7 @@ export default {
   setup() {
     const letters = ref([]);
     const currentPage = ref(1);
-    const perPage = 11;
+    const perPage = 10;
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
 
@@ -276,3 +275,4 @@ export default {
   background-color: green;
 }
 </style>
+

@@ -58,7 +58,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(letter, index) in letters.data"
+            v-for="(letter, index) in paginatedLetters"
             :key="index"
           >
             <th scope="row">{{ index + 1 }}</th>
@@ -139,7 +139,7 @@ export default {
     const userRole = localStorage.getItem("userRole");
 
     let currentPage = ref(1);
-    const pageSize = 11;
+    const pageSize = 5;
 
     const goToPage = (page) => {
       if (page >= 1 && page <= totalPages.value) {
@@ -149,9 +149,13 @@ export default {
 
     const startIndex = computed(() => (currentPage.value - 1) * pageSize);
     const endIndex = computed(() => startIndex.value + pageSize);
-    const paginatedLetters = computed(() =>
-      letters.value.data.slice(startIndex.value, endIndex.value)
-    );
+    const paginatedLetters = computed(() => {
+      if (Array.isArray(letters.value.data)) {
+        return letters.value.data.slice(startIndex.value, endIndex.value);
+      }
+      return [];
+    });
+
     const totalPages = computed(() => {
       if (Array.isArray(letters.value.data)) {
         return Math.ceil(letters.value.data.length / pageSize);

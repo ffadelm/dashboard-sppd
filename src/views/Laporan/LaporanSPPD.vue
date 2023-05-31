@@ -8,7 +8,7 @@
     <div class="row">
       <div
         class="col-md-4"
-        v-for="(report, index) in reports"
+        v-for="(report, index) in currentData"
         :key="index"
       >
         <div class="card mb-3">
@@ -84,7 +84,7 @@ export default {
   setup() {
     let reports = ref([]);
     const currentPage = ref(1);
-    const perPage = 11;
+    const perPage = ref(6);
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
 
@@ -112,13 +112,13 @@ export default {
 
     // Hitung jumlah total halaman berdasarkan jumlah data dan data per halaman
     const totalPages = computed(() =>
-      Math.ceil(reports.value.length / perPage)
+      Math.ceil(reports.value.length / perPage.value)
     );
 
     // Ambil data untuk halaman saat ini berdasarkan currentPage dan perPage
     const currentData = computed(() => {
-      const start = (currentPage.value - 1) * perPage;
-      const end = start + perPage;
+      const start = (currentPage.value - 1) * perPage.value;
+      const end = start + perPage.value;
       return reports.value.slice(start, end);
     });
 

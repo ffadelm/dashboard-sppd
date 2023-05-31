@@ -170,7 +170,7 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/laporan", formData)
         .then(() => {
-          router.push("/laporan");
+          router.push("/surat-perintah");
           swal({
             title: "Sukses!",
             text: "Data Berhasil Ditambahkan!",

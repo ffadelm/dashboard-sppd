@@ -59,7 +59,7 @@
         <div class="
                 mt-4">
           <p class="h6 fw-bold">Deskripsi/Notulensi</p>
-          <p class="text-muted fw-normal">{{laporan.deskripsi}}</p>
+          <p class="text-justify text-muted fw-normal">{{laporan.deskripsi}}</p>
         </div>
 
         <div class="mt-4">
@@ -140,5 +140,9 @@ export default {
 </script>
 
 <style scoped>
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+}
 </style>
 
