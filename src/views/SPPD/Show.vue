@@ -135,8 +135,8 @@ import moment from "moment";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
-import logoPath from "./logo.jpg";
-import ttdPath from "./ttd.png";
+import logoPath from "../../assets/kop.jpg";
+import ttdPath from "../../assets/ttd.png";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -203,7 +203,17 @@ export default {
 
                 // Tambahkan nama yang diberi perintah
                 {
-                  text: `Nama\t   : ${suratData.user_id.name}`,
+                  text: `Nama\t : ${suratData.user_id.name}`,
+                  style: "content",
+                },
+
+                {
+                  text: `NIDN\t  : ${suratData.user_id.nidn}`,
+                  style: "content",
+                },
+
+                {
+                  text: `Jabatan : ${suratData.user_id.jabatan}`,
                   style: "content",
                 },
 
@@ -252,18 +262,18 @@ export default {
 
                 // Tambahkan lokasi kegiatan
                 {
-                  text: `Alamat\t : ${suratData.lokasi_tujuan}`,
+                  text: `Alamat   : ${suratData.lokasi_tujuan}`,
                   style: "content",
                 },
 
                 {
-                  text: `Untuk\t   : ${suratData.judul}`,
+                  text: `Untuk\t : ${suratData.judul}`,
                   style: "content",
                 },
 
                 // Tambahkan tanggal mulai dan selesai
                 {
-                  text: `Tanggal\t: ${this.date(
+                  text: `Tanggal : ${this.date(
                     suratData.tgl_awal
                   )} - ${this.date(suratData.tgl_akhir)}`,
                   style: "content",
