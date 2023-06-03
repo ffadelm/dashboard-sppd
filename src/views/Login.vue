@@ -47,8 +47,8 @@
         </form>
         <div
           v-if="loginFailed"
-          class="mt-3 text-danger"
-        >Email atau Password Anda salah.</div>
+          class="mt-3 text-danger text-center alert alert-danger"
+        >Email atau Password Anda salah. Mohon Cek Kembali</div>
         <div class="mt-3">
           <a
             href="https://wa.me/6282176515234?text=Halo%20Admin!%20Tolong%20Bantu%20Saya%20Lupa%20Password"
@@ -85,6 +85,20 @@ export default {
 
   methods: {
     login() {
+      this.validation = {};
+
+      if (!this.user.email) {
+        this.validation.email = true;
+      }
+
+      if (!this.user.password) {
+        this.validation.password = true;
+      }
+
+      if (this.validation.email || this.validation.password) {
+        this.loginFailed = false;
+        return;
+      }
       if (this.user.email && this.user.password) {
         axios
           .get("http://localhost:8000/sanctum/csrf-cookie")
@@ -106,6 +120,7 @@ export default {
                     localStorage.removeItem("loggedIn");
                     localStorage.removeItem("token");
                     localStorage.removeItem("userId"); // Hapus user ID dari local storage setelah 1 jam
+                    localStorage.removeItem("userRole"); // Hapus user role dari local storage setelah 1 jam
                     this.$router.push({ name: "Login" });
                   }, 60 * 60 * 1000);
                   this.loggedIn = true;
@@ -116,18 +131,9 @@ export default {
               })
               .catch((error) => {
                 console.log(error);
+                this.loginFailed = true;
               });
           });
-      }
-
-      this.validation = {};
-
-      if (!this.user.email) {
-        this.validation.email = true;
-      }
-
-      if (!this.user.password) {
-        this.validation.password = true;
       }
     },
   },

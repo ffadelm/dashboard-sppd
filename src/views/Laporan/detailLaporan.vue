@@ -76,9 +76,10 @@
             type="button"
           >Kembali</router-link>
           <router-link
-            to="/"
+            :to="`/detail-laporan/${laporan.id}`"
             class="btn btn-success px-4"
             type="button"
+            @click="cetakLaporan"
           >Cetak</router-link>
         </div>
       </div>

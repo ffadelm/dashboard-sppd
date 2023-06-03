@@ -44,6 +44,7 @@
             class="form-control"
             id="judul"
             autocomplete="off"
+            placeholder="Contoh: Surat Perintah Perjalanan Dinas"
           />
         </div>
 
@@ -74,6 +75,7 @@
             class="form-control"
             id="pejabat"
             autocomplete="off"
+            placeholder="Contoh: Rektor UMY, Dekan Fakultas, Kepala Jurusan, dst."
           />
         </div>
 
@@ -89,7 +91,8 @@
             id="anggota_mengikuti"
             autocomplete="off"
             placeholder="Contoh: Nama Anggota 1, Nama Anggota 2, Nama Anggota 3, dst."
-          />
+          ></textarea>
+          <small class="form-text text-muted">Jika tidak ada Anggota yang ikut, berikan tanda "-"</small>
         </div>
 
         <div class="col-12">
@@ -224,9 +227,32 @@ export default {
         });
     }
 
+    function toRomanNumerals(number) {
+      const romanNumerals = {
+        1: "I",
+        2: "II",
+        3: "III",
+        4: "IV",
+        5: "V",
+        6: "VI",
+        7: "VII",
+        8: "VIII",
+        9: "IX",
+        10: "X",
+        11: "XI",
+        12: "XII",
+      };
+
+      return romanNumerals[number];
+    }
+
     function generateNomorSurat() {
       const tahunSekarang = new Date().getFullYear();
-      surat.nomor_surat = `/SPD/UMY/TI/${tahunSekarang}`;
+      const bulanSekarang = toRomanNumerals(new Date().getMonth() + 1);
+      const nomorRandom = Math.floor(Math.random() * 100);
+      surat.nomor_surat = `${
+        nomorRandom + 1
+      }/TI UMY/${bulanSekarang}/${tahunSekarang}`;
     }
 
     return {

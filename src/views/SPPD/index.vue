@@ -82,7 +82,7 @@
                     <router-link
                       :to="`/update/sppd/${letter.id}`"
                       class="btn btn-sm btn-outline-warning"
-                      :class="{ 'disabled': letter.diserahkan === 1}"
+                      :class="{ 'disabled': letter.diserahkan === 1 || userRole === '1'}"
                     >Ubah</router-link>
                     <button
                       class="btn btn-sm btn-outline-danger"
@@ -253,6 +253,7 @@ export default {
       goToPage,
       searchKeyword,
       searchSurat,
+      userRole,
     };
   },
 };
