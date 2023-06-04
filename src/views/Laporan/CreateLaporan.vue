@@ -80,13 +80,13 @@
         <label
           for="keterangan"
           class="form-label"
-        >Deskripsi Perjalanan</label>
+        >Deskripsi Kegiatan</label>
         <textarea
           v-model="laporan.deskripsi"
           class="form-control"
           id="keterangan"
           autocomplete="off"
-          placeholder="Contoh: Perjalanan dinas ke kampus UMY untuk mengikuti kegiatan seminar"
+          placeholder="Contoh: Seminar Nasional bertema 'Pembelajaran Online'"
         ></textarea>
       </div>
 

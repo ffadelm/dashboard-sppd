@@ -93,11 +93,160 @@ import { onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import moment from "moment";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default {
   methods: {
+    async cetakLaporan() {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/laporan/${this.laporan.id}`
+        );
+
+        console.log(response);
+
+        const laporanData = response.data.data;
+
+        const docDefinition = {
+          content: [
+            {
+              text: "Laporan Kegiatan SPPD",
+              style: "title",
+              bold: true,
+              alignment: "center",
+              margin: [0, 0, 0, 20],
+            },
+            {
+              text: `Waktu Kegiatan : ${this.time(laporanData.created_at)}`,
+              style: "content",
+            },
+            {
+              text: `\nNo. Surat : ${laporanData.surat_id.nomor_surat}`,
+              style: "content",
+            },
+            {
+              text: `Judul Kegiatan : ${laporanData.nama_kegiatan}`,
+              style: "content",
+            },
+            {
+              text: `Nama Penerima : ${laporanData.user_id.name}`,
+              style: "content",
+            },
+            {
+              text: `NIDN : ${laporanData.user_id.nidn}`,
+              style: "content",
+            },
+            {
+              text: `Jabatan : ${laporanData.user_id.jabatan}`,
+              style: "content",
+            },
+            { text: "Anggota yang mengikuti:", style: "content" },
+            ...(laporanData.surat_id.anggota_mengikuti.map(
+              (anggota, index) => ({
+                text: `${index + 1}. ${anggota}`,
+                style: "content",
+              })
+            ) || []), // Menangani jika 'anggota_mengikuti' adalah array kosong
+            {
+              text: `Lokasi : ${laporanData.lokasi}`,
+              style: "content",
+            },
+            {
+              text: `Tanggal : ${this.date(
+                laporanData.surat_id.tgl_awal
+              )} - ${this.date(laporanData.surat_id.tgl_akhir)}`,
+              style: "content",
+            },
+            {
+              text: `Notulensi : ${laporanData.deskripsi}`,
+              style: "content",
+            },
+
+            {
+              text: "\n\n\n",
+              style: "content",
+            },
+
+            {
+              columns: [
+                { width: "*", text: "" },
+                {
+                  width: "auto",
+                  stack: [
+                    {
+                      text: "Mengetahui/menyetujui",
+                      style: "content",
+                    },
+                    {
+                      text: "\n\n\n\n\n",
+                      alignment: "center",
+                    },
+                    {
+                      text: "Cahya Damarjati, S.T., M.Eng., Ph.D.",
+                      style: "content",
+                    },
+                  ],
+                  margin: [0, 0, 100, 0],
+                  alignment: "center",
+                },
+                {
+                  width: "auto",
+                  stack: [
+                    {
+                      text: `Yogyakarta, ${this.date(moment())}`,
+                      style: "content",
+                    },
+                    {
+                      text: "Yang membuat",
+                      style: "content",
+                    },
+                    {
+                      text: "\n\n\n",
+                      alignment: "center",
+                    },
+                    {
+                      text: `${laporanData.user_id.name}`,
+                      style: "content",
+                    },
+                  ],
+                  margin: [85, 0, 0, 0],
+                  alignment: "center",
+                },
+              ],
+              margin: [0, 40],
+              style: "content",
+            },
+          ],
+          styles: {
+            header: { fontSize: 12, bold: true, margin: [0, 0, 0, 10] },
+            title: {
+              fontSize: 20,
+              bold: true,
+              margin: [0, 0, 0, 10],
+              FontFace: "Times",
+            },
+            content: {
+              fontSize: 12,
+              margin: [0, 0, 0, 10],
+              textAlign: "justify",
+              FontFace: "Times",
+            },
+          },
+        };
+        const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+        pdfDocGenerator.download(laporanData.nama_kegiatan + ".pdf");
+      } catch (error) {
+        console.log(error);
+      }
+    },
     date(value) {
       return moment(value).format("DD MMMM YYYY");
+    },
+    time(value) {
+      return moment(value).format("DD MMMM YYYY, HH:mm A");
     },
   },
   setup() {
@@ -119,6 +268,7 @@ export default {
         .get(`http://127.0.0.1:8000/api/laporan/${route.params.id}`)
         .then(({ data }) => {
           console.log(data);
+          laporan.id = data.data.id;
           laporan.user_id = data.data.user_id;
           laporan.surat_id = data.data.surat_id;
           laporan.nama_kegiatan = data.data.nama_kegiatan;

@@ -79,6 +79,7 @@
                   :src="'http://localhost:8000/storage/'+laporan.foto[0]"
                   class="img-fluid rounded-start"
                   alt="..."
+                  style="max-height: 200px;"
                 >
               </div>
               <div class="col-md-8">
