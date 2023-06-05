@@ -97,6 +97,7 @@ import "moment/locale/id";
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import buffer from "buffer";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -109,21 +110,26 @@ export default {
         );
         const laporanData = response.data.data;
 
-        // const imageDataUrls = await Promise.all(
-        //   laporanData.foto.map(async (foto) => {
-        //     const response = await axios.get(
-        //       `http://localhost:8000/storage/${foto}`,
-        //       {
-        //         responseType: "arraybuffer",
-        //       }
-        //     );
-        //     const imageBytes = new Uint8Array(response.data);
-        //     const base64String = btoa(
-        //       String.fromCharCode.apply(null, new Uint8Array(imageBytes))
-        //     );
-        //     return `data:image/jpeg;base64,${base64String}`;
-        //   })
-        // );
+        // const fotoPromises = laporanData.foto.map(async (foto) => {
+        //   const fotoResponse = await axios.get(
+        //     `http://localhost:8000/storage/${foto}`,
+        //     {
+        //       responseType: "arraybuffer",
+        //     }
+        //   );
+        //   const fotoData = fotoResponse.data;
+        //   const base64Foto = Buffer.from(fotoData, "binary").toString("base64");
+        //   return base64Foto;
+        // });
+
+        // const fotos = await Promise.all(fotoPromises);
+
+        // const fotoContents = fotos.map((foto) => ({
+        //   image: `data:image/jpeg;base64,${foto}`,
+        //   width: 300,
+        //   height: 300,
+        //   margin: [0, 10],
+        // }));
 
         const docDefinition = {
           content: [
@@ -182,36 +188,10 @@ export default {
 
             // {
             //   text: "Dokumentasi Kegiatan :",
-            //   style: "content",
+            //   style: "title",
+            //   margin: [0, 20, 0, 10],
             // },
-            // {
-            //   columns: [
-            //     {
-            //       width: "*",
-            //       text: "",
-            //     },
-            //     {
-            //       width: "auto",
-            //       stack: imageDataUrls.map((imageDataUrl) => ({
-            //         image: imageDataUrl,
-            //         width: 200,
-            //         height: 200,
-            //         margin: [0, 0, 0, 10],
-            //       })),
-            //       margin: [0, 0, 100, 0],
-            //       alignment: "center",
-            //     },
-            //     {
-            //       width: "auto",
-            //       stack: laporanData.foto.map((_, index) => ({
-            //         text: `${index + 1}.`,
-            //         style: "content",
-            //       })),
-            //       margin: [0, 0, 100, 0],
-            //       alignment: "center",
-            //     },
-            //   ],
-            // },
+            // ...fotoContents,
 
             {
               text: "\n\n\n",

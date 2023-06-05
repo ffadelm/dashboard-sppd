@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="row">
-      <div class="col-lg-8 col-md-12">
+      <div class="col-lg-6 col-md-12">
         <h6
           v-if="surat.validasi === 0"
           class="badge text-bg-danger"
@@ -77,14 +77,14 @@
               <div class="col-md-4">
                 <img
                   :src="'http://localhost:8000/storage/'+laporan.foto[0]"
-                  class="img img-fluid rounded-start"
+                  class="img img-fluid"
                   alt="..."
-                  style="height: 200px; object-fit: cover; overflow: hidden;"
+                  style="height: 225px; object-fit: cover; overflow: hidden;"
                 >
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title fw-semibold text-start">{{laporan.nama_kegiatan}}</h5>
+                  <h5 class="card-title fw-semibold text-start">Kegiatan 1 : {{laporan.nama_kegiatan}}</h5>
                   <p class="card-text">{{laporan.lokasi}}</p>
                   <button
                     class="btn btn-sm btn-danger"
