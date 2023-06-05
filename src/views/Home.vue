@@ -1,7 +1,7 @@
 <template>
   <main class="home-page">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Dashboard</h1>
+      <h1 class="h2">Selamat Datang, {{userName}}</h1>
     </div>
     <div class="dashboard row col-lg-12 col-md-12">
       <div class="col-md-3">
@@ -45,6 +45,7 @@
         </div>
       </div>
     </div>
+
     <div class="table-responsive mt-3">
       <table class="table table-striped table-hover">
         <thead>
@@ -137,6 +138,7 @@ export default {
 
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
+    const userName = localStorage.getItem("Name");
 
     let currentPage = ref(1);
     const pageSize = 5;
@@ -232,6 +234,7 @@ export default {
       goToPage,
       paginatedLetters,
       totalPages,
+      userName,
     };
   },
 };

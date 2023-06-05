@@ -94,6 +94,7 @@ const logout = async () => {
     localStorage.removeItem("is_expanded");
     localStorage.removeItem("userId");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("Name");
     router.push("/login");
   } catch (error) {
     console.log(error);
