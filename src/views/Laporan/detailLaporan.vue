@@ -37,7 +37,7 @@
         </div>
 
         <div class="mt-4">
-          <p class="h6 fw-bold">Dokumentasi & File</p>
+          <p class="h6 fw-bold">Dokumentasi</p>
           <div class="row">
             <div
               class="col-12 col-md-4 col-lg-3"
@@ -49,7 +49,7 @@
                   :src="'http://localhost:8000/storage/' + foto"
                   alt=""
                   class="img-fluid"
-                  style="max-width: 300px; max-height: 300px; overflow: hidden; border-radius: 10px;"
+                  style="max-width: 500px; max-height: 500px; overflow: hidden; border-radius: 10px;"
                 >
               </div>
             </div>
@@ -71,7 +71,7 @@
 
         <div class="btn-group d-grid gap-2 d-md-block">
           <router-link
-            to="/laporan"
+            :to="`/show/sppd/${laporan.surat_id.id}`"
             class="btn btn-outline-danger"
             type="button"
           >Kembali</router-link>
@@ -93,6 +93,8 @@ import { onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import moment from "moment";
+import "moment/locale/id";
+
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
@@ -105,10 +107,23 @@ export default {
         const response = await axios.get(
           `http://localhost:8000/api/laporan/${this.laporan.id}`
         );
-
-        console.log(response);
-
         const laporanData = response.data.data;
+
+        // const imageDataUrls = await Promise.all(
+        //   laporanData.foto.map(async (foto) => {
+        //     const response = await axios.get(
+        //       `http://localhost:8000/storage/${foto}`,
+        //       {
+        //         responseType: "arraybuffer",
+        //       }
+        //     );
+        //     const imageBytes = new Uint8Array(response.data);
+        //     const base64String = btoa(
+        //       String.fromCharCode.apply(null, new Uint8Array(imageBytes))
+        //     );
+        //     return `data:image/jpeg;base64,${base64String}`;
+        //   })
+        // );
 
         const docDefinition = {
           content: [
@@ -164,6 +179,39 @@ export default {
               text: `Notulensi : ${laporanData.deskripsi}`,
               style: "content",
             },
+
+            // {
+            //   text: "Dokumentasi Kegiatan :",
+            //   style: "content",
+            // },
+            // {
+            //   columns: [
+            //     {
+            //       width: "*",
+            //       text: "",
+            //     },
+            //     {
+            //       width: "auto",
+            //       stack: imageDataUrls.map((imageDataUrl) => ({
+            //         image: imageDataUrl,
+            //         width: 200,
+            //         height: 200,
+            //         margin: [0, 0, 0, 10],
+            //       })),
+            //       margin: [0, 0, 100, 0],
+            //       alignment: "center",
+            //     },
+            //     {
+            //       width: "auto",
+            //       stack: laporanData.foto.map((_, index) => ({
+            //         text: `${index + 1}.`,
+            //         style: "content",
+            //       })),
+            //       margin: [0, 0, 100, 0],
+            //       alignment: "center",
+            //     },
+            //   ],
+            // },
 
             {
               text: "\n\n\n",
@@ -243,10 +291,53 @@ export default {
       }
     },
     date(value) {
-      return moment(value).format("DD MMMM YYYY");
+      const months = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+
+      const date = new Date(value);
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+
+      return `${day} ${month} ${year}`;
     },
     time(value) {
-      return moment(value).format("DD MMMM YYYY, HH:mm A");
+      const months = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+
+      const date = new Date(value);
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const period = hours < 12 ? "AM" : "PM";
+
+      return `${day} ${month} ${year}, ${hours}:${minutes} ${period}`;
     },
   },
   setup() {

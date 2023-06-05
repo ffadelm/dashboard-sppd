@@ -77,15 +77,21 @@
               <div class="col-md-4">
                 <img
                   :src="'http://localhost:8000/storage/'+laporan.foto[0]"
-                  class="img-fluid rounded-start"
+                  class="img img-fluid rounded-start"
                   alt="..."
-                  style="max-height: 200px;"
+                  style="height: 200px; object-fit: cover; overflow: hidden;"
                 >
               </div>
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title fw-semibold text-start">{{laporan.nama_kegiatan}}</h5>
                   <p class="card-text">{{laporan.lokasi}}</p>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    @click.prevent="destroy(laporan.id, index)"
+                  >
+                    Hapus
+                  </button>
                 </div>
               </div>
             </div>
@@ -130,9 +136,10 @@
 
 <script>
 import { onMounted, reactive, ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import moment from "moment";
+
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
@@ -344,7 +351,27 @@ export default {
       }
     },
     date(value) {
-      return moment(value).format("DD MMMM YYYY");
+      const months = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+
+      const date = new Date(value);
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+
+      return `${day} ${month} ${year}`;
     },
 
     tambahLaporan() {
@@ -395,6 +422,7 @@ export default {
     });
 
     const route = useRoute();
+    const router = useRouter();
 
     const laporan = ref({ data: [] });
 
@@ -444,10 +472,38 @@ export default {
         });
     });
 
+    function destroy(id, index) {
+      swal({
+        title: "Apakah anda yakin?",
+        text: "Setelah dihapus, data tidak dapat dikembalikan!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios
+            .delete(`http://127.0.0.1:8000/api/laporan/${id}`)
+            .then((response) => {
+              location.reload();
+              console.log(response.data);
+              laporan.value.splice(index, 1);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          swal("Data berhasil dihapus!", {
+            icon: "success",
+          });
+        }
+      });
+    }
+
     return {
       surat,
       laporanFilter,
       laporan,
+      destroy,
     };
   },
 };
@@ -471,6 +527,12 @@ export default {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+@media screen and (max-width: 600px) {
+  .img {
+    width: 100%;
+    height: auto;
+  }
 }
 </style>
 

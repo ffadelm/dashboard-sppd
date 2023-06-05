@@ -49,6 +49,21 @@
 
       <div class="form-group">
         <label
+          for="waktu"
+          class="form-label"
+        >Waktu</label>
+        <input
+          type="text"
+          class="form-control"
+          id="waktu"
+          autocomplete="off"
+          :value="currentDateTime"
+          disabled
+        />
+      </div>
+
+      <div class="form-group">
+        <label
           for="nama_kegiatan"
           class="form-label"
         >Nama Kegiatan</label>
@@ -66,7 +81,7 @@
         <label
           for="formFileMultiple"
           class="form-label"
-        >Dokumentasi & File</label>
+        >Dokumentasi</label>
         <input
           class="form-control"
           type="file"
@@ -123,6 +138,7 @@
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import moment from "moment";
 
 export default {
   computed: {
@@ -141,6 +157,8 @@ export default {
       lokasi: "",
       deskripsi: "",
     });
+
+    const currentDateTime = moment().format("DD MMMM YYYY, hh:mm:ss a");
 
     const userId = localStorage.getItem("userId");
     const userIdInt = parseInt(userId);
@@ -170,7 +188,7 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/laporan", formData)
         .then(() => {
-          router.push("/surat-perintah");
+          router.push(`/show/sppd/${suratIdInt}`);
           swal({
             title: "Sukses!",
             text: "Data Berhasil Ditambahkan!",
@@ -220,6 +238,7 @@ export default {
       surat,
       validation,
       handleFileUpload,
+      currentDateTime,
     };
   },
 };

@@ -59,7 +59,7 @@
             class="form-control"
             id="nomorSurat"
             autocomplete="off"
-            placeholder="Contoh: 123/SPD/UMY/TI/2023"
+            placeholder="klik 1x untuk generate nomor surat"
             @click="generateNomorSurat"
           />
         </div>
