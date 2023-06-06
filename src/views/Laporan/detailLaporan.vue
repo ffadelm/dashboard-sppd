@@ -17,7 +17,7 @@
 
         <div class="mt-3">
           <p class="h6 fw-bold">Waktu</p>
-          <p class="text-muted fw-normal">{{ date(laporan.created_at) }}</p>
+          <p class="text-muted fw-normal">{{ time(laporan.created_at) }}</p>
         </div>
 
         <div class="mt-4">

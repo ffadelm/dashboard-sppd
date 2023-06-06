@@ -89,6 +89,7 @@
                   <button
                     class="btn btn-sm btn-danger"
                     @click.prevent="destroy(laporan.id, index)"
+                    :class="{ 'visually-hidden': surat.diserahkan === 1 || userRole === '1'}"
                   >
                     Hapus
                   </button>
@@ -100,7 +101,7 @@
 
         <div class="d-flex justify-content-between mt-4">
           <router-link
-            :class="{ 'disabled': surat.validasi === 0 }"
+            :class="{ 'visually-hidden': surat.validasi === 0 || userRole === '1'}"
             v-if="surat.diserahkan === 0"
             class="btn btn-sm btn-info text-white px-4"
             to="/create/laporan"
@@ -112,6 +113,7 @@
             class="btn btn-sm btn-secondary px-4"
             type="button"
             @click="serahkanSurat"
+            :class="{ 'visually-hidden': surat.validasi === 0 || userRole === '1'}"
           >Serahkan Surat</button>
         </div>
       </div>
@@ -424,6 +426,8 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
+    const userRole = localStorage.getItem("userRole");
+
     const laporan = ref({ data: [] });
 
     onMounted(() => {
@@ -504,6 +508,7 @@ export default {
       laporanFilter,
       laporan,
       destroy,
+      userRole,
     };
   },
 };

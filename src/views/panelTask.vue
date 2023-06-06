@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header fs-3">
-      Surat yangBelum Divalidasi
+      Surat yang belum di validasi
     </div>
     <div class="card-body">
       <ul class="list-group list-group-flush">

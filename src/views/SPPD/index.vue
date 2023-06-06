@@ -7,6 +7,7 @@
           <router-link
             class="btn btn-success btn-sm mb-3"
             to="/create/sppd"
+            :class="{'visually-hidden': userRole === '1'}"
           >Buat SPPD baru</router-link>
         </div>
 
@@ -82,11 +83,12 @@
                     <router-link
                       :to="`/update/sppd/${letter.id}`"
                       class="btn btn-sm btn-outline-warning"
-                      :class="{ 'disabled': letter.diserahkan === 1 || userRole === '1'}"
+                      :class="{ 'visually-hidden': letter.diserahkan === 1 || userRole === '1'}"
                     >Ubah</router-link>
                     <button
                       class="btn btn-sm btn-outline-danger"
                       @click.prevent="destroy(letter.id, index)"
+                      :class="{ 'visually-hidden': letter.diserahkan === 1 || userRole === '1'}"
                     >Hapus</button>
                   </div>
                 </td>

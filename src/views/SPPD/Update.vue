@@ -2,7 +2,7 @@
 
   <main class="BuatSPPD-page">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Edit Surat Perintah Perjalanan Dinas</h1>
+      <h1 class="h2">Ubah Surat Perintah Perjalanan Dinas</h1>
     </div>
     <div class="mt-3">
       <form
@@ -76,6 +76,7 @@
             class="form-control"
             id="anggota_mengikuti"
             autocomplete="off"
+            style="height: 100px;"
           />
         </div>
 
@@ -90,6 +91,7 @@
             class="form-control"
             id="alamat"
             autocomplete="off"
+            style="height: 100px;"
           />
         </div>
         <div class="form-group">
@@ -103,6 +105,7 @@
             class="form-control"
             id="keterangan"
             autocomplete="off"
+            style="height: 100px;"
           />
         </div>
         <div class="col-md-6">

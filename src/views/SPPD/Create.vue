@@ -91,8 +91,9 @@
             id="anggota_mengikuti"
             autocomplete="off"
             placeholder="Contoh: Nama Anggota 1, Nama Anggota 2, Nama Anggota 3, dst."
+            style="height: 100px;"
           ></textarea>
-          <small class="form-text text-muted">Jika tidak ada Anggota yang ikut, berikan tanda "-"</small>
+          <small class="form-text text-muted">Jika tidak ada Anggota yang ikut berikan tanda "-", gunakan tanda "," untuk pemisah</small>
         </div>
 
         <div class="col-12">
@@ -107,6 +108,7 @@
             id="alamat"
             autocomplete="off"
             placeholder="Contoh: Jl. Raya Kampus, Kampus UMY, Yogyakarta"
+            style="height: 100px;"
           />
         </div>
 
@@ -122,6 +124,7 @@
             id="keterangan"
             autocomplete="off"
             placeholder="Contoh: Perjalanan dinas ke kampus UMY untuk mengikuti kegiatan seminar"
+            style="height: 100px;"
           />
         </div>
 
