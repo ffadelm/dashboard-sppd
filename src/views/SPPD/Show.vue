@@ -84,7 +84,7 @@
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title fw-semibold text-start">Kegiatan 1 : {{laporan.nama_kegiatan}}</h5>
+                  <h5 class="card-title fw-semibold text-start">Kegiatan {{ index + 1 }} : {{laporan.nama_kegiatan}}</h5>
                   <p class="card-text">{{laporan.lokasi}}</p>
                   <button
                     class="btn btn-sm btn-danger"

@@ -11,7 +11,7 @@
           >Buat SPPD baru</router-link>
         </div>
 
-        <div class="input-group mb-3">
+        <!-- <div class="input-group mb-3">
           <input
             type="text"
             class="form-control"
@@ -23,7 +23,7 @@
             type="button"
             @click="searchSurat"
           >Cari</button>
-        </div>
+        </div> -->
 
         <div class="table-responsive">
 
