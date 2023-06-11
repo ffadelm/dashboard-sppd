@@ -17,7 +17,7 @@
     "locale-id": "^1.1.2",
     "moment": "^2.29.4",
     "pdfmake": "^0.2.7",
-    "utils": "^0.3.1",
+    "utils": "^0.2.2",
     "vue": "^3.2.25",
     "vue-cookie": "^1.1.4",
     "vue-cookies": "^1.8.3",

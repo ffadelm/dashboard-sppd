@@ -45,6 +45,7 @@
             id="judul"
             autocomplete="off"
             placeholder="Contoh: Surat Perintah Perjalanan Dinas"
+            required
           />
         </div>
 
@@ -60,6 +61,7 @@
             id="nomorSurat"
             autocomplete="off"
             placeholder="klik 1x untuk generate nomor surat"
+            required
             @click="generateNomorSurat"
           />
         </div>
@@ -75,6 +77,7 @@
             class="form-control"
             id="pejabat"
             autocomplete="off"
+            required
             placeholder="Contoh: Rektor UMY, Dekan Fakultas, Kepala Jurusan, dst."
           />
         </div>
@@ -93,7 +96,7 @@
             placeholder="Contoh: Nama Anggota 1, Nama Anggota 2, Nama Anggota 3, dst."
             style="height: 100px;"
           ></textarea>
-          <small class="form-text text-muted">Jika tidak ada Anggota yang ikut berikan tanda "-", gunakan tanda "," untuk pemisah</small>
+          <small class="form-text text-muted">Jika tidak ada Anggota yang ikut cukup kosongkan saja, gunakan tanda "," untuk pemisah setiap nama anggota</small>
         </div>
 
         <div class="col-12">
@@ -109,6 +112,7 @@
             autocomplete="off"
             placeholder="Contoh: Jl. Raya Kampus, Kampus UMY, Yogyakarta"
             style="height: 100px;"
+            required
           />
         </div>
 
@@ -116,7 +120,7 @@
           <label
             for="keterangan"
             class="form-label"
-          >Deskripsi Perjalanan</label>
+          >Deskripsi</label>
           <textarea
             v-model="surat.keterangan"
             type="text"
@@ -125,6 +129,7 @@
             autocomplete="off"
             placeholder="Contoh: Perjalanan dinas ke kampus UMY untuk mengikuti kegiatan seminar"
             style="height: 100px;"
+            required
           />
         </div>
 
@@ -138,6 +143,7 @@
             type="date"
             class="form-control"
             id="tglMulai"
+            required
           />
         </div>
 
@@ -151,6 +157,7 @@
             type="date"
             class="form-control"
             id="tglSelesai"
+            required
           />
         </div>
 
@@ -252,10 +259,9 @@ export default {
     function generateNomorSurat() {
       const tahunSekarang = new Date().getFullYear();
       const bulanSekarang = toRomanNumerals(new Date().getMonth() + 1);
-      const nomorRandom = Math.floor(Math.random() * 100);
-      surat.nomor_surat = `${
-        nomorRandom + 1
-      }/TI UMY/${bulanSekarang}/${tahunSekarang}`;
+      const nomorRandom = Math.floor(Math.random() * 600);
+      const nomorSurat = nomorRandom.toString().padStart(4, "0");
+      surat.nomor_surat = `${nomorSurat}/A.7-II/TI/${bulanSekarang}/${tahunSekarang}`;
     }
 
     return {

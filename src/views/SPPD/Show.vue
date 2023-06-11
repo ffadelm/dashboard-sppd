@@ -144,11 +144,12 @@ import moment from "moment";
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-
-import logoPath from "../../assets/kop.jpg";
-import ttdPath from "../../assets/ttd.png";
-
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+import logoPath from "../../assets/kop.png";
+import ttdPath from "../../assets/ttd.png";
+import arabPath from "../../assets/arab.png";
+import footerPath from "../../assets/footer.png";
 
 export default {
   methods: {
@@ -161,9 +162,13 @@ export default {
 
         const logoResponse = await fetch(logoPath);
         const ttdResponse = await fetch(ttdPath);
+        const arabResponse = await fetch(arabPath);
+        const footerResponse = await fetch(footerPath);
 
         const logoBlob = await logoResponse.blob();
         const ttdBlob = await ttdResponse.blob();
+        const arabBlob = await arabResponse.blob();
+        const footerBlob = await footerResponse.blob();
 
         const reader = new FileReader();
         reader.readAsDataURL(logoBlob);
@@ -171,187 +176,319 @@ export default {
         const reader2 = new FileReader();
         reader2.readAsDataURL(ttdBlob);
 
+        const reader3 = new FileReader();
+        reader3.readAsDataURL(arabBlob);
+
+        const reader4 = new FileReader();
+        reader4.readAsDataURL(footerBlob);
+
         reader.onloadend = () => {
           const logoBase64data = reader.result;
           reader2.onloadend = () => {
             const ttdBase64data = reader2.result;
+            reader3.onloadend = () => {
+              const arabBase64data = reader3.result;
+              reader4.onloadend = () => {
+                const footerBase64data = reader4.result;
 
-            // Buat objek PDF
-            const docDefinition = {
-              header: {
-                absolutePosition: { x: 0, y: 0 },
-                columns: [
-                  {
-                    image: logoBase64data,
-                    width: 595,
-                    height: 80,
-                  },
-                ],
-              },
-              content: [
-                // Tambahkan judul surat
-                {
-                  text: "SURAT TUGAS",
-                  style: "title",
-                  bold: true,
-                  decoration: "underline",
-                  alignment: "center",
-                  margin: [0, 50, 0, 0],
-                },
-
-                // Tambahkan nomor surat
-                {
-                  text: `Nomor : ${suratData.nomor_surat}`,
-                  style: "content",
-                  alignment: "center",
-                },
-
-                {
-                  text: "Pimpinan Program Studi Teknologi Informasi Universitas Muhammadiyah Yogyakarta, dengan ini memberi tugas dan ijin kepada :",
-                  style: "content",
-                },
-
-                // Tambahkan nama yang diberi perintah
-                {
-                  text: `Nama\t : ${suratData.user_id.name}`,
-                  style: "content",
-                },
-
-                {
-                  text: `NIDN\t  : ${suratData.user_id.nidn}`,
-                  style: "content",
-                },
-
-                {
-                  text: `Jabatan : ${suratData.user_id.jabatan}`,
-                  style: "content",
-                },
-
-                { text: "Anggota mengikuti\t:", style: "content" },
-
-                // Tambahkan anggota yang mengikuti
-                {
-                  table: {
-                    widths: ["auto", "*"],
-                    body: [
-                      [
-                        { text: "No", style: "tableHeader" },
-                        { text: "Nama Anggota", style: "tableHeader" },
-                      ],
-                      ...suratData.anggota_mengikuti.map((anggota, index) => [
-                        index + 1,
-                        anggota,
-                      ]),
+                const docDefinition = {
+                  header: {
+                    absolutePosition: { x: 0, y: 0 },
+                    columns: [
+                      {
+                        image: logoBase64data,
+                        width: 450,
+                        height: 70,
+                      },
                     ],
                   },
-                  layout: {
-                    hLineWidth: function (i) {
-                      return i === 0 || i === 1 ? 2 : 1;
-                    },
-                    vLineWidth: function (i) {
-                      return 1;
-                    },
-                    hLineColor: function (i) {
-                      return i === 0 || i === 1 ? "#000000" : "#000000";
-                    },
-                    paddingLeft: function (i) {
-                      return i === 0 ? 0 : 8;
-                    },
-                    paddingRight: function (i) {
-                      return i === 1 ? 0 : 8;
-                    },
-                    paddingTop: function (i) {
-                      return i === 0 ? 8 : 0;
-                    },
-                    paddingBottom: function (i, node) {
-                      return i === node.table.body.length - 1 ? 8 : 0;
-                    },
-                  },
-                  style: "content",
-                },
-
-                // Tambahkan lokasi kegiatan
-                {
-                  text: `Alamat   : ${suratData.lokasi_tujuan}`,
-                  style: "content",
-                },
-
-                {
-                  text: `Untuk\t : ${suratData.judul}`,
-                  style: "content",
-                },
-
-                // Tambahkan tanggal mulai dan selesai
-                {
-                  text: `Tanggal : ${this.date(
-                    suratData.tgl_awal
-                  )} - ${this.date(suratData.tgl_akhir)}`,
-                  style: "content",
-                },
-
-                {
-                  text: "Demikian surat tugas ini dibuat agar dapat dilaksanakan dengan sebaik-baiknya dan penuh tanggung jawab.",
-                  style: "content",
-                },
-
-                // Tambahkan tempat tanda tangan pemimpin program studi
-                {
-                  text: "\n\n\n",
-                  style: "content",
-                },
-
-                {
-                  columns: [
-                    { width: "*", text: "" },
+                  content: [
                     {
-                      width: "auto",
-                      stack: [
-                        {
-                          text: `Yogyakarta, ${this.date(
-                            moment()
-                          )}\nKetua Program Studi Teknologi Informasi`,
-                        },
-                        {
-                          image: ttdBase64data,
-                          width: 100, // Ubah sesuai dengan lebar gambar tanda tangan
-                          alignment: "center",
-                        },
-                        {
-                          text: "Cahya Damarjati, S.T., M.Eng., Ph.D.",
-                        },
-                      ],
+                      text: "SURAT TUGAS",
+                      style: "title",
+                      decoration: "underline",
+                      alignment: "center",
+                      margin: [0, 50, 0, 0],
+                    },
+
+                    {
+                      text: `NOMOR: ${suratData.nomor_surat}`,
+                      style: "content",
                       alignment: "center",
                     },
+
+                    {
+                      image: arabBase64data,
+                      width: 200,
+                      height: 25,
+                      alignment: "center",
+                      margin: [0, 10],
+                    },
+
+                    {
+                      text: "Yang bertanda tangan di bawah ini, Ketua Program Studi Teknologi Informasi Fakultas Teknik Universitas Muhammadiyah Yogyakarta, dengan ini memberi tugas dan ijin kepada :",
+                      style: "content",
+                    },
+
+                    {
+                      text: `Nama\t : ${suratData.user_id.name}`,
+                      style: "content",
+                    },
+
+                    {
+                      text: `NIDN\t  : ${suratData.user_id.nidn}`,
+                      style: "content",
+                    },
+
+                    {
+                      text: `Jabatan : ${suratData.user_id.jabatan}`,
+                      style: "content",
+                    },
+
+                    // { text: "Anggota Mengikuti : Terlampir", style: "content" },
+
+                    {
+                      text: `Untuk\t : ${suratData.judul}`,
+                      style: "content",
+                    },
+
+                    {
+                      text: `Alamat   : ${suratData.lokasi_tujuan}`,
+                      style: "content",
+                    },
+
+                    {
+                      text: `Tanggal : ${this.date(
+                        suratData.tgl_awal
+                      )} - ${this.date(suratData.tgl_akhir)}`,
+                      style: "content",
+                    },
+
+                    {
+                      text: "Demikian surat tugas ini dibuat agar dapat dilaksanakan dengan sebaik-baiknya dan penuh tanggung jawab.",
+                      style: "content",
+                    },
+
+                    {
+                      text: "\n\n\n",
+                      style: "content",
+                    },
+
+                    {
+                      columns: [
+                        { width: "*", text: "" },
+                        {
+                          width: "auto",
+                          stack: [
+                            {
+                              text: `Yogyakarta, ${this.date(
+                                moment()
+                              )}\nKetua Program Studi Teknologi Informasi`,
+                            },
+                            {
+                              image: ttdBase64data,
+                              width: 100,
+                              alignment: "center",
+                            },
+                            {
+                              text: "Cahya Damarjati, S.T., M.Eng., Ph.D.",
+                              decoration: "underline",
+                              bold: true,
+                            },
+                            {
+                              text: "NIK. 19870315201507123077",
+                            },
+                          ],
+                          alignment: "center",
+                        },
+                      ],
+                      margin: [0, 40],
+                      style: "content",
+                    },
+
+                    // {
+                    //   text: "Lampiran",
+                    //   style: "title",
+                    //   decoration: "underline",
+                    //   alignment: "center",
+                    //   margin: [0, 50, 0, 20],
+                    //   pageBreak: "before",
+                    // },
                   ],
-                  margin: [0, 40],
-                  style: "content",
-                },
-              ],
-              styles: {
-                header: { fontSize: 12, bold: true, margin: [0, 0, 0, 10] },
-                title: {
-                  fontSize: 20,
-                  bold: true,
-                  margin: [0, 0, 0, 10],
-                  FontFace: "Times",
-                },
-                content: {
-                  fontSize: 12,
-                  margin: [0, 0, 0, 10],
-                  textAlign: "justify",
-                  FontFace: "Times",
-                },
-              },
+
+                  footer: {
+                    relativePosition: { x: 0, y: -110 },
+                    stack: [
+                      {
+                        image: footerBase64data,
+                        width: 595,
+                        height: 150,
+                      },
+                    ],
+                  },
+
+                  styles: {
+                    header: { fontSize: 12, margin: [0, 0, 0, 10] },
+                    title: {
+                      fontSize: 20,
+                      margin: [0, 0, 0, 10],
+                      bold: true,
+                    },
+                    content: {
+                      fontSize: 12,
+                      margin: [0, 0, 0, 10],
+                      textAlign: "justify",
+                    },
+                    tableHeader: {
+                      fontSize: 13,
+                      color: "black",
+                      bold: true,
+                      alignment: "center",
+                    },
+                    footer: {
+                      fontSize: 12,
+                      alignment: "center",
+                    },
+                  },
+                };
+
+                if (
+                  suratData.anggota_mengikuti &&
+                  suratData.anggota_mengikuti[0] !== null
+                ) {
+                  const anggotaMengikuti = {
+                    text: "Anggota Mengikuti : Terlampir",
+                    style: "content",
+                  };
+
+                  // Menyisipkan elemen "Anggota Mengikuti : Terlampir" setelah jabatan
+                  docDefinition.content.splice(10, 0, anggotaMengikuti); // Menyisipkan anggotaMengikuti pada indeks 6
+                }
+
+                if (
+                  suratData.anggota_mengikuti &&
+                  suratData.anggota_mengikuti[0] !== null
+                ) {
+                  // Tambahkan logika untuk menambahkan halaman "Lampiran" jika anggota_mengikuti tidak sama dengan {0: null}
+                  docDefinition.content.push({
+                    text: "Lampiran",
+                    style: "title",
+                    decoration: "underline",
+                    alignment: "center",
+                    margin: [0, 50, 0, 20],
+                    pageBreak: "before",
+                  });
+                }
+
+                let anggotaMengikutiTable = null;
+
+                if (
+                  suratData.anggota_mengikuti &&
+                  suratData.anggota_mengikuti[0] === null
+                ) {
+                  anggotaMengikutiTable = null;
+                } else {
+                  anggotaMengikutiTable = {
+                    table: {
+                      widths: ["auto", "*"],
+                      body: [
+                        [
+                          { text: "No", style: "tableHeader" },
+                          {
+                            text: "Nama Anggota",
+                            style: "tableHeader",
+                          },
+                        ],
+                        ...suratData.anggota_mengikuti.map((anggota, index) => [
+                          index + 1,
+                          anggota,
+                        ]),
+                      ],
+                    },
+                    layout: {
+                      hLineWidth: function (i) {
+                        return i === 0 || i === 1 ? 2 : 1;
+                      },
+                      vLineWidth: function (i) {
+                        return 1;
+                      },
+                      hLineColor: function (i) {
+                        return i === 0 || i === 1 ? "#000000" : "#000000";
+                      },
+                      paddingLeft: function (i) {
+                        return i === 0 ? 0 : 8;
+                      },
+                      paddingRight: function (i) {
+                        return i === 1 ? 0 : 8;
+                      },
+                      paddingTop: function (i) {
+                        return i === 0 ? 8 : 0;
+                      },
+                      paddingBottom: function (i, node) {
+                        return i === node.table.body.length - 1 ? 8 : 0;
+                      },
+                    },
+                    style: "content",
+                  };
+                }
+
+                // const anggotaMengikutiTable = {
+                //   table: {
+                //     widths: ["auto", "*"],
+                //     body: [
+                //       [
+                //         { text: "No", style: "tableHeader" },
+                //         {
+                //           text: "Nama Anggota",
+                //           style: "tableHeader",
+                //         },
+                //       ],
+                //       ...suratData.anggota_mengikuti.map((anggota, index) => [
+                //         index + 1,
+                //         anggota,
+                //       ]),
+                //     ],
+                //   },
+                //   layout: {
+                //     hLineWidth: function (i) {
+                //       return i === 0 || i === 1 ? 2 : 1;
+                //     },
+                //     vLineWidth: function (i) {
+                //       return 1;
+                //     },
+                //     hLineColor: function (i) {
+                //       return i === 0 || i === 1 ? "#000000" : "#000000";
+                //     },
+                //     paddingLeft: function (i) {
+                //       return i === 0 ? 0 : 8;
+                //     },
+                //     paddingRight: function (i) {
+                //       return i === 1 ? 0 : 8;
+                //     },
+                //     paddingTop: function (i) {
+                //       return i === 0 ? 8 : 0;
+                //     },
+                //     paddingBottom: function (i, node) {
+                //       return i === node.table.body.length - 1 ? 8 : 0;
+                //     },
+                //   },
+                //   style: "content",
+                // };
+
+                docDefinition.content.push(anggotaMengikutiTable);
+
+                // Buat file PDF
+                const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+                pdfDocGenerator.download(suratData.judul + ".pdf");
+              };
             };
-            // Buat file PDF
-            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-            pdfDocGenerator.download(suratData.judul + ".pdf");
           };
         };
       } catch (error) {
         console.log(error);
       }
     },
+
     date(value) {
       const months = [
         "Januari",
@@ -377,13 +514,10 @@ export default {
     },
 
     tambahLaporan() {
-      // Mengambil ID surat dari reactive object 'surat'
       const suratId = this.surat.id;
 
-      // Menyimpan ID surat di local storage
       localStorage.setItem("suratId", suratId);
 
-      // Mengarahkan pengguna ke halaman tambah laporan
       this.$router.push("/create/laporan");
     },
 

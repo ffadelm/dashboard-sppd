@@ -20,6 +20,7 @@
               class="form-control"
               id="nama"
               autocomplete="off"
+              required
             />
           </div>
         </div>
@@ -34,7 +35,8 @@
               type="email"
               class="form-control"
               id="email"
-              autocomplete="off"
+              autocomplete="on"
+              required
             />
           </div>
         </div>
@@ -50,27 +52,70 @@
               class="form-control"
               id="password"
               autocomplete="off"
+              required
             />
           </div>
         </div>
-
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label
+              for="nidn"
+              class="form-label"
+            >NIDN</label>
+            <input
+              v-model="user.nidn"
+              type="text"
+              class="form-control"
+              id="nidn"
+              autocomplete="off"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label
+              for="username"
+              class="form-label"
+            >Username</label>
+            <input
+              v-model="user.username"
+              type="text"
+              class="form-control"
+              id="username"
+              autocomplete="off"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label
+              for="jabatan"
+              class="form-label"
+            >Jabatan</label>
+            <input
+              v-model="user.jabatan"
+              type="text"
+              class="form-control"
+              id="jabatan"
+              autocomplete="off"
+              required
+            />
+          </div>
+        </div>
         <div class="col-12">
           <div class="mb-3">
             <button
               type="submit"
               class="btn btn-success btn-block"
-            >
-              Simpan
-            </button>
+            >Simpan</button>
             <router-link
               class="btn btn-outline-danger ms-2"
               to="/user"
-            >
-              Kembali
-            </router-link>
+            >Kembali</router-link>
           </div>
         </div>
-
       </form>
     </div>
   </main>

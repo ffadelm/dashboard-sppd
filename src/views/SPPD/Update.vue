@@ -35,6 +35,7 @@
             class="form-control"
             id="judul"
             autocomplete="off"
+            required
           />
         </div>
         <div class="col-md-6">
@@ -49,6 +50,7 @@
             id="nomorSurat"
             autocomplete="off"
             disabled
+            required
           />
         </div>
         <div class="col-md-6">
@@ -62,6 +64,7 @@
             class="form-control"
             id="pejabat"
             autocomplete="off"
+            required
           />
         </div>
 
@@ -92,13 +95,14 @@
             id="alamat"
             autocomplete="off"
             style="height: 100px;"
+            required
           />
         </div>
         <div class="form-group">
           <label
             for="keterangan"
             class="form-label"
-          >Deskripsi Perjalanan</label>
+          >Deskripsi</label>
           <textarea
             v-model="surat.keterangan"
             type="text"
@@ -106,6 +110,7 @@
             id="keterangan"
             autocomplete="off"
             style="height: 100px;"
+            required
           />
         </div>
         <div class="col-md-6">
@@ -118,6 +123,7 @@
             type="date"
             class="form-control"
             id="tglMulai"
+            required
           />
         </div>
         <div class="col-md-6">
@@ -130,6 +136,7 @@
             type="date"
             class="form-control"
             id="tglSelesai"
+            required
           />
         </div>
         <div class="form-group">

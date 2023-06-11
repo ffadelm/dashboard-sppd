@@ -74,6 +74,7 @@
           id="nama_kegiatan"
           autocomplete="off"
           placeholder="Contoh: Seminar Nasional"
+          required
         />
       </div>
 
@@ -88,6 +89,7 @@
           id="formFileMultiple"
           multiple
           @change="handleFileUpload"
+          required
         />
         <small class="form-text text-muted">Wajib Upload Foto Minimal 1 & Maksimal 4</small>
       </div>
@@ -104,6 +106,7 @@
           autocomplete="off"
           placeholder="Contoh: Pada hari ini, Selasa 20 Juli 2021, telah dilaksanakan seminar nasional yang diikuti oleh 100 peserta."
           style="height: 100px;"
+          required
         ></textarea>
       </div>
 
@@ -119,6 +122,7 @@
           autocomplete="off"
           placeholder="Contoh: Jl. Raya Kampus, Kampus UMY, Yogyakarta"
           style="height: 100px;"
+          required
         ></textarea>
       </div>
 
