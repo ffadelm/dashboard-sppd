@@ -81,6 +81,7 @@
             autocomplete="off"
             style="height: 100px;"
           />
+          <small class="form-text text-muted">Jika tidak ada Anggota yang ikut cukup kosongkan saja, gunakan tanda "," untuk pemisah setiap nama anggota</small>
         </div>
 
         <div class="col-12">

@@ -12,7 +12,7 @@
         mb-3
         border-bottom
       ">
-          <p class="h2 text-secondary">Laporan Kegiatan SPPD</p>
+          <p class="h2">Laporan Kegiatan SPPD</p>
         </div>
 
         <div class="mt-3">

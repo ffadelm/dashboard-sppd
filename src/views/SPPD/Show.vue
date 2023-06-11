@@ -30,7 +30,10 @@
           <p class="text-muted fw-normal">{{surat.user_id.name}}</p>
         </div>
 
-        <div class="mt-4">
+        <div
+          v-if="surat.anggota_mengikuti && surat.anggota_mengikuti[0] !== null"
+          class="mt-4"
+        >
           <p class="h6 fw-bold">Anggota yang mengikuti</p>
           <p
             class="text-muted fw-normal"
