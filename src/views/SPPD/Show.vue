@@ -66,7 +66,7 @@
         </div>
 
         <div class="mt-4">
-          <p class="h6 fw-bold">Laporan Perjalanan Dinas</p>
+          <p class="h6 fw-bold">Laporan Kegiatan</p>
         </div>
 
         <router-link
