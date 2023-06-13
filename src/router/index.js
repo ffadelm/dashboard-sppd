@@ -4,6 +4,7 @@ import {
 } from 'vue-router'
 import Home from '../views/Home.vue'
 import SuratPerintah from '../views/SPPD/index.vue'
+import Done from '../views/SPPD/Done.vue'
 import Laporan from '../views/Laporan/LaporanSPPD.vue'
 import DetailLaporan from '../views/Laporan/detailLaporan.vue'
 import CreateLaporan from '../views/Laporan/CreateLaporan.vue'
@@ -77,6 +78,10 @@ const router = createRouter({
         {
             path: '/panel-task',
             component: panelTask
+        },
+        {
+            path: '/surat-selesai',
+            component: Done
         }
     ]
 })

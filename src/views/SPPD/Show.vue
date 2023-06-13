@@ -31,7 +31,7 @@
         </div>
 
         <div
-          v-if="surat.anggota_mengikuti && surat.anggota_mengikuti[0] !== null"
+          v-if="surat.anggota_mengikuti && surat.anggota_mengikuti.length > 0"
           class="mt-4"
         >
           <p class="h6 fw-bold">Anggota yang mengikuti</p>
@@ -40,7 +40,7 @@
             v-for="(anggota, index) in surat.anggota_mengikuti"
             :key="index"
           >
-            {{index+1}}. {{anggota}}
+            {{index+1}}. {{anggota.name}}
           </p>
         </div>
 
@@ -357,7 +357,7 @@ export default {
 
                 if (
                   suratData.anggota_mengikuti &&
-                  suratData.anggota_mengikuti[0] !== null
+                  suratData.anggota_mengikuti.length > 0
                 ) {
                   const anggotaMengikuti = {
                     text: "Anggota Mengikuti : Terlampir",
@@ -370,7 +370,7 @@ export default {
 
                 if (
                   suratData.anggota_mengikuti &&
-                  suratData.anggota_mengikuti[0] !== null
+                  suratData.anggota_mengikuti.length > 0
                 ) {
                   // Tambahkan logika untuk menambahkan halaman "Lampiran" jika anggota_mengikuti tidak sama dengan {0: null}
                   docDefinition.content.push({
@@ -387,24 +387,23 @@ export default {
 
                 if (
                   suratData.anggota_mengikuti &&
-                  suratData.anggota_mengikuti[0] === null
+                  suratData.anggota_mengikuti.length === 0
                 ) {
                   anggotaMengikutiTable = null;
                 } else {
                   anggotaMengikutiTable = {
                     table: {
-                      widths: ["auto", "*"],
+                      widths: ["auto", "*", "*"],
                       body: [
                         [
                           { text: "No", style: "tableHeader" },
-                          {
-                            text: "Nama Anggota",
-                            style: "tableHeader",
-                          },
+                          { text: "Nama Anggota", style: "tableHeader" },
+                          { text: "Sebagai", style: "tableHeader" },
                         ],
                         ...suratData.anggota_mengikuti.map((anggota, index) => [
                           index + 1,
-                          anggota,
+                          anggota.name,
+                          anggota.sebagai,
                         ]),
                       ],
                     },
@@ -422,7 +421,7 @@ export default {
                         return i === 0 ? 0 : 8;
                       },
                       paddingRight: function (i) {
-                        return i === 1 ? 0 : 8;
+                        return i === 2 ? 0 : 8;
                       },
                       paddingTop: function (i) {
                         return i === 0 ? 8 : 0;

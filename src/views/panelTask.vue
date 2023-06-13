@@ -1,39 +1,42 @@
 <template>
-  <div class="card">
-    <div class="card-header fs-3">
-      Surat yang belum di validasi
-    </div>
-    <div class="card-body">
-      <ul class="list-group list-group-flush">
-        <li
-          v-for="surat in suratBelumValidasi"
-          :key="surat.id"
-          class="list-group-item"
-        >
-          <div class="surat-info">
-            <div
-              class="surat-title fs-5"
-              style="max-width: 50rem;"
-            >{{ surat.judul }}</div>
-            <div class="
-              surat-date">{{ tanggal(surat.created_at) }}</div>
-          </div>
-          <button
-            class="validasi-button btn btn-success"
-            @click="validasiSurat(surat)"
+  <main class="panel-task">
+    <div class="card">
+      <div class="card-header fs-3">
+        Surat yang belum di validasi
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li
+            v-for="surat in suratBelumValidasi"
+            :key="surat.id"
+            class="list-group-item"
           >
-            <i class="material-icons">done</i>
-          </button>
-        </li>
-        <li
-          v-if="suratBelumValidasi.length === 0"
-          class="empty-message list-group-item text-center"
-        >
-          Tidak ada surat yang perlu divalidasi.
-        </li>
-      </ul>
+            <div class="surat-info">
+              <div
+                class="surat-title fs-5"
+                style="max-width: 50rem;"
+              >{{ surat.judul }}</div>
+              <div class="
+              surat-date">{{ tanggal(surat.created_at) }}</div>
+            </div>
+            <button
+              class="validasi-button btn btn-success"
+              @click="validasiSurat(surat)"
+            >
+              <i class="material-icons">done</i>
+            </button>
+          </li>
+          <li
+            v-if="suratBelumValidasi.length === 0"
+            class="empty-message list-group-item text-center"
+          >
+            Tidak ada surat yang perlu divalidasi.
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </main>
+
 </template>
 
 <script>
@@ -111,7 +114,7 @@ export default {
 }
 
 .card-body {
-  padding: 1rem;
+  padding: 0rem;
 }
 
 .list-group-item {
@@ -142,18 +145,9 @@ export default {
 }
 
 @media (max-width: 576px) {
-  .card-header {
-    font-size: 1.5rem;
+  .list-group-item {
+    display: grid;
   }
-  .card {
-    padding-left: 6rem;
-    margin-top: 0px;
-  }
-
-  .validasi-button {
-    white-space: normal;
-  }
-
   .surat-title {
     display: -webkit-box;
     max-width: 250px;

@@ -104,6 +104,23 @@
             />
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label
+              for="role"
+              class="form-label"
+            >Role</label>
+            <select
+              v-model="user.role"
+              class="form-select"
+              id="role"
+              required
+            >
+              <option value="1">Admin</option>
+              <option value="0">User</option>
+            </select>
+          </div>
+        </div>
         <div class="col-12">
           <div class="mb-3">
             <button
@@ -134,6 +151,10 @@ export default {
       name: "",
       email: "",
       password: "",
+      nidn: "",
+      username: "",
+      jabatan: "",
+      role: false,
     });
 
     const validation = ref([]);

@@ -68,7 +68,7 @@
           />
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label
             for="anggota_mengikuti"
             class="form-label"
@@ -82,6 +82,44 @@
             style="height: 100px;"
           />
           <small class="form-text text-muted">Jika tidak ada Anggota yang ikut cukup kosongkan saja, gunakan tanda "," untuk pemisah setiap nama anggota</small>
+        </div> -->
+
+        <div class="form-group">
+          <label
+            for="anggota_mengikuti"
+            class="form-label"
+          >Anggota yang mengikuti</label>
+          <div
+            v-for="(anggota, index) in surat.anggota_mengikuti"
+            :key="index"
+          >
+            <input
+              v-model="anggota.name"
+              type="text"
+              class="form-control"
+              :id="'anggota_mengikuti_' + index"
+              autocomplete="off"
+              :placeholder="'Nama Anggota ' + (index + 1)"
+              required
+            >
+            <input
+              v-model="anggota.sebagai"
+              type="text"
+              class="form-control"
+              :id="'sebagai_anggota_' + index"
+              autocomplete="off"
+              :placeholder="'Sebagai ' + anggota.name"
+            >
+            <button
+              @click="removeAnggotaMengikuti(index)"
+              class="btn btn-danger btn-sm"
+            >Hapus</button>
+          </div>
+          <button
+            @click="addAnggotaMengikuti"
+            class="btn btn-secondary btn-sm"
+          >Tambah Anggota</button>
+          <small class="form-text text-muted">Jika tidak ada anggota yang ikut, cukup kosongkan saja.</small>
         </div>
 
         <div class="col-12">
@@ -168,7 +206,12 @@ export default {
       judul: "",
       nomor_surat: "",
       pemberi_perintah: "",
-      anggota_mengikuti: [],
+      anggota_mengikuti: [
+        {
+          name: "",
+          sebagai: "",
+        },
+      ],
       lokasi_tujuan: "",
       keterangan: "",
       tgl_awal: "",
@@ -176,7 +219,21 @@ export default {
       validasi: "",
     });
 
-    const anggotaMengikutiInput = ref("");
+    // const anggotaMengikutiInput = ref("");
+    const anggotaMengikuti = ref([]);
+
+    function addAnggotaMengikuti(event) {
+      event.preventDefault(); // Mencegah perilaku bawaan tombol submit
+
+      surat.anggota_mengikuti.push({
+        name: "",
+        sebagai: "",
+      });
+    }
+
+    function removeAnggotaMengikuti(index) {
+      surat.anggota_mengikuti.splice(index, 1);
+    }
 
     const validation = ref("");
 
@@ -198,7 +255,7 @@ export default {
           surat.tgl_akhir = data.data.tgl_akhir;
           surat.validasi = data.data.validasi;
 
-          anggotaMengikutiInput.value = data.data.anggota_mengikuti.join(", ");
+          console.log(data.data.anggota_mengikuti);
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -210,8 +267,6 @@ export default {
 
     function update() {
       surat.user_id = userIdInt;
-
-      surat.anggota_mengikuti = anggotaMengikutiInput.value.split(",");
 
       axios
         .put(`http://127.0.0.1:8000/api/surat/${route.params.id}`, surat)
@@ -235,7 +290,10 @@ export default {
       validation,
       router,
       update,
-      anggotaMengikutiInput,
+      // anggotaMengikutiInput,
+      anggotaMengikuti,
+      addAnggotaMengikuti,
+      removeAnggotaMengikuti,
     };
   },
 };

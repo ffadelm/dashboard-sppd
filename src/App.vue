@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <Navbar v-if="!isLoginPage" />
     <Sidebar v-if="!isLoginPage" />
     <router-view class="container" />
   </div>
@@ -7,12 +8,14 @@
 
 <script>
 import Sidebar from "./components/Sidebar.vue";
+import Navbar from "./components/Navbar.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 export default {
   components: {
     Sidebar,
+    Navbar,
   },
   setup() {
     const route = useRoute();
@@ -48,10 +51,11 @@ button {
 }
 
 .app {
-  display: flex;
+  // display: flex;
   main {
     flex: 1;
     padding: 2rem;
+    margin-top: 3rem;
 
     @media (max-width: 768px) {
       padding-left: 6rem;

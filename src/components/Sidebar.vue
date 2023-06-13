@@ -1,10 +1,10 @@
 <template>
   <aside :class="`${is_expanded && 'is-expanded'}`">
     <div class="logo">
-      <img
+      <!-- <img
         src="../assets/logo.png"
         alt="Logo"
-      >
+      > -->
     </div>
 
     <div class="menu-toggle-wrap">
@@ -36,7 +36,7 @@
       </router-link>
 
       <router-link
-        v-if="userRole === '1'"
+        v-if="userRole === '1' || userJabatan === 'Sekretaris Program Studi'"
         class="button"
         to="/panel-task"
       >
@@ -50,6 +50,14 @@
       >
         <span class="material-icons">description</span>
         <span class="text">SPPD</span>
+      </router-link>
+
+      <router-link
+        class="button"
+        to="/surat-selesai"
+      >
+        <span class="material-icons">done</span>
+        <span class="text">Surat Selesai</span>
       </router-link>
 
       <router-link
@@ -78,6 +86,7 @@ import axios from "axios";
 
 const userRole = localStorage.getItem("userRole");
 const userRoleStr = JSON.stringify(userRole);
+const userJabatan = localStorage.getItem("jabatan");
 
 const logout = async () => {
   try {
@@ -95,6 +104,7 @@ const logout = async () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("userRole");
     localStorage.removeItem("Name");
+    localStorage.removeItem("jabatan");
     router.push("/login");
   } catch (error) {
     console.log(error);
@@ -124,13 +134,16 @@ aside {
   transition: 0.2s ease-out;
   z-index: 1;
 
-  .logo {
-    margin-bottom: 1rem;
+  top: 60px;
+  left: 0;
 
-    img {
-      width: 2rem;
-    }
-  }
+  // .logo {
+  //   margin-bottom: 1rem;
+
+  //   img {
+  //     width: 2rem;
+  //   }
+  // }
 
   .menu-toggle-wrap {
     display: flex;
@@ -212,7 +225,7 @@ aside {
     width: var(--sidebar-width);
 
     .menu-toggle-wrap {
-      top: -3rem;
+      top: -1rem;
 
       .menu-toggle {
         transform: rotate(-180deg);

@@ -82,7 +82,7 @@
           />
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label
             for="anggota_mengikuti"
             class="form-label"
@@ -97,6 +97,44 @@
             style="height: 100px;"
           ></textarea>
           <small class="form-text text-muted">Jika tidak ada Anggota yang ikut cukup kosongkan saja, gunakan tanda "," untuk pemisah setiap nama anggota</small>
+        </div> -->
+
+        <div class="form-group">
+          <label
+            for="anggota_mengikuti"
+            class="form-label"
+          >Anggota yang mengikuti</label>
+          <div
+            v-for="(anggota, index) in anggotaMengikuti"
+            :key="index"
+          >
+            <input
+              v-model="anggota.name"
+              type="text"
+              class="form-control"
+              :id="'anggota_mengikuti_' + index"
+              autocomplete="off"
+              :placeholder="'Nama Anggota ' + (index + 1)"
+              required
+            >
+            <input
+              v-model="anggota.sebagai"
+              type="text"
+              class="form-control"
+              :id="'sebagai_anggota_' + index"
+              autocomplete="off"
+              :placeholder="'Sebagai ' + anggota.name"
+            >
+            <button
+              @click="removeAnggotaMengikuti(index)"
+              class="btn btn-danger btn-sm"
+            >Hapus</button>
+          </div>
+          <button
+            @click="addAnggotaMengikuti"
+            class="btn btn-secondary btn-sm"
+          >Tambah Anggota</button>
+          <small class="form-text text-muted">Jika tidak ada anggota yang ikut, cukup kosongkan saja.</small>
         </div>
 
         <div class="col-12">
@@ -165,7 +203,6 @@
           <button
             type="submit"
             class="btn btn-success"
-            @click="addAnggotaMengikuti()"
           >Simpan</button>
 
           <router-link
@@ -210,8 +247,29 @@ export default {
 
     const anggotaMengikutiInput = ref("");
 
+    // function addAnggotaMengikuti() {
+    //   // surat.anggota_mengikuti = anggotaMengikutiInput.value.split(",");
+    //   surat.anggota_mengikuti = anggotaMengikutiInput.value
+    //     .split(",")
+    //     .map((namaAnggota) => {
+    //       return {
+    //         name: namaAnggota.trim(),
+    //         sebagai: "",
+    //       };
+    //     });
+    // }
+
+    const anggotaMengikuti = ref([]);
+
     function addAnggotaMengikuti() {
-      surat.anggota_mengikuti = anggotaMengikutiInput.value.split(",");
+      anggotaMengikuti.value.push({
+        name: "",
+        sebagai: "",
+      });
+    }
+
+    function removeAnggotaMengikuti(index) {
+      anggotaMengikuti.value.splice(index, 1);
     }
 
     const validation = ref([]);
@@ -219,6 +277,7 @@ export default {
     const router = useRouter();
 
     function store() {
+      surat.anggota_mengikuti = anggotaMengikuti.value;
       surat.user_id = userIdInt;
 
       axios
@@ -271,6 +330,8 @@ export default {
       store,
       anggotaMengikutiInput,
       addAnggotaMengikuti,
+      anggotaMengikuti,
+      removeAnggotaMengikuti,
       generateNomorSurat,
     };
   },

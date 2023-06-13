@@ -117,12 +117,14 @@ export default {
                   localStorage.setItem("userId", res.data.user.id); // Simpan user ID ke local storage
                   localStorage.setItem("userRole", res.data.user.role); // Simpan user role ke local storage
                   localStorage.setItem("Name", res.data.user.name); // Simpan user name ke local storage
+                  localStorage.setItem("jabatan", res.data.user.jabatan);
                   setTimeout(() => {
                     localStorage.removeItem("loggedIn");
                     localStorage.removeItem("token");
                     localStorage.removeItem("userId"); // Hapus user ID dari local storage setelah 1 jam
                     localStorage.removeItem("userRole"); // Hapus user role dari local storage setelah 1 jam
                     localStorage.removeItem("Name"); // Hapus user name dari local storage setelah 1 jam
+                    localStorage.removeItem("jabatan");
                     this.$router.push({ name: "Login" });
                   }, 60 * 60 * 1000);
                   this.loggedIn = true;

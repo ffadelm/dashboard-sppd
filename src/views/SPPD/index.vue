@@ -11,7 +11,7 @@
           >Buat SPPD baru</router-link>
         </div>
 
-        <!-- <div class="input-group mb-3">
+        <div class="input-group mb-3">
           <input
             type="text"
             class="form-control"
@@ -23,7 +23,7 @@
             type="button"
             @click="searchSurat"
           >Cari</button>
-        </div> -->
+        </div>
 
         <div class="table-responsive">
 
@@ -96,6 +96,13 @@
             </tbody>
           </table>
 
+          <div
+            v-if="currentData.length === 0"
+            class="text-center mt-3"
+          >
+            <p>Tidak ada data yang ditemukan.</p>
+          </div>
+
           <div class="d-flex justify-content-center">
             <nav aria-label="Pagination">
               <ul class="pagination">
@@ -155,6 +162,7 @@ export default {
     const perPage = 10;
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
+    const userJabatan = localStorage.getItem("jabatan");
 
     const searchKeyword = ref("");
 
@@ -184,7 +192,7 @@ export default {
       if (userRole === "0") {
         axios
           .get(
-            `http://127.0.0.1:8000/api/surats?user_id=${userId}&search=${searchKeyword.value}`
+            `http://127.0.0.1:8000/api/surats?search=${searchKeyword.value}&user_id=${userId}`
           )
           .then(({ data }) => {
             letters.value = data.data;
@@ -194,7 +202,7 @@ export default {
           });
       } else {
         axios
-          .get(`http://127.0.0.1:8000/api/surat?search=${searchKeyword.value}`)
+          .get(`http://127.0.0.1:8000/api/surats?search=${searchKeyword.value}`)
           .then(({ data }) => {
             letters.value = data.data;
           })
