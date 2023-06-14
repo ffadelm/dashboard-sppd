@@ -97,9 +97,9 @@ import "moment/locale/id";
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import buffer from "buffer";
-
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+import logoPath from "../../assets/kop.png";
 
 export default {
   methods: {
@@ -110,139 +110,141 @@ export default {
         );
         const laporanData = response.data.data;
 
-        const docDefinition = {
-          content: [
-            {
-              text: "Laporan Kegiatan SPPD",
-              style: "title",
-              bold: true,
-              alignment: "center",
-              margin: [0, 0, 0, 20],
-            },
-            {
-              text: `Waktu Kegiatan : ${this.time(laporanData.created_at)}`,
-              style: "content",
-            },
-            {
-              text: `\nNo. Surat : ${laporanData.surat_id.nomor_surat}`,
-              style: "content",
-            },
-            {
-              text: `Judul Kegiatan : ${laporanData.nama_kegiatan}`,
-              style: "content",
-            },
-            {
-              text: `Nama Penerima : ${laporanData.user_id.name}`,
-              style: "content",
-            },
-            {
-              text: `NIDN : ${laporanData.user_id.nidn}`,
-              style: "content",
-            },
-            {
-              text: `Jabatan : ${laporanData.user_id.jabatan}`,
-              style: "content",
-            },
-            { text: "Anggota yang mengikuti:", style: "content" },
-            ...(laporanData.surat_id.anggota_mengikuti.map(
-              (anggota, index) => ({
-                text: `${index + 1}. ${anggota}`,
-                style: "content",
-              })
-            ) || []), // Menangani jika 'anggota_mengikuti' adalah array kosong
-            {
-              text: `Lokasi : ${laporanData.lokasi}`,
-              style: "content",
-            },
-            {
-              text: `Tanggal : ${this.date(
-                laporanData.surat_id.tgl_awal
-              )} - ${this.date(laporanData.surat_id.tgl_akhir)}`,
-              style: "content",
-            },
-            {
-              text: `Notulensi : ${laporanData.deskripsi}`,
-              style: "content",
-            },
+        const logoResponse = await fetch(logoPath);
 
-            {
-              text: "\n\n\n",
-              style: "content",
-            },
+        const logoBlob = await logoResponse.blob();
 
-            {
+        const reader = new FileReader();
+        reader.readAsDataURL(logoBlob);
+
+        reader.onloadend = () => {
+          const KopBase64data = reader.result;
+
+          const docDefinition = {
+            header: {
+              absolutePosition: { x: 0, y: 0 },
               columns: [
-                { width: "*", text: "" },
                 {
-                  width: "auto",
-                  stack: [
-                    {
-                      text: "Mengetahui/menyetujui",
-                      style: "content",
-                    },
-                    {
-                      text: "\n\n\n\n\n",
-                      alignment: "center",
-                    },
-                    {
-                      text: "Cahya Damarjati, S.T., M.Eng., Ph.D.",
-                      style: "content",
-                    },
-                  ],
-                  margin: [0, 0, 100, 0],
-                  alignment: "center",
-                },
-                {
-                  width: "auto",
-                  stack: [
-                    {
-                      text: `Yogyakarta, ${this.date(moment())}`,
-                      style: "content",
-                    },
-                    {
-                      text: "Yang membuat",
-                      style: "content",
-                    },
-                    {
-                      text: "\n\n\n",
-                      alignment: "center",
-                    },
-                    {
-                      text: `${laporanData.user_id.name}`,
-                      style: "content",
-                    },
-                  ],
-                  margin: [85, 0, 0, 0],
-                  alignment: "center",
+                  image: KopBase64data,
+                  width: 450,
+                  height: 70,
                 },
               ],
-              margin: [0, 40],
-              style: "content",
             },
-          ],
-          styles: {
-            header: { fontSize: 12, bold: true, margin: [0, 0, 0, 10] },
-            title: {
-              fontSize: 20,
-              bold: true,
-              margin: [0, 0, 0, 10],
-              FontFace: "Times",
+            content: [
+              {
+                text: "Laporan Tugas",
+                style: "title",
+                alignment: "center",
+                margin: [0, 50, 0, 20],
+              },
+              {
+                text: `Nama Pelaksana tugas\t: ${laporanData.user_id.name}`,
+                style: "content",
+              },
+              {
+                text: `NIDN\t\t\t\t\t\t\t\t\t: ${laporanData.user_id.nidn}`,
+                style: "content",
+              },
+              {
+                text: `Jabatan\t\t\t\t\t\t\t   : ${laporanData.user_id.jabatan}`,
+                style: "content",
+              },
+              {
+                text: `Hari, Tanggal\t\t\t\t\t  : ${this.date(
+                  laporanData.created_at
+                )}`,
+                style: "content",
+              },
+              {
+                text: `Waktu\t\t\t\t\t\t\t\t  : ${this.time(
+                  laporanData.created_at
+                )}`,
+                style: "content",
+              },
+              {
+                text: `Tempat\t\t\t\t\t\t\t\t: ${laporanData.lokasi}`,
+                style: "content",
+              },
+              {
+                text: "Notulensi",
+                style: "title",
+                alignment: "center",
+                margin: [0, 10, 0, 20],
+              },
+              {
+                text: `${laporanData.deskripsi}`,
+                style: "content",
+              },
+
+              {
+                text: "\n\n\n",
+                style: "content",
+              },
+
+              {
+                columns: [
+                  { width: "*", text: "" },
+                  {
+                    width: "auto",
+                    stack: [
+                      {
+                        text: `Yogyakarta, ${this.date(moment())}`,
+                        style: "content",
+                      },
+                      {
+                        text: "Yang membuat",
+                        style: "content",
+                      },
+                      {
+                        text: "\n\n\n",
+                        alignment: "center",
+                      },
+                      {
+                        text: `${laporanData.user_id.name}`,
+                        style: "content",
+                      },
+                    ],
+                    margin: [85, 0, 0, 0],
+                    alignment: "center",
+                  },
+                ],
+                margin: [0, 40],
+                style: "content",
+              },
+            ],
+            styles: {
+              header: { fontSize: 12, margin: [0, 0, 0, 10] },
+              title: {
+                fontSize: 20,
+                margin: [0, 0, 0, 10],
+                bold: true,
+              },
+              content: {
+                fontSize: 12,
+                margin: [0, 0, 0, 10],
+                textAlign: "justify",
+              },
             },
-            content: {
-              fontSize: 12,
-              margin: [0, 0, 0, 10],
-              textAlign: "justify",
-              FontFace: "Times",
-            },
-          },
+          };
+          const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+          pdfDocGenerator.download(laporanData.nama_kegiatan + ".pdf");
         };
-        const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-        pdfDocGenerator.download(laporanData.nama_kegiatan + ".pdf");
       } catch (error) {
         console.log(error);
       }
     },
     date(value) {
+      const days = [
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu",
+      ];
+
       const months = [
         "Januari",
         "Februari",
@@ -259,37 +261,19 @@ export default {
       ];
 
       const date = new Date(value);
-      const day = date.getDate();
+      const day = days[date.getDay()];
       const month = months[date.getMonth()];
       const year = date.getFullYear();
 
-      return `${day} ${month} ${year}`;
+      return `${day}, ${date.getDate()} ${month} ${year}`;
     },
     time(value) {
-      const months = [
-        "Januari",
-        "Februari",
-        "Maret",
-        "April",
-        "Mei",
-        "Juni",
-        "Juli",
-        "Agustus",
-        "September",
-        "Oktober",
-        "November",
-        "Desember",
-      ];
-
       const date = new Date(value);
-      const day = date.getDate();
-      const month = months[date.getMonth()];
-      const year = date.getFullYear();
       const hours = String(date.getHours()).padStart(2, "0");
       const minutes = String(date.getMinutes()).padStart(2, "0");
       const period = hours < 12 ? "AM" : "PM";
 
-      return `${day} ${month} ${year}, ${hours}:${minutes} ${period}`;
+      return `${hours}:${minutes} ${period}`;
     },
   },
   setup() {

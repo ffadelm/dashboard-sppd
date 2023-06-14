@@ -27,10 +27,7 @@
               :key="index"
             >
               <th scope="row">{{ startIndex + index + 1 }}</th>
-              <td
-                scope="row"
-                style="max-width: 20px"
-              >{{ surat.nomor_surat }}</td>
+              <td scope="row">{{ surat.nomor_surat }}</td>
               <td
                 class="text-truncate"
                 style="max-width: 250px;"
