@@ -12,11 +12,9 @@ import CreateSPPD from '../views/SPPD/Create.vue'
 import UpdateSPPD from '../views/SPPD/Update.vue'
 import ShowSPPD from '../views/SPPD/Show.vue'
 import Login from '../views/Login.vue'
-
 import User from '../views/User/index.vue'
 import CreateUser from '../views/User/CreateUsers.vue'
 import UpdateUser from '../views/User/UpdateUser.vue'
-
 import panelTask from '../views/panelTask.vue'
 
 const router = createRouter({

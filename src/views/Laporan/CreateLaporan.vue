@@ -252,8 +252,4 @@ export default {
 </script>
 
 <style>
-option {
-  max-height: 150px;
-  overflow-y: auto;
-}
 </style>

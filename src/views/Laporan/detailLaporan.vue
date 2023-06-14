@@ -110,27 +110,6 @@ export default {
         );
         const laporanData = response.data.data;
 
-        // const fotoPromises = laporanData.foto.map(async (foto) => {
-        //   const fotoResponse = await axios.get(
-        //     `http://localhost:8000/storage/${foto}`,
-        //     {
-        //       responseType: "arraybuffer",
-        //     }
-        //   );
-        //   const fotoData = fotoResponse.data;
-        //   const base64Foto = Buffer.from(fotoData, "binary").toString("base64");
-        //   return base64Foto;
-        // });
-
-        // const fotos = await Promise.all(fotoPromises);
-
-        // const fotoContents = fotos.map((foto) => ({
-        //   image: `data:image/jpeg;base64,${foto}`,
-        //   width: 300,
-        //   height: 300,
-        //   margin: [0, 10],
-        // }));
-
         const docDefinition = {
           content: [
             {
@@ -185,13 +164,6 @@ export default {
               text: `Notulensi : ${laporanData.deskripsi}`,
               style: "content",
             },
-
-            // {
-            //   text: "Dokumentasi Kegiatan :",
-            //   style: "title",
-            //   margin: [0, 20, 0, 10],
-            // },
-            // ...fotoContents,
 
             {
               text: "\n\n\n",

@@ -117,7 +117,7 @@
             type="button"
             @click="serahkanSurat"
             :class="{ 'visually-hidden': surat.validasi === 0 || userRole === '1'}"
-          >Serahkan Surat</button>
+          >Selesaikan Tugas</button>
         </div>
       </div>
     </div>
@@ -248,8 +248,6 @@ export default {
                       style: "content",
                     },
 
-                    // { text: "Anggota Mengikuti : Terlampir", style: "content" },
-
                     {
                       text: `Untuk\t : ${suratData.judul}`,
                       style: "content",
@@ -308,15 +306,6 @@ export default {
                       margin: [0, 40],
                       style: "content",
                     },
-
-                    // {
-                    //   text: "Lampiran",
-                    //   style: "title",
-                    //   decoration: "underline",
-                    //   alignment: "center",
-                    //   margin: [0, 50, 0, 20],
-                    //   pageBreak: "before",
-                    // },
                   ],
 
                   footer: {
@@ -398,7 +387,7 @@ export default {
                         [
                           { text: "No", style: "tableHeader" },
                           { text: "Nama Anggota", style: "tableHeader" },
-                          { text: "Sebagai", style: "tableHeader" },
+                          { text: "Divisi", style: "tableHeader" },
                         ],
                         ...suratData.anggota_mengikuti.map((anggota, index) => [
                           index + 1,
@@ -433,49 +422,6 @@ export default {
                     style: "content",
                   };
                 }
-
-                // const anggotaMengikutiTable = {
-                //   table: {
-                //     widths: ["auto", "*"],
-                //     body: [
-                //       [
-                //         { text: "No", style: "tableHeader" },
-                //         {
-                //           text: "Nama Anggota",
-                //           style: "tableHeader",
-                //         },
-                //       ],
-                //       ...suratData.anggota_mengikuti.map((anggota, index) => [
-                //         index + 1,
-                //         anggota,
-                //       ]),
-                //     ],
-                //   },
-                //   layout: {
-                //     hLineWidth: function (i) {
-                //       return i === 0 || i === 1 ? 2 : 1;
-                //     },
-                //     vLineWidth: function (i) {
-                //       return 1;
-                //     },
-                //     hLineColor: function (i) {
-                //       return i === 0 || i === 1 ? "#000000" : "#000000";
-                //     },
-                //     paddingLeft: function (i) {
-                //       return i === 0 ? 0 : 8;
-                //     },
-                //     paddingRight: function (i) {
-                //       return i === 1 ? 0 : 8;
-                //     },
-                //     paddingTop: function (i) {
-                //       return i === 0 ? 8 : 0;
-                //     },
-                //     paddingBottom: function (i, node) {
-                //       return i === node.table.body.length - 1 ? 8 : 0;
-                //     },
-                //   },
-                //   style: "content",
-                // };
 
                 docDefinition.content.push(anggotaMengikutiTable);
 

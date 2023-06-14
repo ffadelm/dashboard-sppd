@@ -38,6 +38,7 @@
             required
           />
         </div>
+
         <div class="col-md-6">
           <label
             for="nomorSurat"
@@ -68,58 +69,54 @@
           />
         </div>
 
-        <!-- <div class="form-group">
-          <label
-            for="anggota_mengikuti"
-            class="form-label"
-          >Anggota yang mengikuti</label>
-          <textarea
-            v-model="anggotaMengikutiInput"
-            type="text"
-            class="form-control"
-            id="anggota_mengikuti"
-            autocomplete="off"
-            style="height: 100px;"
-          />
-          <small class="form-text text-muted">Jika tidak ada Anggota yang ikut cukup kosongkan saja, gunakan tanda "," untuk pemisah setiap nama anggota</small>
-        </div> -->
-
         <div class="form-group">
           <label
             for="anggota_mengikuti"
             class="form-label"
           >Anggota yang mengikuti</label>
           <div
+            class="row align-items-start flex-column flex-md-row mb-4"
             v-for="(anggota, index) in surat.anggota_mengikuti"
             :key="index"
           >
-            <input
-              v-model="anggota.name"
-              type="text"
-              class="form-control"
-              :id="'anggota_mengikuti_' + index"
-              autocomplete="off"
-              :placeholder="'Nama Anggota ' + (index + 1)"
-              required
-            >
-            <input
-              v-model="anggota.sebagai"
-              type="text"
-              class="form-control"
-              :id="'sebagai_anggota_' + index"
-              autocomplete="off"
-              :placeholder="'Sebagai ' + anggota.name"
-            >
-            <button
-              @click="removeAnggotaMengikuti(index)"
-              class="btn btn-danger btn-sm"
-            >Hapus</button>
+            <div class="col">
+              <input
+                v-model="anggota.name"
+                type="text"
+                class="form-control"
+                :id="'anggota_mengikuti_' + index"
+                autocomplete="off"
+                :placeholder="'Nama Anggota ' + (index + 1)"
+                required
+              >
+            </div>
+            <div class="col mt-2 mt-md-0">
+              <input
+                v-model="anggota.sebagai"
+                type="text"
+                class="form-control"
+                :id="'sebagai_anggota_' + index"
+                autocomplete="off"
+                placeholder="Penanggung Jawab, Pengawas, dll."
+                required
+              >
+            </div>
+            <div class="col-auto mt-2 mt-md-0">
+              <button
+                @click="removeAnggotaMengikuti(index)"
+                class="btn btn-danger btn-sm"
+              >Hapus</button>
+            </div>
           </div>
-          <button
-            @click="addAnggotaMengikuti"
-            class="btn btn-secondary btn-sm"
-          >Tambah Anggota</button>
-          <small class="form-text text-muted">Jika tidak ada anggota yang ikut, cukup kosongkan saja.</small>
+          <div class="tombol">
+            <button
+              @click="addAnggotaMengikuti"
+              class="btn btn-secondary btn-sm"
+            >Tambah Anggota</button>
+          </div>
+          <div class="note mt-1">
+            <small class="form-text text-muted">Jika tidak ada anggota yang ikut, cukup kosongkan saja.</small>
+          </div>
         </div>
 
         <div class="col-12">
@@ -223,7 +220,7 @@ export default {
     const anggotaMengikuti = ref([]);
 
     function addAnggotaMengikuti(event) {
-      event.preventDefault(); // Mencegah perilaku bawaan tombol submit
+      event.preventDefault();
 
       surat.anggota_mengikuti.push({
         name: "",
@@ -290,7 +287,6 @@ export default {
       validation,
       router,
       update,
-      // anggotaMengikutiInput,
       anggotaMengikuti,
       addAnggotaMengikuti,
       removeAnggotaMengikuti,

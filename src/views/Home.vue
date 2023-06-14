@@ -4,43 +4,50 @@
       <h1 class="h2">Selamat Datang, {{userName}}</h1>
     </div>
     <div class="dashboard row col-lg-12 col-md-12">
-      <div class="col-md-3">
-        <div class="card bg-primary text-white mb-3">
-          <div class="card-body">
-            <h3 class="card-title">
-              <i class="material-icons">access_time</i> Terbaru
-            </h3>
-            <p class="card-text">{{ terbaru }}</p>
-          </div>
-        </div>
+      <div class="col-lg-6 col-md-12">
+        <LineChart />
       </div>
-      <div class="col-md-3">
-        <div class="card bg-success text-white mb-3">
-          <div class="card-body">
-            <h3 class="card-title">
-              <i class="material-icons">check_circle</i> Selesai
-            </h3>
-            <p class="card-text">{{ selesai }}</p>
+      <div class="col-lg-6 col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card bg-primary text-white mb-3">
+              <div class="card-body">
+                <h3 class="card-title">
+                  <i class="material-icons">access_time</i> Terbaru
+                </h3>
+                <p class="card-text">{{ terbaru }}</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card bg-warning text-white mb-3">
-          <div class="card-body">
-            <h3 class="card-title">
-              <i class="material-icons">verified</i> Tervalidasi
-            </h3>
-            <p class="card-text">{{ valid }}</p>
+          <div class="col-md-6">
+            <div class="card bg-success text-white mb-3">
+              <div class="card-body">
+                <h3 class="card-title">
+                  <i class="material-icons">check_circle</i> Selesai
+                </h3>
+                <p class="card-text">{{ selesai }}</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card bg-info text-white mb-3">
-          <div class="card-body">
-            <h3 class="card-title">
-              <i class="material-icons">list</i> Semua
-            </h3>
-            <p class="card-text">{{ jumlahSurat }}</p>
+          <div class="col-md-6">
+            <div class="card bg-warning text-white mb-3">
+              <div class="card-body">
+                <h3 class="card-title">
+                  <i class="material-icons">verified</i> Tervalidasi
+                </h3>
+                <p class="card-text">{{ valid }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card bg-info text-white mb-3">
+              <div class="card-body">
+                <h3 class="card-title">
+                  <i class="material-icons">list</i> Semua
+                </h3>
+                <p class="card-text">{{ jumlahSurat }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -50,7 +57,7 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">No</th>
+            <th scope="col">#</th>
             <th scope="col">No. Surat</th>
             <th scope="col">Judul</th>
             <th scope="col">Penerima Surat</th>
@@ -59,10 +66,10 @@
         </thead>
         <tbody>
           <tr
-            v-for="(letter, index) in paginatedLetters"
+            v-for="(letter, index) in currentData"
             :key="index"
           >
-            <th scope="row">{{ index + 1 }}</th>
+            <th scope="row">{{ startIndex + index + 1 }}</th>
             <td>{{ letter.nomor_surat }}</td>
             <td
               class="text-truncate"
@@ -75,102 +82,124 @@
       </table>
     </div>
 
-    <nav aria-label="Pagination">
-      <ul class="pagination justify-content-center mt-3">
-        <li
-          class="page-item"
-          :class="{ disabled: currentPage === 1 }"
-        >
-          <a
-            class="page-link"
-            href="#"
-            aria-label="Previous"
-            @click="goToPage(currentPage - 1)"
-          >
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
+    <div
+      v-if="currentData.length === 0"
+      class="text-center mt-3"
+    >
+      <p>Tidak ada data yang ditemukan.</p>
+    </div>
 
-        <li
-          class="page-item"
-          :class="{ active: page === currentPage }"
-          v-for="page in totalPages"
-          :key="page"
-        >
-          <a
-            class="page-link"
-            href="#"
-            @click="goToPage(page)"
-          >{{ page }}</a>
-        </li>
-
-        <li
-          class="page-item"
-          :class="{ disabled: currentPage === totalPages }"
-        >
-          <a
-            class="page-link"
-            href="#"
-            aria-label="Next"
-            @click="goToPage(currentPage + 1)"
+    <div class="d-flex justify-content-center">
+      <nav aria-label="Pagination">
+        <ul class="pagination">
+          <li
+            class="page-item"
+            :class="{ disabled: currentPage === 1 }"
           >
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+            <button
+              class="page-link"
+              @click="goToPage(currentPage - 1)"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+          <li
+            class="page-item"
+            v-for="page in totalPages"
+            :key="page"
+            :class="{ active: currentPage === page }"
+          >
+            <button
+              class="page-link"
+              @click="goToPage(page)"
+            >{{ page }}</button>
+          </li>
+          <li
+            class="page-item"
+            :class="{ disabled: currentPage === totalPages }"
+          >
+            <button
+              class="page-link"
+              @click="goToPage(currentPage + 1)"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </main>
 </template>
 
 <script>
 import axios from "axios";
 import { computed, onMounted, ref } from "vue";
-import moment from "moment";
+import LineChart from "../components/LineChart.vue";
 
 export default {
+  components: {
+    LineChart,
+  },
   methods: {
     date(value) {
-      return moment(value).format("DD-MM-YYYY");
+      const months = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+
+      const date = new Date(value);
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+
+      return `${day} ${month} ${year}`;
     },
   },
-  setup() {
-    let letters = ref([]);
 
+  setup() {
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
     const userName = localStorage.getItem("Name");
 
-    let currentPage = ref(1);
-    const pageSize = 5;
+    const letters = ref([]);
+    const currentPage = ref(1);
+    const perPage = 5;
 
-    const goToPage = (page) => {
-      if (page >= 1 && page <= totalPages.value) {
-        currentPage.value = page;
-      }
-    };
+    // Hitung jumlah total halaman berdasarkan jumlah data dan data per halaman
+    const totalPages = computed(() =>
+      Math.ceil(letters.value.length / perPage)
+    );
 
-    const startIndex = computed(() => (currentPage.value - 1) * pageSize);
-    const endIndex = computed(() => startIndex.value + pageSize);
-    const paginatedLetters = computed(() => {
-      if (Array.isArray(letters.value.data)) {
-        return letters.value.data.slice(startIndex.value, endIndex.value);
-      }
-      return [];
+    // Hitung indeks awal data untuk halaman saat ini
+    const startIndex = computed(() => (currentPage.value - 1) * perPage);
+
+    // Ambil data untuk halaman saat ini berdasarkan startIndex dan perPage
+    const currentData = computed(() => {
+      return letters.value.slice(startIndex.value, startIndex.value + perPage);
     });
 
-    const totalPages = computed(() => {
-      if (Array.isArray(letters.value.data)) {
-        return Math.ceil(letters.value.data.length / pageSize);
-      }
-      return 0;
-    });
+    function goToPage(page) {
+      currentPage.value = page;
+    }
 
     onMounted(() => {
       if (userRole === "0") {
         axios
           .get(`http://127.0.0.1:8000/api/surat?user_id=${userId}`)
           .then(({ data }) => {
-            letters.value = data;
+            letters.value = data.data;
           })
           .catch((err) => {
             console.log(err);
@@ -179,7 +208,7 @@ export default {
         axios
           .get(`http://127.0.0.1:8000/api/surat`)
           .then(({ data }) => {
-            letters.value = data;
+            letters.value = data.data;
           })
           .catch((err) => {
             console.log(err);
@@ -188,15 +217,15 @@ export default {
     });
 
     const jumlahSurat = computed(() => {
-      if (Array.isArray(letters.value.data)) {
-        return letters.value.data.length;
+      if (Array.isArray(letters.value)) {
+        return letters.value.length;
       }
       return 0;
     });
 
     const selesai = computed(() => {
-      if (Array.isArray(letters.value.data)) {
-        const suratSelesai = letters.value.data.filter(
+      if (Array.isArray(letters.value)) {
+        const suratSelesai = letters.value.filter(
           (surat) => surat.diserahkan === 1
         );
         return suratSelesai.length;
@@ -205,8 +234,8 @@ export default {
     });
 
     const terbaru = computed(() => {
-      if (Array.isArray(letters.value.data)) {
-        const suratTervalidasi = letters.value.data.filter(
+      if (Array.isArray(letters.value)) {
+        const suratTervalidasi = letters.value.filter(
           (surat) => surat.validasi === 0
         );
         return suratTervalidasi.length;
@@ -215,8 +244,8 @@ export default {
     });
 
     const valid = computed(() => {
-      if (Array.isArray(letters.value.data)) {
-        const suratTervalidasi = letters.value.data.filter(
+      if (Array.isArray(letters.value)) {
+        const suratTervalidasi = letters.value.filter(
           (surat) => surat.validasi === 1
         );
         return suratTervalidasi.length;
@@ -230,11 +259,12 @@ export default {
       selesai,
       terbaru,
       valid,
+      userName,
+      totalPages,
+      currentData,
       currentPage,
       goToPage,
-      paginatedLetters,
-      totalPages,
-      userName,
+      startIndex,
     };
   },
 };
@@ -287,5 +317,15 @@ export default {
 
 .mt-3 {
   margin-top: 1.5rem;
+}
+@media (min-width: 992px) {
+  .dashboard {
+    display: flex;
+    align-items: flex-start;
+  }
+  .col-lg-6 {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
 }
 </style>

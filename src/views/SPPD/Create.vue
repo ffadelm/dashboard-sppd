@@ -82,59 +82,54 @@
           />
         </div>
 
-        <!-- <div class="form-group">
-          <label
-            for="anggota_mengikuti"
-            class="form-label"
-          >Anggota yang mengikuti</label>
-          <textarea
-            v-model="anggotaMengikutiInput"
-            type="text"
-            class="form-control"
-            id="anggota_mengikuti"
-            autocomplete="off"
-            placeholder="Contoh: Nama Anggota 1, Nama Anggota 2, Nama Anggota 3, dst."
-            style="height: 100px;"
-          ></textarea>
-          <small class="form-text text-muted">Jika tidak ada Anggota yang ikut cukup kosongkan saja, gunakan tanda "," untuk pemisah setiap nama anggota</small>
-        </div> -->
-
         <div class="form-group">
           <label
             for="anggota_mengikuti"
             class="form-label"
           >Anggota yang mengikuti</label>
           <div
+            class="row align-items-start flex-column flex-md-row mb-4"
             v-for="(anggota, index) in anggotaMengikuti"
             :key="index"
           >
-            <input
-              v-model="anggota.name"
-              type="text"
-              class="form-control"
-              :id="'anggota_mengikuti_' + index"
-              autocomplete="off"
-              :placeholder="'Nama Anggota ' + (index + 1)"
-              required
-            >
-            <input
-              v-model="anggota.sebagai"
-              type="text"
-              class="form-control"
-              :id="'sebagai_anggota_' + index"
-              autocomplete="off"
-              :placeholder="'Sebagai ' + anggota.name"
-            >
-            <button
-              @click="removeAnggotaMengikuti(index)"
-              class="btn btn-danger btn-sm"
-            >Hapus</button>
+            <div class="col">
+              <input
+                v-model="anggota.name"
+                type="text"
+                class="form-control"
+                :id="'anggota_mengikuti_' + index"
+                autocomplete="off"
+                :placeholder="'Nama Anggota ' + (index + 1)"
+                required
+              >
+            </div>
+            <div class="col mt-2 mt-md-0">
+              <input
+                v-model="anggota.sebagai"
+                type="text"
+                class="form-control"
+                :id="'sebagai_anggota_' + index"
+                autocomplete="off"
+                placeholder="Penanggung Jawab, Pengawas, dll."
+                required
+              >
+            </div>
+            <div class="col-auto mt-2 mt-md-0">
+              <button
+                @click="removeAnggotaMengikuti(index)"
+                class="btn btn-danger btn-sm"
+              >Hapus</button>
+            </div>
           </div>
-          <button
-            @click="addAnggotaMengikuti"
-            class="btn btn-secondary btn-sm"
-          >Tambah Anggota</button>
-          <small class="form-text text-muted">Jika tidak ada anggota yang ikut, cukup kosongkan saja.</small>
+          <div class="tombol">
+            <button
+              @click="addAnggotaMengikuti"
+              class="btn btn-secondary btn-sm mt-2"
+            >Tambah Anggota</button>
+          </div>
+          <div class="note">
+            <small class="form-text text-muted">Jika tidak ada anggota yang ikut, cukup kosongkan saja.</small>
+          </div>
         </div>
 
         <div class="col-12">
@@ -244,21 +239,7 @@ export default {
 
     const userId = localStorage.getItem("userId");
     const userIdInt = parseInt(userId);
-
     const anggotaMengikutiInput = ref("");
-
-    // function addAnggotaMengikuti() {
-    //   // surat.anggota_mengikuti = anggotaMengikutiInput.value.split(",");
-    //   surat.anggota_mengikuti = anggotaMengikutiInput.value
-    //     .split(",")
-    //     .map((namaAnggota) => {
-    //       return {
-    //         name: namaAnggota.trim(),
-    //         sebagai: "",
-    //       };
-    //     });
-    // }
-
     const anggotaMengikuti = ref([]);
 
     function addAnggotaMengikuti() {
@@ -273,7 +254,6 @@ export default {
     }
 
     const validation = ref([]);
-
     const router = useRouter();
 
     function store() {

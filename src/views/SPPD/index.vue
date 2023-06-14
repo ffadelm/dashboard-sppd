@@ -33,7 +33,7 @@
           >
             <thead>
               <tr>
-                <th scope="col">No</th>
+                <th scope="col">#</th>
                 <th scope="col">No. Surat</th>
                 <th scope="col">Judul Surat</th>
                 <th scope="col">Penerima Perintah</th>
@@ -47,14 +47,14 @@
                 v-for="(letter, index) in currentData"
                 :key="index"
               >
-                <th scope="row">{{ index + 1 }}</th>
+                <th scope="row">{{ startIndex + index + 1 }}</th>
                 <td>{{ letter.nomor_surat }}</td>
                 <td
                   class="text-truncate"
                   style="max-width: 200px;"
                 >{{ letter.judul }}</td>
                 <td>{{ letter.user_id.name }}</td>
-                <td>
+                <td class="text-center">
                   <div
                     v-if="letter.validasi === 1"
                     class="dot green"
@@ -243,11 +243,12 @@ export default {
       Math.ceil(letters.value.length / perPage)
     );
 
-    // Ambil data untuk halaman saat ini berdasarkan currentPage dan perPage
+    // Hitung indeks awal data untuk halaman saat ini
+    const startIndex = computed(() => (currentPage.value - 1) * perPage);
+
+    // Ambil data untuk halaman saat ini berdasarkan startIndex dan perPage
     const currentData = computed(() => {
-      const start = (currentPage.value - 1) * perPage;
-      const end = start + perPage;
-      return letters.value.slice(start, end);
+      return letters.value.slice(startIndex.value, startIndex.value + perPage);
     });
 
     function goToPage(page) {
@@ -264,6 +265,7 @@ export default {
       searchKeyword,
       searchSurat,
       userRole,
+      startIndex,
     };
   },
 };

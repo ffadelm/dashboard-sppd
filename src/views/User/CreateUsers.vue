@@ -29,7 +29,7 @@
             <label
               for="email"
               class="form-label"
-            >Email</label>
+            >Alamat Email</label>
             <input
               v-model="user.email"
               type="email"
@@ -40,22 +40,7 @@
             />
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label
-              for="password"
-              class="form-label"
-            >Password</label>
-            <input
-              v-model="user.password"
-              type="password"
-              class="form-control"
-              id="password"
-              autocomplete="off"
-              required
-            />
-          </div>
-        </div>
+
         <div class="col-md-6">
           <div class="mb-3">
             <label
@@ -93,7 +78,7 @@
             <label
               for="jabatan"
               class="form-label"
-            >Jabatan</label>
+            >Jabatan Prodi</label>
             <input
               v-model="user.jabatan"
               type="text"
@@ -104,21 +89,21 @@
             />
           </div>
         </div>
+
         <div class="col-md-6">
           <div class="mb-3">
             <label
-              for="role"
+              for="password"
               class="form-label"
-            >Role</label>
-            <select
-              v-model="user.role"
-              class="form-select"
-              id="role"
+            >Password</label>
+            <input
+              v-model="user.password"
+              type="password"
+              class="form-control"
+              id="password"
+              autocomplete="off"
               required
-            >
-              <option value="1">Admin</option>
-              <option value="0">User</option>
-            </select>
+            />
           </div>
         </div>
         <div class="col-12">

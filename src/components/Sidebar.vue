@@ -1,11 +1,5 @@
 <template>
   <aside :class="`${is_expanded && 'is-expanded'}`">
-    <div class="logo">
-      <!-- <img
-        src="../assets/logo.png"
-        alt="Logo"
-      > -->
-    </div>
 
     <div class="menu-toggle-wrap">
       <button
@@ -136,14 +130,6 @@ aside {
 
   top: 60px;
   left: 0;
-
-  // .logo {
-  //   margin-bottom: 1rem;
-
-  //   img {
-  //     width: 2rem;
-  //   }
-  // }
 
   .menu-toggle-wrap {
     display: flex;

@@ -12,10 +12,11 @@
             class="list-group-item"
           >
             <div class="surat-info">
-              <div
-                class="surat-title fs-5"
+              <router-link
+                class="surat-title fs-5 text-dark text-decoration-none"
                 style="max-width: 50rem;"
-              >{{ surat.judul }}</div>
+                :to="`/show/sppd/${surat.id}`"
+              >{{ surat.judul }}</router-link>
               <div class="
               surat-date">{{ tanggal(surat.created_at) }}</div>
             </div>
