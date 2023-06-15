@@ -60,7 +60,7 @@
             <th scope="col">#</th>
             <th scope="col">No. Surat</th>
             <th scope="col">Judul</th>
-            <th scope="col">Penerima Surat</th>
+            <th scope="col">Penerima Perintah</th>
             <th scope="col">Tanggal Surat</th>
           </tr>
         </thead>
