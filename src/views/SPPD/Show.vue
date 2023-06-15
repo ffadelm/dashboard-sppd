@@ -234,32 +234,32 @@ export default {
                     },
 
                     {
-                      text: `Nama\t : ${suratData.user_id.name}`,
+                      text: `Nama\t\t\t\t\t\t\t : ${suratData.user_id.name}`,
                       style: "content",
                     },
 
                     {
-                      text: `NIDN\t  : ${suratData.user_id.nidn}`,
+                      text: `NIDN\t\t\t\t\t\t\t  : ${suratData.user_id.nidn}`,
                       style: "content",
                     },
 
                     {
-                      text: `Jabatan : ${suratData.user_id.jabatan}`,
+                      text: `Jabatan\t\t\t\t\t\t : ${suratData.user_id.jabatan}`,
                       style: "content",
                     },
 
                     {
-                      text: `Untuk\t : ${suratData.judul}`,
+                      text: `Untuk\t\t\t\t\t\t\t : ${suratData.judul}`,
                       style: "content",
                     },
 
                     {
-                      text: `Alamat   : ${suratData.lokasi_tujuan}`,
+                      text: `Alamat\t\t\t\t\t\t   : ${suratData.lokasi_tujuan}`,
                       style: "content",
                     },
 
                     {
-                      text: `Tanggal : ${this.date(
+                      text: `Tanggal\t\t\t\t\t\t : ${this.date(
                         suratData.tgl_awal
                       )} - ${this.date(suratData.tgl_akhir)}`,
                       style: "content",
@@ -349,7 +349,7 @@ export default {
                   suratData.anggota_mengikuti.length > 0
                 ) {
                   const anggotaMengikuti = {
-                    text: "Anggota Mengikuti : Terlampir",
+                    text: "Anggota Mengikuti\t : Terlampir",
                     style: "content",
                   };
 
