@@ -90,7 +90,7 @@ export default {
     onMounted(() => {
       if (userRole === "0") {
         axios
-          .get(`http://127.0.0.1:8000/api/laporan?user_id=${userId}`)
+          .get(`https://api.sppd.tatiumy.com/api/laporan?user_id=${userId}`)
           .then(({ data }) => {
             reports.value = data.data;
           })
@@ -99,7 +99,7 @@ export default {
           });
       } else {
         axios
-          .get("http://127.0.0.1:8000/api/laporan")
+          .get("https://api.sppd.tatiumy.com/api/laporan")
           .then(({ data }) => {
             reports.value = data.data;
           })

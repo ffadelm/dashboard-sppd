@@ -91,7 +91,7 @@ const logout = async () => {
       },
     };
 
-    await axios.get("http://127.0.0.1:8000/api/logout", config);
+    await axios.get("https://api.sppd.tatiumy.com/api/logout", config);
     localStorage.removeItem("token");
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("is_expanded");

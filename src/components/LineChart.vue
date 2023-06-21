@@ -47,7 +47,7 @@ export default {
       try {
         if (userRole === "1") {
           const response = await axios.get(
-            "http://127.0.0.1:8000/api/surat-validasi?validasi=1"
+            "https://api.sppd.tatiumy.com/api/surat-validasi?validasi=1"
           );
           if (Array.isArray(response.data.data)) {
             availableYears.value = getAvailableYears(response.data.data);
@@ -62,7 +62,7 @@ export default {
           }
         } else {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/surat-validasiuid?validasi=1&user_id=${userId}`
+            `https://api.sppd.tatiumy.com/api/surat-validasiuid?validasi=1&user_id=${userId}`
           );
           if (Array.isArray(response.data.data)) {
             availableYears.value = getAvailableYears(response.data.data);
@@ -171,7 +171,7 @@ export default {
         }
         if (userRole === "1") {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/surat-validasiyears?validasi=1&tahun=${selectedYear.value}`
+            `https://api.sppd.tatiumy.com/api/surat-validasiyears?validasi=1&tahun=${selectedYear.value}`
           );
           if (Array.isArray(response.data.data)) {
             const chartData = getChartData(
@@ -184,7 +184,7 @@ export default {
           }
         } else {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/surat-validasiyearsuid?validasi=1&tahun=${selectedYear.value}&user_id=${userId}`
+            `https://api.sppd.tatiumy.com/api/surat-validasiyearsuid?validasi=1&tahun=${selectedYear.value}&user_id=${userId}`
           );
           if (Array.isArray(response.data.data)) {
             const chartData = getChartData(

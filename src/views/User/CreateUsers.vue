@@ -9,102 +9,87 @@
         class="row g-3"
       >
         <div class="col-md-6">
-          <div class="mb-3">
-            <label
-              for="nama"
-              class="form-label"
-            >Nama Lengkap</label>
-            <input
-              v-model="user.name"
-              type="text"
-              class="form-control"
-              id="nama"
-              autocomplete="off"
-              required
-            />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label
-              for="email"
-              class="form-label"
-            >Alamat Email</label>
-            <input
-              v-model="user.email"
-              type="email"
-              class="form-control"
-              id="email"
-              autocomplete="on"
-              required
-            />
-          </div>
+          <label
+            for="nama"
+            class="form-label"
+          >Nama Lengkap</label>
+          <input
+            v-model="user.name"
+            type="text"
+            class="form-control"
+            id="nama"
+            autocomplete="off"
+          />
         </div>
 
         <div class="col-md-6">
-          <div class="mb-3">
-            <label
-              for="nidn"
-              class="form-label"
-            >NIDN</label>
-            <input
-              v-model="user.nidn"
-              type="text"
-              class="form-control"
-              id="nidn"
-              autocomplete="off"
-              required
-            />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label
-              for="username"
-              class="form-label"
-            >Username</label>
-            <input
-              v-model="user.username"
-              type="text"
-              class="form-control"
-              id="username"
-              autocomplete="off"
-              required
-            />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label
-              for="jabatan"
-              class="form-label"
-            >Jabatan Prodi</label>
-            <input
-              v-model="user.jabatan"
-              type="text"
-              class="form-control"
-              id="jabatan"
-              autocomplete="off"
-              required
-            />
-          </div>
+          <label
+            for="username"
+            class="form-label"
+          >Username</label>
+          <input
+            v-model="user.username"
+            type="username"
+            class="form-control"
+            id="username"
+            autocomplete="off"
+          />
         </div>
 
         <div class="col-md-6">
-          <div class="mb-3">
-            <label
-              for="password"
-              class="form-label"
-            >Password</label>
-            <input
-              v-model="user.password"
-              type="password"
-              class="form-control"
-              id="password"
-              autocomplete="off"
-              required
-            />
-          </div>
+          <label
+            for="email"
+            class="form-label"
+          >Email Resmi</label>
+          <input
+            v-model="user.email"
+            type="email"
+            class="form-control"
+            id="email"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label
+            for="jabatan"
+            class="form-label"
+          >Jabatan Fungsional</label>
+          <input
+            v-model="user.jabatan"
+            type="jabatan"
+            class="form-control"
+            id="jabatan"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label
+            for="nidn"
+            class="form-label"
+          >Nomor identifikasi Nasional Dosen (NIDN)</label>
+          <input
+            v-model="user.nidn"
+            type="nidn"
+            class="form-control"
+            id="nidn"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label
+            for="password"
+            class="form-label"
+          >Password</label>
+          <input
+            v-model="user.password"
+            type="password"
+            class="form-control"
+            id="password"
+            autocomplete="off"
+          />
         </div>
         <div class="col-12">
           <div class="mb-3">
@@ -148,7 +133,7 @@ export default {
 
     function store() {
       axios
-        .post("http://127.0.0.1:8000/api/user", user)
+        .post("https://api.sppd.tatiumy.com/api/user", user)
         .then(() => {
           router.push("/user");
           swal({

@@ -3,11 +3,11 @@
     <div class="row">
       <div class="col-lg-6 col-md-12">
         <h6
-          v-if="surat.validasi === 0"
+          v-if="surat.validasi == 0"
           class="badge text-bg-danger"
         >Surat Belum disetujui!</h6>
         <h6
-          v-if="surat.validasi === 1"
+          v-if="surat.validasi == 1"
           class="badge text-bg-success"
         >Surat sudah disetujui dan bisa dicetak</h6>
 
@@ -79,10 +79,10 @@
             <div class="row g-0">
               <div class="col-md-4">
                 <img
-                  :src="'http://localhost:8000/storage/'+laporan.foto[0]"
+                  :src="'https://api.sppd.tatiumy.com/storage/'+laporan.foto[0]"
                   class="img img-fluid"
                   alt="..."
-                  style="height: 225px; object-fit: cover; overflow: hidden;"
+                  style="height: 225px; object-fit: cover; overflow: hidden; width: 100%;"
                 >
               </div>
               <div class="col-md-8">
@@ -92,7 +92,7 @@
                   <button
                     class="btn btn-sm btn-danger"
                     @click.prevent="destroy(laporan.id, index)"
-                    :class="{ 'visually-hidden': surat.diserahkan === 1 || userRole === '1'}"
+                    :class="{ 'visually-hidden': surat.diserahkan == 1 || userRole === '1'}"
                   >
                     Hapus
                   </button>
@@ -104,19 +104,19 @@
 
         <div class="d-flex justify-content-between mt-4">
           <router-link
-            :class="{ 'visually-hidden': surat.validasi === 0 || userRole === '1'}"
-            v-if="surat.diserahkan === 0"
+            :class="{ 'visually-hidden': surat.validasi == 0 || userRole === '1'}"
+            v-if="surat.diserahkan == 0"
             class="btn btn-sm btn-info text-white px-4"
             to="/create/laporan"
             @click="tambahLaporan"
           >Tambah Laporan</router-link>
 
           <button
-            v-if="surat.diserahkan === 0"
+            v-if="surat.diserahkan == 0"
             class="btn btn-sm btn-secondary px-4"
             type="button"
             @click="serahkanSurat"
-            :class="{ 'visually-hidden': surat.validasi === 0 || userRole === '1'}"
+            :class="{ 'visually-hidden': surat.validasi == 0 || userRole === '1'}"
           >Selesaikan Tugas</button>
         </div>
       </div>
@@ -132,7 +132,7 @@
         :to="`/show/sppd/${surat.id}`"
         class="btn btn-success px-4"
         type="button"
-        :class="{ 'disabled': surat.validasi === 0 }"
+        :class="{ 'disabled': surat.validasi == 0 }"
         @click="cetakSurat"
       >Cetak</router-link>
     </div>
@@ -146,6 +146,7 @@ import axios from "axios";
 import moment from "moment";
 
 import pdfMake from "pdfmake/build/pdfmake";
+
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -159,7 +160,7 @@ export default {
     async cetakSurat() {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/surat/${this.surat.id}`
+          `https://api.sppd.tatiumy.com/api/surat/${this.surat.id}`
         );
         const suratData = response.data.data;
 
@@ -471,7 +472,9 @@ export default {
 
     serahkanSurat() {
       axios
-        .post(`http://localhost:8000/api/surat/${this.surat.id}/serahkan`)
+        .post(
+          `https://api.sppd.tatiumy.com/api/surat/${this.surat.id}/serahkan`
+        )
         .then((response) => {
           console.log(response.data);
           this.surat.diserahkan = 1;
@@ -514,7 +517,7 @@ export default {
 
     onMounted(() => {
       axios
-        .get("http://127.0.0.1:8000/api/laporan")
+        .get("https://api.sppd.tatiumy.com/api/laporan")
         .then(({ data }) => {
           console.log(data);
           laporan.value = data;
@@ -537,7 +540,7 @@ export default {
 
     onMounted(() => {
       axios
-        .get(`http://127.0.0.1:8000/api/surat/${route.params.id}`)
+        .get(`https://api.sppd.tatiumy.com/api/surat/${route.params.id}`)
         .then(({ data }) => {
           console.log(data);
           surat.id = data.data.id;
@@ -568,7 +571,7 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           axios
-            .delete(`http://127.0.0.1:8000/api/laporan/${id}`)
+            .delete(`https://api.sppd.tatiumy.com/api/laporan/${id}`)
             .then((response) => {
               location.reload();
               console.log(response.data);

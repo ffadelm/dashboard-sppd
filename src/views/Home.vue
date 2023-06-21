@@ -197,7 +197,7 @@ export default {
     onMounted(() => {
       if (userRole === "0") {
         axios
-          .get(`http://127.0.0.1:8000/api/surat?user_id=${userId}`)
+          .get(`https://api.sppd.tatiumy.com/api/surat?user_id=${userId}`)
           .then(({ data }) => {
             letters.value = data.data;
           })
@@ -206,7 +206,7 @@ export default {
           });
       } else {
         axios
-          .get(`http://127.0.0.1:8000/api/surat`)
+          .get(`https://api.sppd.tatiumy.com/api/surat`)
           .then(({ data }) => {
             letters.value = data.data;
           })
@@ -226,8 +226,9 @@ export default {
     const selesai = computed(() => {
       if (Array.isArray(letters.value)) {
         const suratSelesai = letters.value.filter(
-          (surat) => surat.diserahkan === 1
+          (surat) => surat.diserahkan == 1
         );
+        console.log(suratSelesai);
         return suratSelesai.length;
       }
       return 0;
@@ -236,7 +237,7 @@ export default {
     const terbaru = computed(() => {
       if (Array.isArray(letters.value)) {
         const suratTervalidasi = letters.value.filter(
-          (surat) => surat.validasi === 0
+          (surat) => surat.validasi == 0
         );
         return suratTervalidasi.length;
       }
@@ -246,7 +247,7 @@ export default {
     const valid = computed(() => {
       if (Array.isArray(letters.value)) {
         const suratTervalidasi = letters.value.filter(
-          (surat) => surat.validasi === 1
+          (surat) => surat.validasi == 1
         );
         return suratTervalidasi.length;
       }

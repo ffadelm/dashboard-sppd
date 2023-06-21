@@ -14,7 +14,6 @@
         >
         E-SPPD
       </router-link>
-
     </div>
   </nav>
 </template>

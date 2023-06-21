@@ -13,6 +13,10 @@
         border-bottom
       ">
           <p class="h2">Laporan Kegiatan SPPD</p>
+          <p
+            class="text-muted"
+            :class="{'visually-hidden': userRole === '0'}"
+          >{{laporan.user_id.name}}</p>
         </div>
 
         <div class="mt-3">
@@ -46,7 +50,7 @@
             >
               <div class="mt-2 d-flex align-items-center justify-content-center">
                 <img
-                  :src="'http://localhost:8000/storage/' + foto"
+                  :src="'https://api.sppd.tatiumy.com/storage/' + foto"
                   alt=""
                   class="img-fluid"
                   style="max-width: 500px; max-height: 500px; overflow: hidden; border-radius: 10px;"
@@ -96,6 +100,7 @@ import moment from "moment";
 import "moment/locale/id";
 
 import pdfMake from "pdfmake/build/pdfmake";
+
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -106,7 +111,7 @@ export default {
     async cetakLaporan() {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/laporan/${this.laporan.id}`
+          `https://api.sppd.tatiumy.com/api/laporan/${this.laporan.id}`
         );
         const laporanData = response.data.data;
 
@@ -137,6 +142,10 @@ export default {
                 style: "title",
                 alignment: "center",
                 margin: [0, 50, 0, 20],
+              },
+              {
+                text: `Nama Kegiatan\t\t\t\t  : ${laporanData.nama_kegiatan}`,
+                style: "content",
               },
               {
                 text: `Nama Pelaksana tugas\t: ${laporanData.user_id.name}`,
@@ -289,10 +298,11 @@ export default {
 
     const validation = ref([]);
     const route = useRoute();
+    const userRole = localStorage.getItem("userRole");
 
     onMounted(() => {
       axios
-        .get(`http://127.0.0.1:8000/api/laporan/${route.params.id}`)
+        .get(`https://api.sppd.tatiumy.com/api/laporan/${route.params.id}`)
         .then(({ data }) => {
           console.log(data);
           laporan.id = data.data.id;
@@ -312,6 +322,7 @@ export default {
     return {
       laporan,
       validation,
+      userRole,
     };
   },
 };

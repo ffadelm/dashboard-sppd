@@ -239,7 +239,7 @@ export default {
 
     onMounted(() => {
       axios
-        .get(`http://127.0.0.1:8000/api/surat/${route.params.id}`)
+        .get(`https://api.sppd.tatiumy.com/api/surat/${route.params.id}`)
         .then(({ data }) => {
           surat.user_id = data.data.user_id.name;
           surat.judul = data.data.judul;
@@ -266,7 +266,7 @@ export default {
       surat.user_id = userIdInt;
 
       axios
-        .put(`http://127.0.0.1:8000/api/surat/${route.params.id}`, surat)
+        .put(`https://api.sppd.tatiumy.com/api/surat/${route.params.id}`, surat)
         .then((response) => {
           console.log(response);
           router.push("/surat-perintah");

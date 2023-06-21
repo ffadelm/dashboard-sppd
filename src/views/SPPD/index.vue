@@ -56,21 +56,21 @@
                 <td>{{ letter.user_id.name }}</td>
                 <td class="text-center">
                   <div
-                    v-if="letter.validasi === 1"
+                    v-if="letter.validasi == 1"
                     class="dot green"
                   ></div>
                   <div
-                    v-else-if="letter.validasi === 0"
+                    v-else-if="letter.validasi == 0"
                     class="dot red"
                   ></div>
                 </td>
                 <td>
                   <div
-                    v-if="letter.diserahkan === 1"
+                    v-if="letter.diserahkan == 1"
                     class="text-success"
                   >Selesai</div>
                   <div
-                    v-else-if="letter.diserahkan === 0"
+                    v-else-if="letter.diserahkan == 0"
                     class="text-danger"
                   >Belum Selesai</div>
                 </td>
@@ -83,12 +83,12 @@
                     <router-link
                       :to="`/update/sppd/${letter.id}`"
                       class="btn btn-sm btn-outline-warning"
-                      :class="{ 'visually-hidden': letter.diserahkan === 1 || userRole === '1'}"
+                      :class="{ 'visually-hidden': letter.diserahkan == 1 || userRole === '1'}"
                     >Ubah</router-link>
                     <button
                       class="btn btn-sm btn-outline-danger"
                       @click.prevent="destroy(letter.id, index)"
-                      :class="{ 'visually-hidden': letter.diserahkan === 1 || userRole === '1'}"
+                      :class="{ 'visually-hidden': letter.diserahkan == 1 || userRole === '1'}"
                     >Hapus</button>
                   </div>
                 </td>
@@ -162,14 +162,13 @@ export default {
     const perPage = 10;
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
-    const userJabatan = localStorage.getItem("jabatan");
 
     const searchKeyword = ref("");
 
     onMounted(() => {
       if (userRole === "0") {
         axios
-          .get(`http://127.0.0.1:8000/api/surat?user_id=${userId}`)
+          .get(`https://api.sppd.tatiumy.com/api/surat?user_id=${userId}`)
           .then(({ data }) => {
             letters.value = data.data;
           })
@@ -178,7 +177,7 @@ export default {
           });
       } else {
         axios
-          .get("http://127.0.0.1:8000/api/surat")
+          .get("https://api.sppd.tatiumy.com/api/surat")
           .then(({ data }) => {
             letters.value = data.data;
           })
@@ -192,7 +191,7 @@ export default {
       if (userRole === "0") {
         axios
           .get(
-            `http://127.0.0.1:8000/api/surats?search=${searchKeyword.value}&user_id=${userId}`
+            `https://api.sppd.tatiumy.com/api/surats?search=${searchKeyword.value}&user_id=${userId}`
           )
           .then(({ data }) => {
             letters.value = data.data;
@@ -202,7 +201,9 @@ export default {
           });
       } else {
         axios
-          .get(`http://127.0.0.1:8000/api/surats?search=${searchKeyword.value}`)
+          .get(
+            `https://api.sppd.tatiumy.com/api/surats?search=${searchKeyword.value}`
+          )
           .then(({ data }) => {
             letters.value = data.data;
           })
@@ -222,7 +223,7 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           axios
-            .delete(`http://127.0.0.1:8000/api/surat/${id}`)
+            .delete(`https://api.sppd.tatiumy.com/api/surat/${id}`)
             .then((response) => {
               console.log(response.data);
               letters.value.splice(index, 1);

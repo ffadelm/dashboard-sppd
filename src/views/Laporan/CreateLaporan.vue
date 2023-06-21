@@ -193,7 +193,7 @@ export default {
       }
 
       axios
-        .post("http://127.0.0.1:8000/api/laporan", formData)
+        .post("https://api.sppd.tatiumy.com/api/laporan", formData)
         .then(() => {
           router.push(`/show/sppd/${suratIdInt}`);
           swal({
@@ -212,7 +212,7 @@ export default {
 
     onMounted(() => {
       axios
-        .get("http://127.0.0.1:8000/api/user")
+        .get("https://api.sppd.tatiumy.com/api/user")
         .then(({ data }) => {
           users.value = data;
         })
@@ -221,7 +221,7 @@ export default {
         });
 
       axios
-        .get("http://127.0.0.1:8000/api/surat")
+        .get("https://api.sppd.tatiumy.com/api/surat")
         .then(({ data }) => {
           surat.value = data;
         })

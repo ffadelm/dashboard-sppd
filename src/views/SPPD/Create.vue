@@ -261,7 +261,7 @@ export default {
       surat.user_id = userIdInt;
 
       axios
-        .post("http://127.0.0.1:8000/api/surat", surat)
+        .post("https://api.sppd.tatiumy.com/api/surat", surat)
         .then(() => {
           router.push("/surat-perintah");
           swal({

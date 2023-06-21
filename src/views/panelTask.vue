@@ -59,17 +59,18 @@ export default {
     },
     getSuratBelumValidasi() {
       axios
-        .get("http://127.0.0.1:8000/api/surat")
+        .get("https://api.sppd.tatiumy.com/api/surat")
         .then((response) => {
           const suratData = response.data.data;
           this.suratBelumValidasi = suratData.filter(
-            (surat) => surat.validasi === 0
+            (surat) => surat.validasi == 0
           );
         })
         .catch((error) => {
           console.error("Terjadi kesalahan:", error);
         });
     },
+
     validasiSurat(surat) {
       const suratId = surat.id;
       // Lakukan tindakan validasi surat
@@ -77,7 +78,9 @@ export default {
 
       // Kirim permintaan ke API untuk mengubah status validasi
       axios
-        .put(`http://127.0.0.1:8000/api/surat/${suratId}`, { validasi: 1 })
+        .put(`https://api.sppd.tatiumy.com/api/surat/${suratId}`, {
+          validasi: 1,
+        })
         .then((response) => {
           // Ubah status validasi di dalam data lokal
           surat.validasi = 1;

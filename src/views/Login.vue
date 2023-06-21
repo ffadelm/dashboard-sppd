@@ -51,7 +51,7 @@
         >Email atau Password Anda salah. Mohon Cek Kembali</div>
         <div class="mt-3">
           <a
-            href="https://wa.me/6282176515234?text=Halo%20Admin!%20Tolong%20Bantu%20Saya%20Lupa%20Password"
+            href="https://wa.me/6281227882555?text=Halo%20Admin!%20Tolong%20Bantu%20Saya%20Lupa%20Password"
             target="_blank"
           >Lupa Password?</a>
         </div>
@@ -101,11 +101,11 @@ export default {
       }
       if (this.user.email && this.user.password) {
         axios
-          .get("http://localhost:8000/sanctum/csrf-cookie")
+          .get("https://api.sppd.tatiumy.com/sanctum/csrf-cookie")
           .then((response) => {
             console.log(response);
             axios
-              .post("http://localhost:8000/api/login", {
+              .post("https://api.sppd.tatiumy.com/api/login", {
                 email: this.user.email,
                 password: this.user.password,
               })

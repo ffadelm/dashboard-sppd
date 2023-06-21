@@ -44,13 +44,6 @@
           </tbody>
         </table>
 
-        <div
-          v-if="currentData.length === 0"
-          class="text-center mt-3"
-        >
-          <p>Tidak ada data yang ditemukan.</p>
-        </div>
-
         <div class="d-flex justify-content-center">
           <nav aria-label="Pagination">
             <ul class="pagination">
@@ -138,7 +131,9 @@ export default {
     onMounted(() => {
       if (userRole === "0") {
         axios
-          .get(`http://127.0.0.1:8000/api/surat-selesai?user_id=${userId}`)
+          .get(
+            `https://api.sppd.tatiumy.com/api/surat-selesai?user_id=${userId}`
+          )
           .then(({ data }) => {
             letters.value = data.data;
           })
@@ -147,7 +142,7 @@ export default {
           });
       } else {
         axios
-          .get("http://127.0.0.1:8000/api/surats-selesai")
+          .get("https://api.sppd.tatiumy.com/api/surats-selesai")
           .then(({ data }) => {
             letters.value = data.data;
           })

@@ -1,23 +1,14 @@
 <template>
-  <main class="BuatSPPD-page">
-    <div class="
-        d-flex
-        justify-content-between
-        flex-wrap flex-md-nowrap
-        align-items-center
-        pt-3
-        pb-2
-        mb-3
-        border-bottom
-      ">
+  <main class="update-user-page">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Ubah Data Pengguna</h1>
     </div>
     <div class="mt-3">
       <form
         @submit.prevent="update()"
-        class="row g-3"
+        class="row g-3 mt-4"
       >
-        <div class="form-group">
+        <div class="col-md-6">
           <label
             for="nama"
             class="form-label"
@@ -31,7 +22,7 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6">
           <label
             for="username"
             class="form-label"
@@ -45,11 +36,11 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6">
           <label
             for="email"
             class="form-label"
-          >Email</label>
+          >Email Resmi</label>
           <input
             v-model="user.email"
             type="email"
@@ -59,11 +50,11 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6">
           <label
             for="jabatan"
             class="form-label"
-          >Jabatan</label>
+          >Jabatan Fungsional</label>
           <input
             v-model="user.jabatan"
             type="jabatan"
@@ -73,11 +64,11 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6">
           <label
             for="nidn"
             class="form-label"
-          >NIDN</label>
+          >Nomor identifikasi Nasional Dosen (NIDN)</label>
           <input
             v-model="user.nidn"
             type="nidn"
@@ -87,7 +78,24 @@
           />
         </div>
 
-        <div class="form-group">
+        <div
+          class="col-md-6"
+          v-if="userRole === '1'"
+        >
+          <label
+            for="password"
+            class="form-label"
+          >Password</label>
+          <input
+            v-model="user.password"
+            type="password"
+            class="form-control"
+            id="password"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="col-12">
           <button
             type="submit"
             class="btn btn-success"
@@ -115,16 +123,18 @@ export default {
       username: "",
       jabatan: "",
       email: "",
+      password: "",
     });
 
     const validation = ref([]);
+    const userRole = localStorage.getItem("userRole");
 
     const router = useRouter();
     const route = useRoute();
 
     onMounted(() => {
       axios
-        .get(`http://127.0.0.1:8000/api/user/${route.params.id}`)
+        .get(`https://api.sppd.tatiumy.com/api/user/${route.params.id}`)
         .then(({ data }) => {
           console.log(data);
           user.name = data.data.name;
@@ -132,6 +142,7 @@ export default {
           user.username = data.data.username;
           user.jabatan = data.data.jabatan;
           user.email = data.data.email;
+          user.password = data.data.password;
         })
         .catch((err) => {
           console.log(err);
@@ -140,7 +151,7 @@ export default {
 
     function update() {
       axios
-        .put(`http://127.0.0.1:8000/api/user/${route.params.id}`, user)
+        .put(`https://api.sppd.tatiumy.com/api/user/${route.params.id}`, user)
         .then((response) => {
           console.log(response);
           router.push("/user");
@@ -161,6 +172,7 @@ export default {
       validation,
       router,
       update,
+      userRole,
     };
   },
 };

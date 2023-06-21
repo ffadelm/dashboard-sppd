@@ -123,7 +123,7 @@ export default {
     onMounted(() => {
       // get data lecturers dari API
       axios
-        .get("http://127.0.0.1:8000/api/user")
+        .get("https://api.sppd.tatiumy.com/api/user")
         .then(({ data }) => {
           lecturers.value = data;
         })
@@ -134,7 +134,9 @@ export default {
 
     function search() {
       axios
-        .get(`http://127.0.0.1:8000/api/users?search=${searchQuery.value}`)
+        .get(
+          `https://api.sppd.tatiumy.com/api/users?search=${searchQuery.value}`
+        )
         .then(({ data }) => {
           lecturers.value = data;
         })
@@ -153,10 +155,20 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           axios
-            .delete(`http://127.0.0.1:8000/api/user/${id}`)
+            .delete(`https://api.sppd.tatiumy.com/api/user/${id}`)
             .then((response) => {
               console.log(response.data);
               lecturers.value.data.splice(index, 1);
+
+              // Memperbarui data dari API setelah penghapusan
+              axios
+                .get("https://api.sppd.tatiumy.com/api/user")
+                .then(({ data }) => {
+                  lecturers.value = data;
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
             })
             .catch((err) => {
               console.log(err);
